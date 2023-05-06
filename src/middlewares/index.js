@@ -1,5 +1,5 @@
-const createError = require('./errors/createErrors');
-const notFoundError = require('./errors/notFoundError');
+const createError = require("./errors/createErrors");
+const notFoundError = require("./errors/notFoundError");
 
 module.exports = {
   createError,
