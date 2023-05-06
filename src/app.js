@@ -1,20 +1,18 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
+
 const { createError, notFoundError } = require('./middlewares');
 const { PORT, HTTP_URL } = process.env;
+const port = PORT || 3005;
 const app = express();
-app.use(cors);
-console.log('hola');
-//endpoints
-app.get('/', (req, res, next) => {
-  res.send();
-});
-//errores
+app.use(cors());
 
-//app.use(createError);
+app.use('/products', productsRouter);
+
+app.use(createError);
 app.use(notFoundError);
 
-app.listen(PORT, () => {
-  console.log(`Server running at ${HTTP_URL}:${PORT} `);
+app.listen(port, () => {
+  console.log(`Server running at ${HTTP_URL}:${port} `);
 });
