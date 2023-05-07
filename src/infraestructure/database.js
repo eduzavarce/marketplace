@@ -10,7 +10,7 @@ const {
 
 let pool;
 
-async function getPool() {
+const getPool = async () => {
   if (!pool) {
     pool = await mysql.createPool({
       host: DATABASE_HOST,
@@ -21,6 +21,6 @@ async function getPool() {
     });
   }
   return pool;
-}
+};
 
 module.exports = getPool;
