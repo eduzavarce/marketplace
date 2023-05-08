@@ -1,7 +1,12 @@
 const Joi = require('joi');
+const bcrypt = require('bcrypt');
+const randomString = require('randomstring');
 const {
   findUserByEmail,
-} = require('../../repositories/users/usersRepositories');
+  findUserByUsername,
+  createUser,
+} = require('../../repositories');
+const throwError = require('../../middlewares/errors/throwError');
 
 const schema = Joi.object().keys({
   username: Joi.string().min(4).max(20).required(),
@@ -21,8 +26,26 @@ const registerUserController = async (req, res, next) => {
 
     const emailExists = await findUserByEmail(email);
 
-    console.log(emailExists);
+    if (emailExists) {
+      throwError(400, 'El email ya existe');
+    }
 
+    const usernameExists = await findUserByUsername(username);
+
+    if (usernameExists) {
+      throwError(400, 'El usuario ya existe');
+    }
+    const passwordHash = await bcrypt.hash(password, 10);
+
+    const verificationCode = randomString.generate(64);
+
+    const user = await createUser(
+      username,
+      email,
+      passwordHash,
+      verificationCode
+    );
+    console.log(passwordHash);
     res.send('hola');
   } catch (error) {
     next(error);

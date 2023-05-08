@@ -1,4 +1,4 @@
-const mysql = require("mysql2/promise");
+const mysql = require('mysql2/promise');
 
 const {
   DATABASE_HOST,
@@ -18,6 +18,7 @@ const getPool = async () => {
       database: DATABASE_NAME,
       user: DATABASE_USER,
       password: DATABASE_PASSWORD,
+      timezone: 'Z',
     });
   }
   return pool;
