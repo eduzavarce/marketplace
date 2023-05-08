@@ -1,5 +1,14 @@
-const pool = await getPool();
+const getPool = require('../../infraestructure/database');
 
-const [users] = awaitpool.query(sql);
+const findUserByEmail = async (email) => {
+  const pool = await getPool();
 
-console.log("users", users);
+  const sql = 'SELECT * FROM users WHERE email=?';
+
+  const [users] = await pool.query(sql, email);
+
+  console.log('users', users);
+  return users;
+};
+
+module.exports = { findUserByEmail };
