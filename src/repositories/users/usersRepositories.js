@@ -7,8 +7,31 @@ const findUserByEmail = async (email) => {
 
   const [users] = await pool.query(sql, email);
 
-  console.log('users', users);
-  return users;
+  return users[0];
 };
 
-module.exports = { findUserByEmail };
+const findUserByUsername = async (username) => {
+  const pool = await getPool();
+
+  const sql = 'SELECT * FROM users WHERE username=?';
+
+  const [users] = await pool.query(sql, username);
+
+  return users[0];
+};
+
+const createUser = async (username, email, passwordHash, verificationCode) => {
+  const pool = await getPool();
+
+  const sql = `INSERT INTO users(username, email, password, verificationCode) VALUES (?,?,?,?)`;
+
+  const [response] = await pool.query(sql, [
+    username,
+    email,
+    passwordHash,
+    verificationCode,
+  ]);
+
+  return response.insertid;
+};
+module.exports = { findUserByEmail, findUserByUsername, createUser };

@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS users (
     name VARCHAR(45) NULL,
     lastName VARCHAR(45) NULL,
     email VARCHAR(100) NOT NULL,
-    password VARCHAR(45) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     avatar VARCHAR(45) DEFAULT 'default-avatar.png',
     createdAt DATETIME NULL DEFAULT NOW(),
     verificationCode VARCHAR(64) NOT NULL,
