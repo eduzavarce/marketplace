@@ -1,3 +1,6 @@
+
+CREATE database IF NOT EXISTS marketplace;
+USE marketplace;
 DROP TABLE IF EXISTS complaints;
 DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
