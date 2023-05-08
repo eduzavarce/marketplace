@@ -7,6 +7,7 @@ const {
   createUser,
 } = require('../../repositories');
 const throwError = require('../../middlewares/errors/throwError');
+const { sendVerificationCode } = require('../../emails');
 
 const schema = Joi.object().keys({
   username: Joi.string().min(4).max(20).required(),
@@ -21,7 +22,6 @@ const registerUserController = async (req, res, next) => {
 
     const { email, username, password } = body;
 
-    console.log(body);
     await schema.validateAsync(body);
 
     const emailExists = await findUserByEmail(email);
@@ -45,8 +45,15 @@ const registerUserController = async (req, res, next) => {
       passwordHash,
       verificationCode
     );
-    console.log(passwordHash);
-    res.send('hola');
+    console.log(user);
+    await sendVerificationCode(email, username, verificationCode);
+
+    res.status(200).send({
+      status: 'ok',
+      data: {
+        id: user,
+      },
+    });
   } catch (error) {
     next(error);
   }

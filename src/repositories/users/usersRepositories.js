@@ -32,6 +32,6 @@ const createUser = async (username, email, passwordHash, verificationCode) => {
     verificationCode,
   ]);
 
-  return response.insertid;
+  return response.insertId;
 };
 module.exports = { findUserByEmail, findUserByUsername, createUser };
