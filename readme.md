@@ -267,7 +267,7 @@ Respuesta esperada:
 1. Reserva de un producto (usuarios autenticados):
    - se reserva y se envía un mail al vendedor con el enlace para responder
 
-POST http://www.url.com/api/v1/products/:idProducts
+POST http://www.url.com/api/v1/products/:idProduct
 
 Respuesta esperada:
 

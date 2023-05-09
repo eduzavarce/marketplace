@@ -9,4 +9,6 @@ productsRouter
   .all(validateAuth)
   .post(createProductController);
 
+// productsRouter.route("/:idProduct").all(validateAuth).post(requestDeal)
+
 module.exports = productsRouter;
