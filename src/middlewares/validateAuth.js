@@ -1,36 +1,32 @@
 const jwt = require('jsonwebtoken');
-const createJsonError = require('../errors/createJsonError');
-const throwJsonError = require('../errors/throwJsonError');
+const throwError = require('./errors/throwError');
 
-const extractAccessToken = (headers) => {
-  const { authorization } = headers;
-
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    throwJsonError(400, 'Autorización No Válida');
-  }
-
-  return authorization.split(' ')[1];
-  // return authorization.slice(7, authorization.length);
-};
-
-const validateAuth = (req, res, next) => {
+const validateAuth = async (req, res, next) => {
   try {
-    const { headers } = req;
-    const { JWT_SECRET } = process.env;
+    let { authorization } = req.headers;
+    const [bearer, userToken] = authorization.split(' ');
 
-    const token = extractAccessToken(headers);
-    const decodedToken = jwt.verify(token, JWT_SECRET);
-
-    const { id, name, email, role } = decodedToken;
-    req.auth = { id, name, email, role };
-
-    //req.name = name;
-    //req.email = email;
-    //req.role = role;
+    if (!userToken || bearer !== 'Bearer') {
+      throwError(400, 'Petición incompleta');
+    }
+    const { SECRET } = process.env;
+    try {
+      const token = jwt.verify(userToken, SECRET);
+      const { email, role, id, username, name } = token;
+      req.auth = {
+        email,
+        role,
+        id,
+        username,
+        name,
+      };
+    } catch {
+      throwError(400, 'Autorización no válida');
+    }
 
     next();
   } catch (error) {
-    createJsonError(error, res);
+    next(error);
   }
 };
 
