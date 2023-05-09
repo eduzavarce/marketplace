@@ -12,6 +12,14 @@ const validateAuth = async (req, res, next) => {
     const { SECRET } = process.env;
     try {
       const token = jwt.verify(userToken, SECRET);
+      const { email, role, id, username, name } = token;
+      req.auth = {
+        email,
+        role,
+        id,
+        username,
+        name,
+      };
     } catch {
       throwError(400, 'Autorización no válida');
     }
