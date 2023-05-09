@@ -4,23 +4,23 @@ const {
   registerUserController,
   loginUserController,
   updateUserController,
+  verifyEmailController,
 } = require('../../controllers');
-const { validateAuth } = require('../../middlewares');
+const { validateAuth, isAccountVerified } = require('../../middlewares');
 
 const usersRouter = express.Router();
 
 //TODO endpoints
 //!puplicos
-/// tienda.com/api/v1/users/login
-usersRouter.route('/login').post(loginUserController);
+
+usersRouter.route('/login').all(isAccountVerified).post(loginUserController);
 usersRouter
   .route('/:username/profile')
   .all(validateAuth)
   .patch(updateUserController);
-// tienda.com/api/v1/users/register
 
 usersRouter.route('/register').post(registerUserController);
-///  usersRouter.route('/activate/:code').get(registerUserController)
+usersRouter.route('/activate/:code').get(verifyEmailController);
 
 //!privados
 
