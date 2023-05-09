@@ -29,6 +29,7 @@ const createNewDatabase = async () => {
         avatar VARCHAR(45) DEFAULT 'default-avatar.png',
         createdAt DATETIME DEFAULT NOW(),
         verificationCode VARCHAR(64) NOT NULL,
+        isActive BOOLEAN DEFAULT true,
         role ENUM('root', 'admin', 'user') DEFAULT 'user',
         verifiedAt DATETIME ,
         bio VARCHAR(255) ,
@@ -67,7 +68,7 @@ const createNewDatabase = async () => {
         ON DELETE CASCADE
         )`);
     await pool.query(`CREATE TABLE IF NOT EXISTS deals (
-        id   INT UNSIGNED NOT NULL PRIMARY KEY,
+        id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         idBuyer INT UNSIGNED NOT NULL,
         idProduct INT UNSIGNED NOT NULL,
         status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled') NOT NULL DEFAULT 'requested',
