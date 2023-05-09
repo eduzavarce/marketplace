@@ -45,13 +45,17 @@ const registerUserController = async (req, res, next) => {
       passwordHash,
       verificationCode
     );
-    console.log(user);
-    await sendVerificationCode(email, username, verificationCode);
+    const verificationLink = await sendVerificationCode(
+      email,
+      username,
+      verificationCode
+    );
 
     res.status(200).send({
       status: 'ok',
       data: {
         id: user,
+        testVerificationLink: verificationLink,
       },
     });
   } catch (error) {

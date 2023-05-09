@@ -9,6 +9,7 @@ const usersRouter = express.Router();
 // tienda.com/api/v1/users/register
 
 usersRouter.route('/register').post(registerUserController);
+///  usersRouter.route('/activate/:code').get(registerUserController)
 
 //!privados
 

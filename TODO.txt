@@ -1,2 +1,2 @@
-CONFIGURAR CONECCION A BASE DE DATOS
-EMAIL
+login usuarios
+endpoint verificar email
