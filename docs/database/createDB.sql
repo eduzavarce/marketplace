@@ -1,7 +1,6 @@
-
 CREATE database IF NOT EXISTS marketplace;
 USE marketplace;
-DROP TABLE IF EXISTS complaintImages
+DROP TABLE IF EXISTS complaintImages;
 DROP TABLE IF EXISTS complaints;
 DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
@@ -58,7 +57,7 @@ CREATE TABLE IF NOT EXISTS productImages (
     fileName VARCHAR(45) NOT NULL,
     idProduct INT UNSIGNED NOT NULL,
     isDefault BOOLEAN ,
-    FOREIGN KEY (idProducts)
+    FOREIGN KEY (idProduct)
     REFERENCES products (id)
     ON DELETE CASCADE
 );
@@ -94,7 +93,7 @@ CREATE TABLE IF NOT EXISTS blacklists (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     idUser INT UNSIGNED NOT NULL,
     idBlacklisted INT UNSIGNED NOT NULL,
-    FOREIGN KEY (idUsers)
+    FOREIGN KEY (idUser)
     REFERENCES users (id)
     ON DELETE CASCADE,
     FOREIGN KEY (idBlacklisted)
