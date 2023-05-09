@@ -2,23 +2,23 @@ login usuarios OK
 
 
 USERS:
-endpoint verificar email
-update user
-get datos usuario
+--endpoint verificar email
+--update user
+--get datos usuario
 
 
 
 PRODUCT:
-post productos
-patch productos
-put imagenes en productos
-get productos
-get producto unico
+--post productos
+--patch productos
+--put imágenes en productos
+--get productos
+--get producto único
 
 
 RESERVA:
-Envio de mails
+--Envio de mails
 
 VALORACIÓN:
-Valoracion de usuario y comprador
+--Valoracion de usuario y comprador
 
