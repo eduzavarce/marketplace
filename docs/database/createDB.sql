@@ -1,6 +1,7 @@
 
 CREATE database IF NOT EXISTS marketplace;
 USE marketplace;
+DROP TABLE IF EXISTS complaintImages
 DROP TABLE IF EXISTS complaints;
 DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
@@ -15,21 +16,21 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users (
     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(20) NOT NULL,
-    name VARCHAR(45) NULL,
-    lastName VARCHAR(45) NULL,
+    name VARCHAR(45) ,
+    lastName VARCHAR(45) ,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(100) NOT NULL,
     avatar VARCHAR(45) DEFAULT 'default-avatar.png',
-    createdAt DATETIME NULL DEFAULT NOW(),
+    createdAt DATETIME DEFAULT NOW(),
     verificationCode VARCHAR(64) NOT NULL,
     role ENUM('root', 'admin', 'user') DEFAULT 'user',
-    verifiedAt DATETIME NULL,
-    bio VARCHAR(255) NULL,
-    region VARCHAR(45) NULL,
-    country VARCHAR(45) NULL,
-    type ENUM('store', 'regular') NULL,
-    taxNumber VARCHAR(45) NULL,
-    Address VARCHAR(255) NULL
+    verifiedAt DATETIME ,
+    bio VARCHAR(255) ,
+    region VARCHAR(45) ,
+    country VARCHAR(45) ,
+    type ENUM('store', 'regular') ,
+    taxNumber VARCHAR(45) ,
+    address VARCHAR(255) 
 );
 
 CREATE TABLE IF NOT EXISTS products (
@@ -37,15 +38,15 @@ CREATE TABLE IF NOT EXISTS products (
     name VARCHAR(100) NOT NULL,
     description VARCHAR(45) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
-    category VARCHAR(45) NOT NULL,
-    keywords VARCHAR(200) NULL,
+    category ENUM('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade') NOT NULL,
+    keywords VARCHAR(200) ,
     idUser INT UNSIGNED NOT NULL,
     createdAt DATETIME DEFAULT now(),
-    updatedAt DATETIME NULL,
-    isActive BOOLEAN NULL DEFAULT true,
-    locationName VARCHAR(200)  NULL,
-    locationLat VARCHAR(45)  NULL,
-    locationLong VARCHAR(45)  NULL,
+    updatedAt DATETIME ,
+    isActive BOOLEAN DEFAULT true,
+    locationName VARCHAR(200)  ,
+    locationLat VARCHAR(45)  ,
+    locationLong VARCHAR(45)  ,
     status ENUM('new', 'used', 'refurbished') NOT NULL,
     FOREIGN KEY (idUser)
     REFERENCES users (id)
@@ -55,8 +56,8 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS productImages (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     fileName VARCHAR(45) NOT NULL,
-    idProducts INT UNSIGNED NOT NULL,
-    isDefault TINYINT NULL,
+    idProduct INT UNSIGNED NOT NULL,
+    isDefault BOOLEAN ,
     FOREIGN KEY (idProducts)
     REFERENCES products (id)
     ON DELETE CASCADE
@@ -67,9 +68,9 @@ CREATE TABLE IF NOT EXISTS deals (
     idBuyer INT UNSIGNED NOT NULL,
     idProduct INT UNSIGNED NOT NULL,
     status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled') NOT NULL DEFAULT 'requested',
-    createdAt DATETIME NULL DEFAULT now(),
-    completedAt DATETIME NULL,
-    updatedAt DATETIME NULL,
+    createdAt DATETIME  DEFAULT now(),
+    completedAt DATETIME ,
+    updatedAt DATETIME ,
     FOREIGN KEY (idBuyer)
     REFERENCES users (id)
     ON DELETE CASCADE,
@@ -91,7 +92,7 @@ CREATE TABLE IF NOT EXISTS follows (
 
 CREATE TABLE IF NOT EXISTS blacklists (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-    idUsers INT UNSIGNED NOT NULL,
+    idUser INT UNSIGNED NOT NULL,
     idBlacklisted INT UNSIGNED NOT NULL,
     FOREIGN KEY (idUsers)
     REFERENCES users (id)
@@ -103,9 +104,12 @@ CREATE TABLE IF NOT EXISTS blacklists (
 CREATE TABLE IF NOT EXISTS reviews (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     idDeals INT UNSIGNED NOT NULL,
+    idBuyer INT UNSIGNED,
+    idSeller INT UNSIGNED,
+    idProduct INT UNSIGNED,
     score TINYINT NOT NULL,
-    comments VARCHAR(255) NULL,
-    createdAt DATETIME NULL DEFAULT now(),
+    comments VARCHAR(255),
+    createdAt DATETIME DEFAULT now(),
     FOREIGN KEY (idDeals)
     REFERENCES deals (id)
 );
@@ -113,11 +117,9 @@ CREATE TABLE IF NOT EXISTS wishlist (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     idUsers INT UNSIGNED NOT NULL,
     idProducts INT UNSIGNED NOT NULL,
-    isActive TINYINT NULL,
+    isActive BOOLEAN ,
     FOREIGN KEY (idUsers)
-    REFERENCES users (id)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+    REFERENCES users (id),
     FOREIGN KEY (idProducts)
     REFERENCES products (id)
     ON DELETE CASCADE
@@ -126,14 +128,13 @@ CREATE TABLE IF NOT EXISTS wishlist (
 CREATE TABLE IF NOT EXISTS complaints (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
     idUser INT UNSIGNED NOT NULL,
-    idProduct INT UNSIGNED NULL,
-    idDeals INT UNSIGNED NULL,
-    idOtherUser INT UNSIGNED NULL,
-    idReviews INT UNSIGNED NULL,
-    message VARCHAR(255) NULL,
+    idProduct INT UNSIGNED ,
+    idDeals INT UNSIGNED ,
+    idOtherUser INT UNSIGNED ,
+    idReviews INT UNSIGNED ,
+    message VARCHAR(255) ,
     status ENUM('solved', 'pending', 'open', 'rejected') NOT NULL DEFAULT 'open',
-    ticketNumber VARCHAR(50) NULL,
-    image VARCHAR(50) NULL,
+    image VARCHAR(50) ,
     FOREIGN KEY (idUser)
     REFERENCES users (id),
     FOREIGN KEY (idProduct)
@@ -144,5 +145,11 @@ CREATE TABLE IF NOT EXISTS complaints (
     REFERENCES users (id),
     FOREIGN KEY (idReviews)
     REFERENCES reviews (id)
-    
+  );
+CREATE TABLE IF NOT EXISTS complaintImages (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    fileName VARCHAR(45) NOT NULL,
+    idComplaint INT UNSIGNED NOT NULL,
+    FOREIGN KEY (idComplaint)
+    REFERENCES complaints (id)
 );
