@@ -1,2 +1,24 @@
-login usuarios
+login usuarios OK
+
+
+USERS:
 endpoint verificar email
+update user
+get datos usuario
+
+
+
+PRODUCT:
+post productos
+patch productos
+put imagenes en productos
+get productos
+get producto unico
+
+
+RESERVA:
+Envio de mails
+
+VALORACIÓN:
+Valoracion de usuario y comprador
+

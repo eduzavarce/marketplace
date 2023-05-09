@@ -1,5 +1,9 @@
-const registerUserController = require("./users/registerUserController");
+const loginUserController = require('./users/loginUserController');
+const registerUserController = require('./users/registerUserController');
+const updateUserController = require('./users/updateUserController');
 
 module.exports = {
-    registerUserController
+  registerUserController,
+  loginUserController,
+  updateUserController,
 };
