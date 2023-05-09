@@ -55,10 +55,34 @@ const addUserVerificationDate = async (email) => {
 
   return response.insertId;
 };
+
+const findAllUsers = async () => {
+  const pool = await getPool();
+  const sql = 'SELECT id, name, email, verifiedAt, role FROM users';
+  const [users] = await pool.query(sql);
+
+  return users;
+};
+
+const updateUser = async (data) => {
+  const { id, name, email, password } = data;
+  const pool = await getPool();
+  const sql = `
+    UPDATE users
+    SET name = ?, email = ?, password = ?
+    WHERE id = ?
+  `;
+  await pool.query(sql, [name, email, password, id]);
+
+  return true;
+};
+
 module.exports = {
   findUserByEmail,
   findUserByUsername,
   createUser,
   findUserByActivationCode,
   addUserVerificationDate,
+  findAllUsers,
+  updateUser,
 };
