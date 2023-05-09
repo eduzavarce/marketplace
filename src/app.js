@@ -1,9 +1,9 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const cors = require('cors');
 
 const { createError, notFoundError } = require('./middlewares');
-const { usersRouter } = require('./routers');
+const { usersRouter, productsRouter } = require('./routers');
 const { PORT, HTTP_URL } = process.env;
 const port = PORT || 3005;
 const app = express();
@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/users', usersRouter);
-// app.use('/products', productsRouter);
+app.use('/products', productsRouter);
 
 app.use(createError);
 app.use(notFoundError);
