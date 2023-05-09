@@ -1,4 +1,4 @@
-const getPool = require('../../infraestructure/database');
+const getPool = require('../../infrastructure/database');
 
 const findUserByEmail = async (email) => {
   const pool = await getPool();
@@ -20,6 +20,16 @@ const findUserByUsername = async (username) => {
   return users[0];
 };
 
+const findUserByActivationCode = async (code) => {
+  const pool = await getPool();
+
+  const sql = 'SELECT * FROM users WHERE verificationCode = ?';
+
+  const [users] = await pool.query(sql, code);
+
+  return users[0];
+};
+
 const createUser = async (username, email, passwordHash, verificationCode) => {
   const pool = await getPool();
 
@@ -34,4 +44,21 @@ const createUser = async (username, email, passwordHash, verificationCode) => {
 
   return response.insertId;
 };
-module.exports = { findUserByEmail, findUserByUsername, createUser };
+const addUserVerificationDate = async (email) => {
+  const pool = await getPool();
+  const sql = `
+        UPDATE users
+        SET verifiedAt = now()
+        WHERE email = ?
+`;
+  const [response] = await pool.query(sql, [email]);
+
+  return response.insertId;
+};
+module.exports = {
+  findUserByEmail,
+  findUserByUsername,
+  createUser,
+  findUserByActivationCode,
+  addUserVerificationDate,
+};

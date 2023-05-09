@@ -1,3 +1,4 @@
 const { sendVerificationCode } = require('./verificationEmail');
+const sendVerifiedConfirmation = require('./verifiedAccountEmail');
 
-module.exports = { sendVerificationCode };
+module.exports = { sendVerificationCode, sendVerifiedConfirmation };
