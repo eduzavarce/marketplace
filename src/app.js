@@ -1,10 +1,9 @@
 const express = require('express');
-const dotenv = require('dotenv').config();
+require('dotenv').config();
 const cors = require('cors');
 
 const { createError, notFoundError } = require('./middlewares');
-const { usersRouter } = require('./routers');
-const productsRouter = require('./routers/products/productsRouter');
+const { usersRouter, productsRouter } = require('./routers');
 const { PORT, HTTP_URL } = process.env;
 const port = PORT || 3005;
 const app = express();
