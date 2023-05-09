@@ -12,7 +12,6 @@ const verifyEmailController = async (req, res, next) => {
     const { params } = req;
     await schema.validateAsync(params);
     const { code } = params;
-    console.log(code);
     if (!code) throwError(400, 'Petición inválida');
     const user = await findUserByActivationCode(code);
     if (!user) throwError(400, 'Código de validación incorrecto');

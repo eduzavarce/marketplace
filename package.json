@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "createDatabase": "node ./src/infrastructure/createNewDatabase.js"
+    "createDatabase": "node ./src/infrastructure/createNewDatabase.js",
+    "fillDatabase": "node ./src/infrastructure/insertRandomData.js"
   },
   "keywords": [],
   "author": "",
