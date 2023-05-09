@@ -1,4 +1,4 @@
-const getPool = require('../../infraestructure/database');
+const getPool = require('../../infrastructure/database');
 
 const findUserByEmail = async (email) => {
   const pool = await getPool();
@@ -53,7 +53,7 @@ const addUserVerificationDate = async (email) => {
 `;
   const [response] = await pool.query(sql, [email]);
 
-  return response;
+  return response.insertId;
 };
 module.exports = {
   findUserByEmail,
