@@ -2,23 +2,23 @@ login usuarios OK
 
 
 USERS:
---endpoint verificar email
---update user
---get datos usuario
+--endpoint verificar email -- EDU
+--update user -- ISA
+--get datos usuario -- ISA
 
 
 
 PRODUCT:
---post productos
---patch productos
---put imágenes en productos
---get productos
---get producto único
+--post productos --CAYE
+--patch productos --CAYE
+--put imágenes en productos --CONJUNTO
+--get productos --SANDIE
+--get producto único --SANDIE
 
 
 RESERVA:
---Envio de mails
+--Envio de mails --EDU
 
 VALORACIÓN:
---Valoracion de usuario y comprador
+--Valoracion de usuario y comprador --EDU
 

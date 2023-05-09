@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a78c0833-8225-4135-ab4e-41315a95fae2",
+		"_postman_id": "645d0718-b95b-4430-9987-b33811754020",
 		"name": "Marketplace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26457391"
+		"_exporter_id": "27077908"
 	},
 	"item": [
 		{
@@ -54,10 +54,16 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"edu3aasrdoqwe32\",\r\n    \"password\":\"asdasd\"\r\n}   ",
+							"raw": "{\r\n    \"username\":\"prueba\",\r\n    \"password\":\"prueba\"\r\n}   ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -182,7 +188,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/users/admin/profile",
+							"raw": "{{backendUrl}}/api/v1/users/prueba/profile",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -190,7 +196,7 @@
 								"api",
 								"v1",
 								"users",
-								"admin",
+								"prueba",
 								"profile"
 							]
 						}
