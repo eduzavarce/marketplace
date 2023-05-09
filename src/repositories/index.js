@@ -1,3 +1,4 @@
+const { createProduct } = require('./products/productsRepositories');
 const {
   findUserByEmail,
   findUserByUsername,
@@ -12,4 +13,5 @@ module.exports = {
   createUser,
   findUserByActivationCode,
   addUserVerificationDate,
+  createProduct,
 };

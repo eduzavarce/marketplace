@@ -11,7 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use('/api/v1/users', usersRouter);
-app.use('/products', productsRouter);
+app.use('/api/v1/products', productsRouter);
 
 app.use(createError);
 app.use(notFoundError);
