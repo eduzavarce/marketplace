@@ -1,5 +1,36 @@
-const pool = await getPool();
+const getPool = require('../../infrastructure/database');
+const { throwError } = require('../../middlewares');
 
-const [products] = awaitpool.query(sql);
+const createProduct = async (
+  name,
+  description,
+  price,
+  category,
+  keywords,
+  idUser,
+  status
+) => {
+  const pool = await getPool();
+  const sql = `
+  INSERT INTO products(
+    name,
+    description,
+    price,
+    category,
+    keywords,
+    idUser,
+    status) 
+    VALUES (?,?,?,?,?,?,?)`;
 
-console.log("products", products);
+  const [response] = await pool.query(sql, [
+    name,
+    description,
+    price,
+    category,
+    keywords,
+    idUser,
+    status,
+  ]);
+  return response.insertId;
+};
+module.exports = { createProduct };

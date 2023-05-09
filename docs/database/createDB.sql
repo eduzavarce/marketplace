@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS products (
     id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    description VARCHAR(45) NOT NULL,
+    description VARCHAR(200) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
     category ENUM('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade') NOT NULL,
     keywords VARCHAR(200) ,
