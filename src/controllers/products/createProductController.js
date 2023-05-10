@@ -7,7 +7,18 @@ const {
   insertLocation,
 } = require('../../repositories/products/productsRepositories');
 
-const locationSchema = Joi.string();
+const schema = Joi.object().keys({
+  name: Joi.string().min(4).max(100).required(),
+  description: Joi.string().min(4).max(100).required(),
+  price: Joi.number().required(),
+  category: Joi.string()
+    .valid('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade')
+    .required(),
+  keywords: Joi.string().max(100),
+  idUser: Joi.string().required(),
+  defaultPicture: Joi.string(),
+  status: Joi.string().valid('new', 'used', 'refurbished').required(),
+});
 
 const createProductController = async (req, res, next) => {
   try {
@@ -23,6 +34,16 @@ const createProductController = async (req, res, next) => {
       defaultPicture,
       status,
     } = body;
+    await schema.validateAsync({
+      name,
+      description,
+      price,
+      category,
+      keywords,
+      idUser,
+      defaultPicture,
+      status,
+    });
     const product = await createProduct(
       name,
       description,

@@ -34,6 +34,49 @@ const createProduct = async (
   return response.insertId;
 };
 
+const updateProduct = async (
+  name,
+  description,
+  price,
+  category,
+  keywords,
+  idUser,
+  status,
+  id
+) => {
+  const pool = await getPool();
+  if (name) {
+    const sql = `
+  UPDATE products SET name=? WHERE id=?`;
+    const [response] = await pool.query(sql, [name, id]);
+  }
+  if (description) {
+    const sql = `
+UPDATE products SET description=? WHERE id=?`;
+    const [response] = await pool.query(sql, [description, id]);
+  }
+  if (price) {
+    const sql = `
+UPDATE products SET price=? WHERE id=?`;
+    const [response] = await pool.query(sql, [price, id]);
+  }
+  if (category) {
+    const sql = `
+UPDATE products SET category=? WHERE id=?`;
+    const [response] = await pool.query(sql, [category, id]);
+  }
+  if (keywords) {
+    const sql = `
+UPDATE products SET keywords=? WHERE id=?`;
+    const [response] = await pool.query(sql, [keywords, id]);
+  }
+  if (status) {
+    const sql = `
+UPDATE products SET status=? WHERE id=?`;
+    const [response] = await pool.query(sql, [status, id]);
+  }
+};
+
 const insertLocationName = async (locationName, id) => {
   const pool = await getPool();
   const sql = `
