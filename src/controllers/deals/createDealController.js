@@ -29,7 +29,6 @@ const createDealController = async (req, res, next) => {
 
     const insertId = await createDeal(requestParams);
     productInfo.IdDeal = insertId;
-    console.log(productInfo);
 
     await sendDealAcceptanceRequest(productInfo);
     await sendCreatedDealToBuyer(productInfo);

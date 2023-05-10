@@ -87,6 +87,8 @@ CREATE TABLE IF NOT EXISTS dealsMessages (
     idSender INT UNSIGNED NOT NULL,
     idRecipient INT UNSIGNED NOT NULL,
     message VARCHAR(500),
+    location VARCHAR(500),
+    proposedDate DATETIME,
     status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled'),
     createdAt DATETIME  DEFAULT now(),
     FOREIGN KEY (idDeal)

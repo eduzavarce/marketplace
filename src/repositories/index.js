@@ -1,4 +1,10 @@
-const { findBuyRequestData, createDeal } = require('./deals/dealsRepositories');
+const {
+  findBuyRequestData,
+  createDeal,
+  findDealById,
+  findDealDataByVendorId,
+  updateDealStatus,
+} = require('./deals/dealsRepositories');
 const {
   createProduct,
   findProductById,
@@ -27,4 +33,7 @@ module.exports = {
   insertLocation,
   insertLocationName,
   findProductById,
+  findDealById,
+  findDealDataByVendorId,
+  updateDealStatus,
 };

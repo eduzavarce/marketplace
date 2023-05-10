@@ -5,7 +5,6 @@ const { SMTP_FROM, FULL_DOMAIN } = process.env;
 
 const sendCreatedDealToBuyer = async (info) => {
   const formUrl = `${FULL_DOMAIN}/api/v1/deals/${info.IdDeal}?a=${info.idBuyer}&b=${info.idVendor}&c=${info.id}`;
-  console.log(formUrl);
   const message = {
     from: SMTP_FROM,
     to: info.emailBuyer,
