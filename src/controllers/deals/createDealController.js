@@ -1,8 +1,12 @@
 const { throwError } = require('../../middlewares');
 const Joi = require('joi');
 const { findBuyRequestData, createDeal } = require('../../repositories');
-const { requestDealAcceptanceEmail } = require('../../emails');
+const {
+  sendDealAcceptanceRequest,
+  sendCreatedDealToBuyer,
+} = require('../../emails');
 const schema = Joi.number().integer().positive();
+const { FULL_DOMAIN } = process.env;
 
 const createDealController = async (req, res, next) => {
   const { idProduct } = req.params;
@@ -27,23 +31,24 @@ const createDealController = async (req, res, next) => {
     productInfo.IdDeal = insertId;
     console.log(productInfo);
 
-    // await requestDealAcceptanceEmail(productInfo);
-    console.log(productInfo);
-    // console.log({
-    //   name,
-    //   description,
-    //   price,
-    //   category,
-    //   isActive,
-    //   usernameVendor,
-    //   emailVendor,
-    //   idVendor,
-    //   isActiveVendor,
-    //   idBuyer,
-    //   emailBuyer,
-    //   usernameBuyer,
-    // });
-    res.send('holitas');
+    await sendDealAcceptanceRequest(productInfo);
+    await sendCreatedDealToBuyer(productInfo);
+
+    const data = {
+      id: insertId,
+      sellerUsername: productInfo.idVendor,
+      productId: idProduct,
+      productName: productInfo.name,
+      productPrice: productInfo.price,
+      productImages: [`pendiente insetar imagenes cuando existan`], //TODO
+      productUrl: `${FULL_DOMAIN}/api/v1/products/${idProduct}`,
+    };
+
+    res.status(200).send({
+      status: 'ok',
+      message: 'enviado email de petición de reserva del producto',
+      data,
+    });
   } catch (error) {
     next(error);
   }

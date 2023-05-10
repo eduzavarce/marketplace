@@ -301,10 +301,31 @@ Respuesta esperada:
 {
   "status": "ok",
   "message": "enviado email de petición de reserva del producto",
-  "data"{
-     "id":3,
-     "sellerUsername":"Juanita44",
-     "idProduct": 5
+  "data": {
+    "id": 41,
+    "sellerUsername": 1,
+    "productId": "3",
+    "productName": "ATARI",
+    "productPrice": "50.00",
+    "productImages": [
+      {
+        "imageName": "image1.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image1.png"
+      },
+      {
+        "imageName": "image2.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image2.png"
+      },
+      {
+        "imageName": "image3.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image3.png"
+      },
+      {
+        "imageName": "image4.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image4.png"
+      }
+    ],
+    "productUrl": "http://localhost:3000/api/v1/products/3"
   }
 }
 ```

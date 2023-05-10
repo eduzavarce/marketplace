@@ -1,9 +1,11 @@
-const { requestDealAcceptanceEmail } = require('./createDealVendor');
+const { sendCreatedDealToBuyer } = require('./createDealBuyer');
+const { sendDealAcceptanceRequest } = require('./createDealVendor');
 const { sendVerificationCode } = require('./verificationEmail');
 const sendVerifiedConfirmation = require('./verifiedAccountEmail');
 
 module.exports = {
   sendVerificationCode,
   sendVerifiedConfirmation,
-  requestDealAcceptanceEmail,
+  sendDealAcceptanceRequest,
+  sendCreatedDealToBuyer,
 };
