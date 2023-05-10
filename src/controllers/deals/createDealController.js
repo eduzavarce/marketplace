@@ -14,9 +14,9 @@ const createDealController = async (req, res, next) => {
     const product = await findBuyRequestData(idProduct);
     console.log(product);
 
-    if (!isActive) throwError(400, 'El producto ya está reservado');
-    if (!isActiveVendor)
-      throwError(400, 'No se puede hacer la reserva en este momento');
+    // if (!isActive) throwError(400, 'El producto ya está reservado');
+    // if (!isActiveVendor)
+    //   throwError(400, 'No se puede hacer la reserva en este momento');
 
     const requestParams = [idBuyer, idProduct, 'requested'];
 
