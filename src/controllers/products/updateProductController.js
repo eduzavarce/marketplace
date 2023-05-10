@@ -40,11 +40,10 @@ const updateProductController = async (req, res, next) => {
       defaultPicture,
       status,
     } = body;
-
+    console.log(id, idUser);
     if (id !== idUser) {
       throwError(400, 'Usuario no autorizado');
     }
-
     await schema.validateAsync({
       name,
       description,
@@ -55,13 +54,17 @@ const updateProductController = async (req, res, next) => {
       defaultPicture,
       status,
     });
+    const product = await findProductById(idProduct);
 
-    if (name) await updateProduct('name', name, id);
-    if (description) await updateProduct('description', description, id);
-    if (price) await updateProduct('price', price, id);
-    if (category) await updateProduct('category', category, id);
-    if (keywords) await updateProduct('keywords', keywords, id);
-    if (status) await updateProduct('status', status, id);
+    await updateProduct(
+      name,
+      description,
+      price,
+      category,
+      keywords,
+      status,
+      idProduct
+    );
 
     if (body['[locationName]']) {
       insertLocationName(body['[locationName]'], idProduct);
