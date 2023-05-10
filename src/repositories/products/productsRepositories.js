@@ -1,5 +1,4 @@
 const getPool = require('../../infrastructure/database');
-const { throwError } = require('../../middlewares');
 
 const createProduct = async (
   name,
@@ -34,6 +33,15 @@ const createProduct = async (
   return response.insertId;
 };
 
+const findAllProducts = async () => {
+  const pool = await getPool();
+  const sql = `
+  SELECT * FROM products`;
+  const [products] = await pool.query(sql);
+
+  return products;
+};
+
 const insertLocationName = async (locationName, id) => {
   const pool = await getPool();
   const sql = `
@@ -62,4 +70,5 @@ module.exports = {
   createProduct,
   insertLocationName,
   insertLocation,
+  findAllProducts,
 };

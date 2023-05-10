@@ -2,6 +2,7 @@ const { findBuyRequestData, createDeal } = require('./deals/dealsRepositories');
 const {
   createProduct,
   findProductById,
+  findAllProducts,
 } = require('./products/productsRepositories');
 const {
   findUserByEmail,
@@ -21,4 +22,5 @@ module.exports = {
   createDeal,
   createProduct,
   findProductById,
+  findAllProducts,
 };
