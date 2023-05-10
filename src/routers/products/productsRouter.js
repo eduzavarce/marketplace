@@ -4,6 +4,7 @@ const {
   createProductController,
   createDealController,
 } = require('../../controllers');
+const updateProductController = require('../../controllers/products/updateProductController');
 
 const productsRouter = express.Router();
 
@@ -12,6 +13,7 @@ productsRouter.route('/create').all(validateAuth).post(createProductController);
 productsRouter
   .route('/:idProduct')
   .all(validateAuth)
-  .post(createDealController);
+  .post(createDealController)
+  .patch(updateProductController);
 
 module.exports = productsRouter;

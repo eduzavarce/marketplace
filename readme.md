@@ -163,7 +163,7 @@ Body petición:
     {
         "[name]":"nombre del producto",
         "[description]":"descripción del producto",
-        "[precio]":299.99,
+        "[price]":299.99,
         "[category]":"console",
         "[keywords]":"consola Nintendo Zelda",
         "[idUser]":"6",
