@@ -233,6 +233,30 @@ Respuesta esperada:
       "defaultPicture": "product.png",
       "url": "http://www.url.com/api/v1/products/:85",
       "status": "used"
+    },
+    {
+      "id": 86,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
+    },
+    {
+      "id": 87,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
     }
   ]
 }
@@ -240,27 +264,29 @@ Respuesta esperada:
 
 5. Detalles de un producto (público):
 
-   Respuesta esperada:
+GET http://www.url.com/api/v1/products/:85
 
-   ```json
-   {
-     "status": "ok",
-     "data": [
-       {
-         "id": 85,
-         "name": "nombre del producto",
-         "description": "descripción del producto",
-         "precio": 299.99,
-         "sellerName": "Pepita",
-         "category": "console",
-         "keywords": "consola Nintendo Zelda",
-         "locationName": "Madrid, España",
-         "defaultPicture": "product.png",
-         "status": "used"
-       }
-     ]
-   }
-   ```
+Respuesta esperada:
+
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 85,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
+    }
+  ]
+}
+```
 
 ### Proceso de reserva y venta:
 

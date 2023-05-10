@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const { HTTP_URL, PORT } = process.env;
 const { createProduct } = require('../../repositories');
-const { throwError } = require('../../middlewares');
 const {
   insertLocationName,
   insertLocation,
