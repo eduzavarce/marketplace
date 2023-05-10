@@ -15,8 +15,8 @@ const {
 } = require('./users/usersRepositories');
 
 module.exports = {
-  findUserByEmail,
   findUserByUsername,
+  findUserByEmail,
   createUser,
   findUserByActivationCode,
   addUserVerificationDate,

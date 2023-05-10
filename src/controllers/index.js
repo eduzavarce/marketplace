@@ -7,8 +7,8 @@ const updateUserController = require('./users/updateUsersController');
 const verifyEmailController = require('./users/verifyEmailController');
 
 module.exports = {
-  registerUserController,
   loginUserController,
+  registerUserController,
   updateUserController,
   createProductController,
   verifyEmailController,

@@ -15,7 +15,7 @@ const schema = Joi.object().keys({
     .required(),
   keywords: Joi.string().max(100),
   idUser: Joi.string().required(),
-  defaultPicture: Joi.string(),
+  defaultPicture: Joi.all(),
   status: Joi.string().valid('new', 'used', 'refurbished').required(),
 });
 
