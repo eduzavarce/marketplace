@@ -6,8 +6,9 @@ const {
   findUserByUsername,
   createUser,
 } = require('../../repositories');
-const throwError = require('../../middlewares/errors/throwError');
+
 const { sendVerificationCode } = require('../../emails');
+const { throwError } = require('../../middlewares');
 
 const schema = Joi.object().keys({
   username: Joi.string().min(4).max(20).required(),

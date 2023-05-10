@@ -1,6 +1,7 @@
 const express = require('express');
 
 const {
+  usersController,
   registerUserController,
   loginUserController,
   updateUserController,
@@ -23,6 +24,8 @@ usersRouter.route('/register').post(registerUserController);
 usersRouter.route('/activate/:code').get(verifyEmailController);
 
 //!privados
+usersRouter.route('/').all(validateAuth).get(usersController);
+usersRouter.route('/profile').put(updateUserController);
 
 // tienda.com/api/v1/users/profile
 module.exports = usersRouter;
