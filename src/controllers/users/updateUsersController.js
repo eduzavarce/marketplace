@@ -7,10 +7,9 @@ const {
 
   udpateUserById,
   addVerificationCode,
-} = require('../../repositories/usersRepository');
-const throwJsonError = require('../../errors/throwJsonError');
-const { sendMailRegister } = require('../../helpers/mailSmtp');
-const createJsonError = require('../../errors/createJsonError');
+} = require('../../repositories');
+const { throwError, createError } = require('../../middlewares');
+const { sendVerificationCode } = require('../../emails');
 
 const schema = Joi.object().keys({
   name: Joi.string().min(3).max(20).required(),
@@ -37,7 +36,7 @@ const updateUserController = async (req, res) => {
     const user = await findUserByEmail(email);
 
     if (user && user.id !== id) {
-      throwJsonError(409, 'Ya existe un usuario con ese email');
+      throwError(409, 'Ya existe un usuario con ese email');
     }
 
     let updatedPassword = userById.password;
@@ -53,12 +52,12 @@ const updateUserController = async (req, res) => {
     if (email !== userById.email) {
       const verificationCode = randomstring.generate(64);
       await addVerificationCode(id, verificationCode);
-      await sendMailRegister(name, email, verificationCode);
+      await sendVerificationCode(name, email, verificationCode);
     }
 
     res.send({ id, name, email, role: userById.role });
   } catch (err) {
-    createJsonError(err, res);
+    createError(err, res);
   }
 };
 

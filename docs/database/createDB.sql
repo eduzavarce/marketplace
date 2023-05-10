@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
     avatar VARCHAR(45) DEFAULT 'default-avatar.png',
     createdAt DATETIME DEFAULT NOW(),
     verificationCode VARCHAR(64) NOT NULL,
+    isActive BOOLEAN DEFAULT true,
     role ENUM('root', 'admin', 'user') DEFAULT 'user',
     verifiedAt DATETIME ,
     bio VARCHAR(255) ,
