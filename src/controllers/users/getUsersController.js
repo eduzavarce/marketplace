@@ -1,9 +1,8 @@
 const { throwError } = require('../../middlewares');
 const { findAllUsers } = require('../../repositories/users/usersRepositories');
 
-// Listado de todos los usuarios para q el
-// administrador pueda gestionarlos
-const usersController = async (req, res) => {
+
+const usersController = async (req, res, next) => {
   try {
     // const { role } = req.auth;
     // isAdmin(role);
@@ -13,7 +12,9 @@ const usersController = async (req, res) => {
     res.status(200);
     res.send({ data: users });
   } catch (error) {
-    throwError(error, res);
+
+    next(error);
+
   }
 };
 
