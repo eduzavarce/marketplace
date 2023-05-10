@@ -9,7 +9,6 @@ const findBuyRequestData = async (idProduct) => {
         WHERE pr.id = ?
     `;
   const [product] = await pool.query(sql, idProduct);
-  console.log(product);
   return product[0];
 };
 
@@ -17,11 +16,11 @@ const createDeal = async (params) => {
   const pool = await getPool();
   const sql =
     'INSERT INTO deals (idBuyer, idProduct, status) VALUES (? , ? , ?)';
-  await pool.query(sql, params);
+  const [insert] = await pool.query(sql, params);
   const sql2 = `UPDATE products SET isActive = false WHERE id= ?`;
   const [, idProduct] = params;
   await pool.query(sql2, idProduct);
 
-  return;
+  return insert.insertId;
 };
 module.exports = { findBuyRequestData, createDeal };
