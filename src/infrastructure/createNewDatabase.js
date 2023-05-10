@@ -14,6 +14,7 @@ const createNewDatabase = async () => {
     await pool.query(`DROP TABLE IF EXISTS reviews`);
     await pool.query(`DROP TABLE IF EXISTS blacklists`);
     await pool.query(`DROP TABLE IF EXISTS follows`);
+    await pool.query(`DROP TABLE IF EXISTS dealsMessages`);
     await pool.query(`DROP TABLE IF EXISTS deals`);
     await pool.query('DROP TABLE IF EXISTS productImages');
     await pool.query('DROP TABLE IF EXISTS products');
@@ -82,6 +83,18 @@ const createNewDatabase = async () => {
         REFERENCES products (id)
         ON DELETE CASCADE
         )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS dealsMessages (
+            id   INT UNSIGNED NOT NULL PRIMARY KEY,
+            idDeal INT UNSIGNED NOT NULL,
+            idSender INT UNSIGNED NOT NULL,
+            idRecipient INT UNSIGNED NOT NULL,
+            message VARCHAR(500),
+            status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled'),
+            createdAt DATETIME  DEFAULT now(),
+            FOREIGN KEY (idDeal)
+            REFERENCES deals (id)
+        );`);
+
     await pool.query(`CREATE TABLE IF NOT EXISTS follows (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
         idUser INT UNSIGNED NOT NULL,

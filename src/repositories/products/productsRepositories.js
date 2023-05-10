@@ -82,6 +82,7 @@ const insertLocationName = async (locationName, id) => {
   const sql = `
   UPDATE products SET locationName=? WHERE id=?`;
   const [response] = await pool.query(sql, [locationName, id]);
+  return response;
 };
 
 const insertLocation = async (locationLat, locationLong, id) => {
@@ -89,6 +90,7 @@ const insertLocation = async (locationLat, locationLong, id) => {
   const sql = `
   UPDATE products SET locationLat=? , locationLong=? WHERE id=?`;
   const [response] = await pool.query(sql, [locationLat, locationLong, id]);
+  return response;
 };
 
 const findProductById = async (id) => {
