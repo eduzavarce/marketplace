@@ -3,7 +3,7 @@ const transporter = require('./transporter');
 
 const { SMTP_FROM } = process.env;
 
-const sendVerifiedConfirmation = async (email, name) => {
+const requestDealAcceptanceEmail = async (emailInfo) => {
   const message = {
     from: SMTP_FROM,
     to: email,
@@ -18,4 +18,4 @@ const sendVerifiedConfirmation = async (email, name) => {
   return;
 };
 
-module.exports = sendVerifiedConfirmation;
+module.exports = {requestDealAcceptanceEmail};

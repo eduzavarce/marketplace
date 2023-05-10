@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS reviews;
 DROP TABLE IF EXISTS blacklists;
 DROP TABLE IF EXISTS follows;
+DROP TABLE IF EXISTS dealsMessages;
 DROP TABLE IF EXISTS deals;
 DROP TABLE IF EXISTS productImages;
 DROP TABLE IF EXISTS products;
@@ -78,6 +79,21 @@ CREATE TABLE IF NOT EXISTS deals (
     REFERENCES products (id)
     ON DELETE CASCADE
 );
+
+-- added
+CREATE TABLE IF NOT EXISTS dealsMessages (
+    id   INT UNSIGNED NOT NULL PRIMARY KEY,
+    idDeal INT UNSIGNED NOT NULL,
+    idSender INT UNSIGNED NOT NULL,
+    idRecipient INT UNSIGNED NOT NULL,
+    message VARCHAR(500),
+    status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled'),
+    createdAt DATETIME  DEFAULT now(),
+    FOREIGN KEY (idDeal)
+    REFERENCES deals (id)
+);
+
+
 CREATE TABLE IF NOT EXISTS follows (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
     idUser INT UNSIGNED NOT NULL,
