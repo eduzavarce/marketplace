@@ -1,5 +1,4 @@
 const getPool = require('../../infrastructure/database');
-
 const createProduct = async (
   name,
   description,
