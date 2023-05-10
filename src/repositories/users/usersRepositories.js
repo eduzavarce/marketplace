@@ -61,7 +61,7 @@ const findAllUsers = async () => {
   const sql = 'SELECT id, name, email, verifiedAt, role FROM users';
   const [users] = await pool.query(sql);
 
-  return users;
+  return users[0];
 };
 
 const updateUser = async (data) => {
