@@ -4,6 +4,7 @@ const {
   findProductById,
   insertLocation,
   insertLocationName,
+  updateProduct,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
 
@@ -54,6 +55,16 @@ const updateProductController = async (req, res, next) => {
       status,
     });
     const product = await findProductById(idProduct);
+
+    await updateProduct(
+      name,
+      description,
+      price,
+      category,
+      keywords,
+      status,
+      idProduct
+    );
 
     if (body['[locationName]']) {
       insertLocationName(body['[locationName]'], idProduct);

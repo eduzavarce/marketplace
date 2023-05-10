@@ -41,7 +41,6 @@ const updateProduct = async (
   price,
   category,
   keywords,
-  idUser,
   status,
   id
 ) => {
@@ -106,4 +105,5 @@ module.exports = {
   createProduct,
   insertLocationName,
   insertLocation,
+  updateProduct,
 };

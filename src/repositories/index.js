@@ -4,6 +4,7 @@ const {
   findProductById,
   insertLocation,
   insertLocationName,
+  updateProduct,
 } = require('./products/productsRepositories');
 const {
   findUserByEmail,
@@ -22,6 +23,7 @@ module.exports = {
   findBuyRequestData,
   createDeal,
   createProduct,
+  updateProduct,
   insertLocation,
   insertLocationName,
   findProductById,
