@@ -2,7 +2,7 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { findUserByUsername } = require('../../repositories');
-const throwError = require('../../middlewares/errors/throwError');
+const { throwError } = require('../../middlewares');
 
 const schema = Joi.object().keys({
   username: Joi.string().min(4).max(20).required(),
