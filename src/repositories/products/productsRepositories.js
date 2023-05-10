@@ -1,7 +1,5 @@
 const getPool = require('../../infrastructure/database');
 
-const { throwError } = require('../../middlewares');
-
 const createProduct = async (
   name,
   description,
