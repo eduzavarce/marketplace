@@ -15,10 +15,14 @@ const sendCreatedDealToBuyer = async (info) => {
   
         <p>En caso de no querer continuar con la compra, por favor indica tus motivos y selecciona cancelar en el menu y el vendedor será informado.</p>
         <h3>Formulario para cancelar tu proceso de compra</h3>
-      <form action="${formUrl}">
+      <form action="${formUrl}" method="POST">
       
-        <label for="message">Message:</label>
-        <textarea id="message" name="message" rows="10" cols="50" maxlength="500"></textarea><br><br>
+      <label for="message">Motivos de rechazo de la reserva:</label>
+      <textarea id="message" name="message" rows="10" cols="50" maxlength="500"></textarea><br><br>
+      <input type="hidden" id="usernameVendor" name="usernameBuyer" value="${info.usernameBuyer}" />
+      <input type="hidden" id="idVendor" name="idBuyer" value="${info.idBuyer}" />
+      <input type="hidden" id="idProduct" name="idProduct" value="${info.id}" />
+      
         <label for="status">Status:</label>
         <select id="status" name="status">
           <option value="requested">Esperando respuesta</option>

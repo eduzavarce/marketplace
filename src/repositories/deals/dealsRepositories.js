@@ -39,6 +39,16 @@ const findDealDataByVendorId = async (id, idVendor) => {
   const [data] = await pool.query(sql, [idVendor, id]);
   return data[0];
 };
+const findDealDataByBuyerId = async (id, idBuyer) => {
+  const pool = await getPool();
+  const sql = `SELECT deals.*, vendor.username usernameVendor, vendor.email emailVendor, vendor.id idVendor, buyer.username usernameBuyer, buyer.email emailBuyer FROM deals 
+  INNER JOIN products p ON p.id = deals.idProduct
+  INNER JOIN users vendor ON vendor.id = vendor.id
+  INNER JOIN users buyer ON deals.idBuyer = ?
+  WHERE deals.id = ?`;
+  const [data] = await pool.query(sql, [idBuyer, id]);
+  return data[0];
+};
 const updateDealStatus = async (id, status, timestamp) => {
   const pool = await getPool();
   const sql = `UPDATE deals
@@ -64,6 +74,7 @@ module.exports = {
   createDeal,
   findDealById,
   findDealDataByVendorId,
+  findDealDataByBuyerId,
   updateDealStatus,
   addDealMessage,
 };

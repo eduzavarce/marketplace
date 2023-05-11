@@ -114,6 +114,11 @@ const reactivateProductById = async (id, active) => {
   await pool.query(sql, [active, id]);
   console.log(active);
 };
+const insertProductImageName = async (idProduct, fileName) => {
+  const pool = await getPool();
+  const sql = `INSERT INTO productImages(fileName, idProduct)VALUES (?, ?)`;
+  await pool.query(sql, [fileName, idProduct]);
+};
 
 module.exports = {
   findProductById,
@@ -123,4 +128,5 @@ module.exports = {
   findAllProducts,
   updateProduct,
   reactivateProductById,
+  insertProductImageName,
 };

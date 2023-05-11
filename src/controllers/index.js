@@ -3,8 +3,15 @@ const {
   dealsCommunicationController,
 } = require('./deals/dealsCommunicationController');
 const createProductController = require('./products/createProductController');
+
+const updateProductController = require('./products/updateProductController');
+const {
+  uploadProductPicturesController,
+} = require('./products/uploadProductPicturesController');
+
 const findProductByIdController = require('./products/getProductByIdController');
 const findAllProductsController = require('./products/getProductsControllers');
+
 const usersController = require('./users/getUsersController');
 const loginUserController = require('./users/loginUserController');
 const registerUserController = require('./users/registerUserController');
@@ -22,4 +29,6 @@ module.exports = {
   findAllProductsController,
   findProductByIdController,
   dealsCommunicationController,
+  updateProductController,
+  uploadProductPicturesController,
 };
