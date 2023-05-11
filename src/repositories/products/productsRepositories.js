@@ -39,6 +39,8 @@ const findAllProducts = async () => {
   const [products] = await pool.query(sql);
 
   return products;
+};
+
 const updateProduct = async (
   name,
   description,
