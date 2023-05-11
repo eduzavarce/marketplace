@@ -9,6 +9,7 @@ const {
 const {
   createProduct,
   findProductById,
+  findAllProducts,
   insertLocation,
   insertLocationName,
   updateProduct,
@@ -35,6 +36,7 @@ module.exports = {
   insertLocation,
   insertLocationName,
   findProductById,
+  findAllProducts,
   findDealById,
   findDealDataByVendorId,
   updateDealStatus,
