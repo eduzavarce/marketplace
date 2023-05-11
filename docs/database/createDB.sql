@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS productImages (
 );
 
 CREATE TABLE IF NOT EXISTS deals (
-    id   INT UNSIGNED NOT NULL PRIMARY KEY,
+    id   INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
     idBuyer INT UNSIGNED NOT NULL,
     idProduct INT UNSIGNED NOT NULL,
     status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled') NOT NULL DEFAULT 'requested',
@@ -82,11 +82,13 @@ CREATE TABLE IF NOT EXISTS deals (
 
 -- added
 CREATE TABLE IF NOT EXISTS dealsMessages (
-    id   INT UNSIGNED NOT NULL PRIMARY KEY,
+    id   INT UNSIGNED AUTO_INCREMENT NULL PRIMARY KEY,
     idDeal INT UNSIGNED NOT NULL,
     idSender INT UNSIGNED NOT NULL,
     idRecipient INT UNSIGNED NOT NULL,
     message VARCHAR(500),
+    location VARCHAR(500),
+    proposedDate DATETIME,
     status ENUM('requested', 'approved', 'rejected', 'completed', 'cancelled'),
     createdAt DATETIME  DEFAULT now(),
     FOREIGN KEY (idDeal)

@@ -4,6 +4,6 @@ const { dealsCommunicationController } = require('../../controllers');
 
 const dealsRouter = express.Router();
 
-dealsRouter.route('/:idDeal').get(dealsCommunicationController);
+dealsRouter.route('/:idDeal').post(dealsCommunicationController);
 
 module.exports = dealsRouter;
