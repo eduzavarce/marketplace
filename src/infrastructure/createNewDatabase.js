@@ -84,7 +84,7 @@ const createNewDatabase = async () => {
         ON DELETE CASCADE
         )`);
     await pool.query(`CREATE TABLE IF NOT EXISTS dealsMessages (
-            id   INT UNSIGNED NOT NULL PRIMARY KEY,
+            id   INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
             idDeal INT UNSIGNED NOT NULL,
             idSender INT UNSIGNED NOT NULL,
             idRecipient INT UNSIGNED NOT NULL,

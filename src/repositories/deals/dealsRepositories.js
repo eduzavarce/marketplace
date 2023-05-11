@@ -45,7 +45,18 @@ const updateDealStatus = async (id, status, timestamp) => {
   SET status = ?, updatedAt = ?
   WHERE id = ?`;
   await pool.query(sql, [status, timestamp, id]);
-  console.log('hola');
+};
+const addDealMessage = async (
+  idDeal,
+  bodyIdVendor,
+  idBuyer,
+  message,
+  bodyStatus
+) => {
+  const pool = await getPool();
+  const sql = `
+  INSERT INTO dealsmessages(idDeal, idSender, idRecipient, message, status)VALUES(?, ?, ?, ?, ?)`;
+  await pool.query(sql, [idDeal, bodyIdVendor, idBuyer, message, bodyStatus]);
 };
 
 module.exports = {
@@ -54,4 +65,5 @@ module.exports = {
   findDealById,
   findDealDataByVendorId,
   updateDealStatus,
+  addDealMessage,
 };

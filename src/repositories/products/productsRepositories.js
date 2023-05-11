@@ -98,6 +98,13 @@ const findProductById = async (id) => {
   const [products] = await pool.query(sql, id);
   return products[0];
 };
+const reactivateProductById = async (id, active) => {
+  const pool = await getPool();
+  const sql = `
+  UPDATE products SET isActive = ? WHERE id= ?`;
+  await pool.query(sql, [active, id]);
+  console.log(active);
+};
 
 module.exports = {
   findProductById,
@@ -105,4 +112,5 @@ module.exports = {
   insertLocationName,
   insertLocation,
   updateProduct,
+  reactivateProductById,
 };
