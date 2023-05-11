@@ -4,6 +4,8 @@ const throwError = require('./errors/throwError');
 const validateAuth = async (req, res, next) => {
   try {
     let { authorization } = req.headers;
+    if (!authorization)
+      throwError(403, 'por favor haz login antes de continuar');
     const [bearer, userToken] = authorization.split(' ');
 
     if (!userToken || bearer !== 'Bearer') {
