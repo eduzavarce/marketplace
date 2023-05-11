@@ -1,5 +1,6 @@
 const createDealController = require('./deals/createDealController');
 const createProductController = require('./products/createProductController');
+const findProductByIdController = require('./products/getProductByIdController');
 const findAllProductsController = require('./products/getProductsControllers');
 const usersController = require('./users/getUsersController');
 const loginUserController = require('./users/loginUserController');
@@ -16,4 +17,5 @@ module.exports = {
   usersController,
   createDealController,
   findAllProductsController,
+  findProductByIdController,
 };
