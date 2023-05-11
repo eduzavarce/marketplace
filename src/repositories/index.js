@@ -1,8 +1,19 @@
-const { findBuyRequestData, createDeal } = require('./deals/dealsRepositories');
+const {
+  findBuyRequestData,
+  createDeal,
+  findDealById,
+  findDealDataByVendorId,
+  updateDealStatus,
+  addDealMessage,
+} = require('./deals/dealsRepositories');
 const {
   createProduct,
   findProductById,
   findAllProducts,
+  insertLocation,
+  insertLocationName,
+  updateProduct,
+  reactivateProductById,
 } = require('./products/productsRepositories');
 const {
   findUserByEmail,
@@ -13,14 +24,22 @@ const {
 } = require('./users/usersRepositories');
 
 module.exports = {
-  findUserByEmail,
   findUserByUsername,
+  findUserByEmail,
   createUser,
   findUserByActivationCode,
   addUserVerificationDate,
   findBuyRequestData,
   createDeal,
   createProduct,
+  updateProduct,
+  insertLocation,
+  insertLocationName,
   findProductById,
   findAllProducts,
+  findDealById,
+  findDealDataByVendorId,
+  updateDealStatus,
+  reactivateProductById,
+  addDealMessage,
 };

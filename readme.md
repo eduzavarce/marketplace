@@ -163,7 +163,7 @@ Body petición:
     {
         "[name]":"nombre del producto",
         "[description]":"descripción del producto",
-        "[precio]":299.99,
+        "[price]":299.99,
         "[category]":"console",
         "[keywords]":"consola Nintendo Zelda",
         "[idUser]":"6",
@@ -233,6 +233,30 @@ Respuesta esperada:
       "defaultPicture": "product.png",
       "url": "http://www.url.com/api/v1/products/:85",
       "status": "used"
+    },
+    {
+      "id": 86,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
+    },
+    {
+      "id": 87,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
     }
   ]
 }
@@ -240,27 +264,29 @@ Respuesta esperada:
 
 5. Detalles de un producto (público):
 
-   Respuesta esperada:
+GET http://www.url.com/api/v1/products/:85
 
-   ```json
-   {
-     "status": "ok",
-     "data": [
-       {
-         "id": 85,
-         "name": "nombre del producto",
-         "description": "descripción del producto",
-         "precio": 299.99,
-         "sellerName": "Pepita",
-         "category": "console",
-         "keywords": "consola Nintendo Zelda",
-         "locationName": "Madrid, España",
-         "defaultPicture": "product.png",
-         "status": "used"
-       }
-     ]
-   }
-   ```
+Respuesta esperada:
+
+```json
+{
+  "status": "ok",
+  "data": [
+    {
+      "id": 85,
+      "name": "nombre del producto",
+      "description": "descripción del producto",
+      "precio": 299.99,
+      "sellerName": "Pepita",
+      "category": "console",
+      "keywords": "consola Nintendo Zelda",
+      "locationName": "Madrid, España",
+      "defaultPicture": "product.png",
+      "status": "used"
+    }
+  ]
+}
+```
 
 ### Proceso de reserva y venta:
 
@@ -275,10 +301,31 @@ Respuesta esperada:
 {
   "status": "ok",
   "message": "enviado email de petición de reserva del producto",
-  "data"{
-     "id":3,
-     "sellerUsername":"Juanita44",
-     "idProduct": 5
+  "data": {
+    "id": 41,
+    "sellerUsername": 1,
+    "productId": "3",
+    "productName": "ATARI",
+    "productPrice": "50.00",
+    "productImages": [
+      {
+        "imageName": "image1.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image1.png"
+      },
+      {
+        "imageName": "image2.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image2.png"
+      },
+      {
+        "imageName": "image3.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image3.png"
+      },
+      {
+        "imageName": "image4.png",
+        "imageUrl": "http://localhost:3000/api/v1/products/3/image4.png"
+      }
+    ],
+    "productUrl": "http://localhost:3000/api/v1/products/3"
   }
 }
 ```

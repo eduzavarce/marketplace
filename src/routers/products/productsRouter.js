@@ -5,6 +5,7 @@ const {
   createDealController,
   findAllProductsController,
 } = require('../../controllers');
+const updateProductController = require('../../controllers/products/updateProductController');
 
 const productsRouter = express.Router();
 
@@ -13,6 +14,7 @@ productsRouter.route('/').get(findAllProductsController);
 productsRouter
   .route('/:idProduct')
   .all(validateAuth)
-  .post(createDealController);
+  .post(createDealController)
+  .patch(updateProductController);
 
 module.exports = productsRouter;
