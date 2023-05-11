@@ -206,8 +206,11 @@ Respuesta esperada:
 {
   "status": "ok",
   "data": {
-    "id": "85",
-    "url": "http://www.url.com/api/v1/products/:85"
+    "id": "1",
+    "imageList": {
+      "image 1": "http://localhost:3000/api/v1/products/1/HO4JY9UdfHQy.png",
+      "image 2": "http://localhost:3000/api/v1/products/1/LDrmdssU4jzX.png"
+    }
   }
 }
 ```

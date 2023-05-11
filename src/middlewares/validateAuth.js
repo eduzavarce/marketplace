@@ -4,7 +4,6 @@ const throwError = require('./errors/throwError');
 const validateAuth = async (req, res, next) => {
   try {
     let { authorization } = req.headers;
-    const { role } = req.body;
     if (!authorization)
       throwError(403, 'por favor haz login antes de continuar');
     const [bearer, userToken] = authorization.split(' ');
@@ -14,18 +13,15 @@ const validateAuth = async (req, res, next) => {
     }
     const { SECRET } = process.env;
     try {
-      if (role === 'admin') {
-      } else {
-        const token = jwt.verify(userToken, SECRET);
-        const { email, role, id, username, name } = token;
-        req.auth = {
-          email,
-          role,
-          id,
-          username,
-          name,
-        };
-      }
+      const token = jwt.verify(userToken, SECRET);
+      const { email, role, id, username, name } = token;
+      req.auth = {
+        email,
+        role,
+        id,
+        username,
+        name,
+      };
     } catch {
       throwError(400, 'Autorización no válida');
     }
