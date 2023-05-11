@@ -24,6 +24,7 @@ const insertRandomProducts = async () => {
     await pool.query(
       `INSERT INTO products (name, description, price, category, keywords, idUser, isActive, locationName, status) VALUES ('sega', 'sega genesis', '60', 'consoles', 'sonic sega', '10', false , 'Valencia', 'refurbished');`
     );
+    process.exit();
   } catch (error) {
     console.error(error);
     process.exit(1);

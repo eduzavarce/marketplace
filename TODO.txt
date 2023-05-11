@@ -14,7 +14,8 @@ PRODUCT:
 --put imágenes en productos --CONJUNTO
 --get productos --SANDIE
 --get producto único --SANDIE
-
+--get images de productos por filename
+--get images de productos por id
 
 RESERVA:
 --Envio de mails --EDU
