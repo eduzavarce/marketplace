@@ -12,6 +12,7 @@ productsRouter.route('/create').all(validateAuth).post(createProductController);
 
 productsRouter
   .route('/:idProduct')
+  .get()
   .all(validateAuth)
   .post(createDealController)
   .patch(updateProductController);

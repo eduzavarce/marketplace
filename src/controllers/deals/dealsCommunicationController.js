@@ -3,7 +3,7 @@ const {
   findDealById,
   findDealDataByVendorId,
   updateDealStatus,
-  updateProduct,
+
   reactivateProductById,
   addDealMessage,
 } = require('../../repositories');
@@ -40,8 +40,9 @@ const dealsCommunicationController = async (req, res, next) => {
 
     console.log('deal info:', deal);
     const { id: dealId, status: dealStatus, dealIdProduct } = deal;
-    // if (dealStatus === 'rejected' || dealStatus === 'cancelled')
-    // throwError(400, 'La venta ha sido cancelada por una de las partes'); //!activar
+    if (dealStatus === 'rejected' || dealStatus === 'cancelled') {
+      throwError(400, 'La venta ha sido cancelada por una de las partes');
+    } //!activar
 
     if (!bodyIdBuyer && !bodyIdVendor) throwError(400, 'datos incompletos');
     if (bodyIdBuyer && bodyIdVendor) throwError(400, 'datos incorrectos');
@@ -52,6 +53,7 @@ const dealsCommunicationController = async (req, res, next) => {
       const dealData = await findDealDataByVendorId(dealId, bodyIdVendor);
       const { idBuyer } = dealData;
       console.log('dealData', dealData);
+
       if (bodyStatus !== dealStatus)
         await updateDealStatus(dealId, bodyStatus, new Date());
       if (bodyStatus === 'rejected')
@@ -62,7 +64,7 @@ const dealsCommunicationController = async (req, res, next) => {
       res.send('hola Vendedor');
     }
     if (bodyIdBuyer) {
-      res.send('hola Vendedor');
+      res.send('hola comprador');
     }
   } catch (error) {
     next(error);

@@ -21,7 +21,7 @@ const createDealController = async (req, res, next) => {
       usernameBuyer,
     });
 
-    // if (!productInfo.isActive) throwError(400, 'Producto no disponible');
+    if (!productInfo.isActive) throwError(400, 'Producto no disponible');
     if (!productInfo.isActiveVendor)
       throwError(400, 'No se puede hacer la reserva en este momento');
     //quitar status
