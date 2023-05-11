@@ -14,6 +14,7 @@ const {
   insertLocationName,
   updateProduct,
   reactivateProductById,
+  insertProductImageName,
 } = require('./products/productsRepositories');
 const {
   findUserByEmail,
@@ -42,4 +43,5 @@ module.exports = {
   reactivateProductById,
   addDealMessage,
   findDealDataByBuyerId,
+  insertProductImageName,
 };

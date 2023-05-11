@@ -1,7 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-
+const fileUpload = require('express-fileupload');
 const { createError, notFoundError } = require('./middlewares');
 const { usersRouter, productsRouter, dealsRouter } = require('./routers');
 const { PORT, HTTP_URL } = process.env;
@@ -11,6 +11,8 @@ app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(fileUpload());
+app.use(express.static('./../public'));
 
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/products', productsRouter);

@@ -21,7 +21,7 @@ const sendDealAcceptanceRequest = async (info) => {
         <h3>Formulario para contactar con el comprador</h3>
       <form action="${formUrl}" method="POST">
       
-           <label for="message">Motivos de rechazo de la reserva:</label>
+        <label for="message">Motivos de rechazo de la reserva:</label>
         <textarea id="message" name="message" rows="10" cols="50" maxlength="500"></textarea><br><br>
         <input type="hidden" id="usernameVendor" name="usernameVendor" value="${info.usernameVendor}" />
         <input type="hidden" id="idVendor" name="idVendor" value="${info.idVendor}" />

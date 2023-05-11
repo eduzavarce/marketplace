@@ -3,6 +3,7 @@ const { validateAuth } = require('../../middlewares');
 const {
   createProductController,
   createDealController,
+  uploadProductPicturesController,
 } = require('../../controllers');
 const updateProductController = require('../../controllers/products/updateProductController');
 
@@ -15,6 +16,7 @@ productsRouter
   .get()
   .all(validateAuth)
   .post(createDealController)
-  .patch(updateProductController);
+  .patch(updateProductController)
+  .put(uploadProductPicturesController);
 
 module.exports = productsRouter;
