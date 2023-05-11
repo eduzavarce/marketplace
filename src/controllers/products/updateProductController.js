@@ -29,7 +29,8 @@ const updateProductController = async (req, res, next) => {
   try {
     const { body, params, auth } = req;
     const { idProduct } = params;
-    const { id } = auth;
+    const { id, username } = auth;
+    console.log(username);
     const {
       name,
       description,
@@ -41,7 +42,7 @@ const updateProductController = async (req, res, next) => {
       status,
     } = body;
     console.log(id, idUser);
-    if (id !== idUser) {
+    if (id !== idUser && username !== 'admin') {
       throwError(400, 'Usuario no autorizado');
     }
     await schema.validateAsync({

@@ -32,6 +32,15 @@ const createProduct = async (
   return response.insertId;
 };
 
+const findAllProducts = async () => {
+  const pool = await getPool();
+  const sql = `
+  SELECT * FROM products`;
+  const [products] = await pool.query(sql);
+
+  return products;
+};
+
 const updateProduct = async (
   name,
   description,
@@ -116,6 +125,7 @@ module.exports = {
   createProduct,
   insertLocationName,
   insertLocation,
+  findAllProducts,
   updateProduct,
   reactivateProductById,
   insertProductImageName,
