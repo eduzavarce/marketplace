@@ -74,33 +74,36 @@ const findAllUsers = async () => {
   return users[0];
 };
 
-const updateUser = async (
-  name,
-  lastname,
-  password,
-  avatar,
-  bio,
-  country,
-  region,
-  address,
-  id
-) => {
-  const pool = await getPool();
-  const sql = `
-    UPDATE users
-    SET name = ?,lastname = ?, password = ?,avatar= ?,bio = ?,country = ?,region= ?,address = ?
-    WHERE id = ?
-  `;
-  await pool.query(sql, [
+const updateUser = async (data) => {
+  const {
+    id,
     name,
     lastname,
+    email,
     password,
     avatar,
     bio,
     country,
     region,
     address,
+  } = data;
+  const pool = await getPool();
+  const sql = `
+    UPDATE users
+    SET name = ?,lastname = ?, email = ?, password = ?,avatar= ?,bio = ?,country = ?,region= ?,address = ?
+    WHERE id = ?
+  `;
+  await pool.query(sql, [
+    name,
+    lastname,
+    email,
+    password,
     id,
+    avatar,
+    bio,
+    country,
+    region,
+    address,
   ]);
 
   return true;

@@ -1,3 +1,4 @@
+const { throwError } = require('../../middlewares');
 const { findAllUsers } = require('../../repositories/users/usersRepositories');
 
 const usersController = async (req, res, next) => {
@@ -7,7 +8,8 @@ const usersController = async (req, res, next) => {
 
     const users = await findAllUsers();
 
-    res.status(200).send({ data: users });
+    res.status(200);
+    res.send({ data: users });
   } catch (error) {
     next(error);
   }

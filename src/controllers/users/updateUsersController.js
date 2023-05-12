@@ -1,13 +1,19 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
+const randomstring = require('randomstring');
 const path = require('path');
+const { ensureDir } = require('fs-extra');
 
 const {
-  findUserByUsername,
-  updateUser,
   findUserById,
+  findUserByEmail,
+
+  udpateUserById,
+  addVerificationCode,
+  findUserByUsername,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
+const { sendVerificationCode } = require('../../emails');
 const { uploadImage } = require('../../helpers');
 
 const schema = Joi.object().keys({
@@ -37,13 +43,12 @@ const updateUserController = async (req, res, next) => {
 
     const { authId, role } = req.auth;
 
-    let {
+    const {
       id: idDataBase,
       name,
       lastname,
-      password,
+      email,
       bio,
-      avatar,
       country,
       region,
       address,
@@ -77,7 +82,6 @@ const updateUserController = async (req, res, next) => {
 
       body.bodyPassword = passwordHash;
     }
-
     if (req.files) {
       const { images } = req.files;
 
@@ -88,40 +92,29 @@ const updateUserController = async (req, res, next) => {
         '../../../public',
         `/users/${idDataBase}`
       );
-      avatar = await uploadImage(usersImagesFolder, idDataBase, images.data);
+      const filename = await uploadImage(
+        usersImagesFolder,
+        idDataBase,
+        images.data
+      );
+      console.log(filename);
     }
-    await updateUser(
-      bodyName ? bodyName : name,
-      bodyLastname ? bodyLastname : lastname,
-      bodyPassword ? bodyPassword : password,
-      avatar,
-      bodyBio ? bodyBio : bio,
-      bodyCountry ? bodyCountry : country,
-      bodyRegion ? bodyRegion : region,
-      bodyAddress ? bodyAddress : address,
-      idDataBase
-    );
-    const responseUser = await findUserById(idDataBase);
-    delete responseUser.password;
-    delete responseUser.verificationCode;
-    delete responseUser.verifiedAt;
-    delete responseUser.type;
-    delete responseUser.taxNumber;
+
     /*
+    await udpateUserById({ id, name, email, password: updatedPassword });
+
     if (email !== userById.email) {
       const verificationCode = randomstring.generate(64);
       await addVerificationCode(id, verificationCode);
       await sendVerificationCode(name, email, verificationCode);
     }
 
+    //avatar
 
 
     res.send({ id, name, email, role: userById.role });
     */
-    res.status(200).send({
-      status: 'ok',
-      data: responseUser,
-    });
+    res.send('hola');
   } catch (err) {
     next(err);
   }
