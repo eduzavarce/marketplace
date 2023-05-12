@@ -1,6 +1,9 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const randomstring = require('randomstring');
+const path = require('path');
+const { ensureDir } = require('fs-extra');
+
 const {
   findUserById,
   findUserByEmail,
@@ -10,12 +13,19 @@ const {
 } = require('../../repositories');
 const { throwError, createError } = require('../../middlewares');
 const { sendVerificationCode } = require('../../emails');
+const { uploadImage } = require('../../helpers');
 
 const schema = Joi.object().keys({
-  name: Joi.string().min(3).max(20).required(),
-  email: Joi.string().email().required(),
+  name: Joi.string().min(3).max(45),
+  lastname: Joi.string().min(3).max(45),
+  email: Joi.string().email(),
   password: Joi.string().optional(),
   repeatPassword: Joi.string().optional(),
+  avatar: Joi.string().min(3).max(80),
+  bio: Joi.string().min(3).max(255),
+  country: Joi.string().min(3).max(45),
+  region: Joi.string().min(3).max(45),
+  address: Joi.string().min(3).max(255),
 });
 
 const schemaPassword = Joi.object().keys({
@@ -54,6 +64,16 @@ const updateUserController = async (req, res) => {
       await addVerificationCode(id, verificationCode);
       await sendVerificationCode(name, email, verificationCode);
     }
+
+    //avatar
+
+    const usersImagesFolder = path.join(
+      __dirname,
+      '../../../public',
+      `/users/${id}`
+    );
+    const filename = await uploadImage(usersImagesFolder, id, images.data);
+    await insertUsersImageName(id, filename);
 
     res.send({ id, name, email, role: userById.role });
   } catch (err) {

@@ -18,6 +18,7 @@ const {
   insertProductImageName,
 } = require('./products/productsRepositories');
 const {
+  findUserById,
   findUserByEmail,
   findUserByUsername,
   createUser,
@@ -26,6 +27,7 @@ const {
 } = require('./users/usersRepositories');
 
 module.exports = {
+  findUserById,
   findUserByUsername,
   findUserByEmail,
   createUser,
