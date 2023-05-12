@@ -27,7 +27,7 @@ const schema = Joi.object().keys({
 });
 const updateProductController = async (req, res, next) => {
   try {
-    const { params, auth, body } = req;
+    const { body, params, auth } = req;
     const { idProduct } = params;
     const { id, role } = auth;
     const {
