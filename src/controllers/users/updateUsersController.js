@@ -72,8 +72,6 @@ const updateUserController = async (req, res, next) => {
       locationLat: bodyLocationLat,
       locationLong: bodyLocationLong,
     } = body;
-    // console.log('USER', user);
-    // console.log('body', req.body);
 
     let passwordHash;
 
@@ -102,9 +100,7 @@ const updateUserController = async (req, res, next) => {
       const coordinates = await findCoordinatesByLocationName(fullAddress);
       locationLat = coordinates.latitude;
       locationLong = coordinates.longitude;
-      console.log(coordinates);
     }
-    console.log(body.lat, body.long);
     await updateUser(
       bodyName ? bodyName : name,
       bodyLastname ? bodyLastname : lastname,

@@ -110,14 +110,60 @@ GET http://www.url.com/api/v1/users/:username
 Respuesta esperada:
 
 ```Json
-     {
-         "status":"ok",
-         "data": {
-             "id":3,
-             "avatar":"avatar.png",
-             "name":"Rosita"
-         }
-     }
+    {
+    "status": "ok",
+    "data": {
+        "userData": {
+            "id": 15,
+            "username": "johndoe",
+            "name": "john",
+            "lastName": "doe",
+            "email": "johndoe@gmail.com",
+            "avatar": "default-avatar.png",
+            "createdAt": "2023-05-12T18:32:28.000Z",
+            "isActive": 1,
+            "role": "user",
+            "bio": "tipo pesado",
+            "region": "Tarragona",
+            "country": "España",
+            "address": "calle 4 cambirls"
+        },
+        "usersDealsHistory": [
+            {
+                "status": "requested",
+                "idDeal": 3,
+                "idBuyer": 15,
+                "name": "ATARI",
+                "idVendor": 1,
+                "usernameVendor": "admin"
+            },
+            {
+                "status": "requested",
+                "idDeal": 4,
+                "idBuyer": 15,
+                "name": "ATARI",
+                "idVendor": 1,
+                "usernameVendor": "admin"
+            },
+            {
+                "status": "requested",
+                "idDeal": 5,
+                "idBuyer": 15,
+                "name": "NINTENDO",
+                "idVendor": 4,
+                "usernameVendor": "juanito"
+            },
+            {
+                "status": "requested",
+                "idDeal": 6,
+                "idBuyer": 15,
+                "name": "NINTENDO",
+                "idVendor": 4,
+                "usernameVendor": "juanito"
+            }
+        ]
+    }
+}
 ```
 
 ### Productos:

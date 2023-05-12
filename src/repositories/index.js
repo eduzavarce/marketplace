@@ -6,6 +6,7 @@ const {
   updateDealStatus,
   addDealMessage,
   findDealDataByBuyerId,
+  findAllDealsByUserId,
 } = require('./deals/dealsRepositories');
 const {
   createProduct,
@@ -50,4 +51,5 @@ module.exports = {
   findDealDataByBuyerId,
   insertProductImageName,
   updateUser,
+  findAllDealsByUserId,
 };
