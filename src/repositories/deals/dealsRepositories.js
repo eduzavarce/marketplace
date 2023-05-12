@@ -68,7 +68,18 @@ const addDealMessage = async (
   INSERT INTO dealsmessages(idDeal, idSender, idRecipient, message, status)VALUES(?, ?, ?, ?, ?)`;
   await pool.query(sql, [idDeal, bodyIdVendor, idBuyer, message, bodyStatus]);
 };
-
+const findAllDealsByUserId = async (id) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT deals.status status, deals.id idDeal, idBuyer, products.name, products.idUser idVendor, vendor.username usernameVendor FROM deals
+INNER JOIN products ON products.id = deals.idProduct
+INNER JOIN users vendor ON vendor.id = products.idUser
+WHERE idBuyer = ?
+ORDER BY status
+  `;
+  const [products] = await pool.query(sql, id);
+  return products;
+};
 module.exports = {
   findBuyRequestData,
   createDeal,
@@ -77,4 +88,5 @@ module.exports = {
   findDealDataByBuyerId,
   updateDealStatus,
   addDealMessage,
+  findAllDealsByUserId,
 };
