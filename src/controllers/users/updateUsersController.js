@@ -47,6 +47,8 @@ const updateUserController = async (req, res, next) => {
       country,
       region,
       address,
+      locationLat,
+      locationLong,
     } = user;
 
     if (role !== 'admin' && authId !== idDataBase)
@@ -67,13 +69,17 @@ const updateUserController = async (req, res, next) => {
       country: bodyCountry,
       region: bodyRegion,
       address: bodyAddress,
+      locationLat: bodyLocationLat,
+      locationLong: bodyLocationLong,
     } = body;
     // console.log('USER', user);
     // console.log('body', req.body);
 
+    let passwordHash;
+
     if (bodyPassword) {
       await schemaPassword.validateAsync({ bodyPassword, repeatPassword });
-      const passwordHash = await bcrypt.hash(bodyPassword, 10);
+      passwordHash = await bcrypt.hash(bodyPassword, 10);
 
       body.bodyPassword = passwordHash;
     }
@@ -90,23 +96,26 @@ const updateUserController = async (req, res, next) => {
       );
       avatar = await uploadImage(usersImagesFolder, idDataBase, images.data);
     }
+
     if (bodyAddress) {
       const fullAddress = `${bodyAddress}, ${bodyRegion}, ${bodyCountry} `;
       const coordinates = await findCoordinatesByLocationName(fullAddress);
-      body.lat = coordinates.latitude;
-      body.long = coordinates.longitude;
+      locationLat = coordinates.latitude;
+      locationLong = coordinates.longitude;
       console.log(coordinates);
     }
     console.log(body.lat, body.long);
     await updateUser(
       bodyName ? bodyName : name,
       bodyLastname ? bodyLastname : lastname,
-      bodyPassword ? bodyPassword : password,
+      bodyPassword ? passwordHash : password,
       avatar,
       bodyBio ? bodyBio : bio,
       bodyCountry ? bodyCountry : country,
       bodyRegion ? bodyRegion : region,
       bodyAddress ? bodyAddress : address,
+      bodyLocationLat ? bodyLocationLat : locationLat,
+      bodyLocationLong ? bodyLocationLong : locationLong,
       idDataBase
     );
     const responseUser = await findUserById(idDataBase);
