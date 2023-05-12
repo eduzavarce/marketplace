@@ -13,10 +13,9 @@ const sendDealAcceptanceRequest = async (info) => {
     <h1>Han hecho una oferta por ${info.name}</h1>
     <p>${info.usernameBuyer} está interesado en la compra, contacta con él utilizando el siguiente formulario para aceptar la transacción.</p>
   
-    
+    <h1>ESTE MAIL LO CAMBIAREMOS PARA QUE NOS LLEVE A UNA PAGINA AUTENTICADA QUE TENGA LA MISMA FUNCIONALIDAD</h1>
      
-    <p>En caso de no querer realizar la venta, por favor indica tus motivos y selecciona rechazada en el menu y el comprador será informado.</p>
-    <p>Una vez aceptada su oferta te enviaremos los datos de contacto para que te pongas de acuerdes con ${info.usernameBuyer} lugar y hora de entrega.</p>
+    <p>En formulario para actualizar proceso, enviar mensajes o COMPLETAR PARA PODER VALORAR AL OTRO.</p>
 
         <h3>Formulario para contactar con el comprador</h3>
       <form action="${formUrl}" method="POST">
@@ -31,6 +30,7 @@ const sendDealAcceptanceRequest = async (info) => {
         <select id="status" name="status" required>
           <option value="approved">Aceptada</option>
           <option value="rejected">Rechazada</option>
+          <option value="completed">Entregado</option>
         </select><br><br>
   
         <button >Submit</button>

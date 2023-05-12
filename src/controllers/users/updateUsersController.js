@@ -10,8 +10,9 @@ const {
 
   udpateUserById,
   addVerificationCode,
+  findUserByUsername,
 } = require('../../repositories');
-const { throwError, createError } = require('../../middlewares');
+const { throwError } = require('../../middlewares');
 const { sendVerificationCode } = require('../../emails');
 const { uploadImage } = require('../../helpers');
 
@@ -21,42 +22,85 @@ const schema = Joi.object().keys({
   email: Joi.string().email(),
   password: Joi.string().optional(),
   repeatPassword: Joi.string().optional(),
-  avatar: Joi.string().min(3).max(80),
+  // avatar: Joi.string().min(3).max(80),
   bio: Joi.string().min(3).max(255),
   country: Joi.string().min(3).max(45),
   region: Joi.string().min(3).max(45),
   address: Joi.string().min(3).max(255),
+  images: Joi.string().min(0),
 });
 
 const schemaPassword = Joi.object().keys({
-  password: Joi.string().min(4).max(20).required(),
-  repeatPassword: Joi.ref('password'),
+  bodyPassword: Joi.string().min(4).max(20).required(),
+  repeatPassword: Joi.ref('bodyPassword'),
 });
 
-const updateUserController = async (req, res) => {
+const updateUserController = async (req, res, next) => {
   try {
-    const { id } = req.auth;
+    const { username } = req.params;
+    const user = await findUserByUsername(username);
+    if (!user) throwError(404, 'usuario no encontrado');
+
+    const { authId, role } = req.auth;
+
+    const {
+      id: idDataBase,
+      name,
+      lastname,
+      email,
+      bio,
+      country,
+      region,
+      address,
+    } = user;
+
+    if (role !== 'admin' && authId !== idDataBase)
+      throwError(403, 'No es tu perfil de usuario');
 
     //Validamos los datos del body
     const { body } = req;
+
     await schema.validateAsync(body);
-    const { name, email, password, repeatPassword } = req.body;
 
-    const userById = await findUserById(id);
-    const user = await findUserByEmail(email);
+    const {
+      name: bodyName,
+      lastname: bodyLastname,
+      email: bodyEmail,
+      password: bodyPassword,
+      bio: bodyBio,
+      repeatPassword,
+      country: bodyCountry,
+      region: bodyRegion,
+      address: bodyAddress,
+    } = body;
+    // console.log('USER', user);
+    // console.log('body', req.body);
 
-    if (user && user.id !== id) {
-      throwError(409, 'Ya existe un usuario con ese email');
+    if (bodyPassword) {
+      await schemaPassword.validateAsync({ bodyPassword, repeatPassword });
+      const passwordHash = await bcrypt.hash(bodyPassword, 10);
+
+      body.bodyPassword = passwordHash;
+    }
+    if (req.files) {
+      const { images } = req.files;
+
+      if (Array.isArray(images))
+        throwError(400, 'debes introducir solo una imagen');
+      const usersImagesFolder = path.join(
+        __dirname,
+        '../../../public',
+        `/users/${idDataBase}`
+      );
+      const filename = await uploadImage(
+        usersImagesFolder,
+        idDataBase,
+        images.data
+      );
+      console.log(filename);
     }
 
-    let updatedPassword = userById.password;
-    if (password) {
-      await schemaPassword.validateAsync({ password, repeatPassword });
-      const passwordHash = await bcrypt.hash(password, 12);
-
-      updatedPassword = passwordHash;
-    }
-
+    /*
     await udpateUserById({ id, name, email, password: updatedPassword });
 
     if (email !== userById.email) {
@@ -67,17 +111,12 @@ const updateUserController = async (req, res) => {
 
     //avatar
 
-    const usersImagesFolder = path.join(
-      __dirname,
-      '../../../public',
-      `/users/${id}`
-    );
-    const filename = await uploadImage(usersImagesFolder, id, images.data);
-    await insertUsersImageName(id, filename);
 
     res.send({ id, name, email, role: userById.role });
+    */
+    res.send('hola');
   } catch (err) {
-    createError(err, res);
+    next(err);
   }
 };
 
