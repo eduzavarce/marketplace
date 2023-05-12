@@ -24,6 +24,7 @@ const {
   createUser,
   findUserByActivationCode,
   addUserVerificationDate,
+  updateUser,
 } = require('./users/usersRepositories');
 
 module.exports = {
@@ -48,4 +49,5 @@ module.exports = {
   addDealMessage,
   findDealDataByBuyerId,
   insertProductImageName,
+  updateUser,
 };
