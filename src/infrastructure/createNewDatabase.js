@@ -36,6 +36,8 @@ const createNewDatabase = async () => {
         bio VARCHAR(255) ,
         region VARCHAR(45) ,
         country VARCHAR(45) ,
+        locationLat VARCHAR(45) ,
+        locationLong VARCHAR(45) ,
         type ENUM('store', 'regular') ,
         taxNumber VARCHAR(45) ,
         address VARCHAR(255) 
