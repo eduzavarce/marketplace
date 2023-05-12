@@ -56,12 +56,12 @@ const updateProductController = async (req, res, next) => {
     const product = await findProductById(idProduct);
 
     await updateProduct(
-      name,
-      description,
-      price,
-      category,
-      keywords,
-      status,
+      name ? name : product.name,
+      description ? description : product.description,
+      price ? price : product.price,
+      category ? category : product.category,
+      keywords ? keywords : product.keywords,
+      status ? status : product.status,
       idProduct
     );
 
