@@ -69,9 +69,8 @@ const dealsCommunicationController = async (req, res, next) => {
       //! sendRejectionNoticeToBuyer
 
       res.send('hola Vendedor');
-    }
-    //* -----------------------si lo envía el comprador ----------------------------
-    if (bodyIdBuyer) {
+      //* -----------------------si lo envía el comprador ----------------------------
+    } else if (bodyIdBuyer) {
       const validBodyStatus = ['requested', 'cancelled'];
       if (!validBodyStatus.includes(bodyStatus))
         throwError(400, 'status incorrecto');
