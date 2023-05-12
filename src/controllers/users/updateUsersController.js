@@ -9,6 +9,7 @@ const {
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
 const { uploadImage } = require('../../helpers');
+const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
   name: Joi.string().min(3).max(45),
@@ -89,6 +90,14 @@ const updateUserController = async (req, res, next) => {
       );
       avatar = await uploadImage(usersImagesFolder, idDataBase, images.data);
     }
+    if (bodyAddress) {
+      const fullAddress = `${bodyAddress}, ${bodyRegion}, ${bodyCountry} `;
+      const coordinates = await findCoordinatesByLocationName(fullAddress);
+      body.lat = coordinates.latitude;
+      body.long = coordinates.longitude;
+      console.log(coordinates);
+    }
+    console.log(body.lat, body.long);
     await updateUser(
       bodyName ? bodyName : name,
       bodyLastname ? bodyLastname : lastname,
