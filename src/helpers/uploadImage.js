@@ -6,7 +6,7 @@ const randomstring = require('randomstring');
 const uploadImage = async (imageFolder, id, imageData) => {
   ensureDir(imageFolder);
   const image = sharp(imageData);
-  const imageName = randomstring.generate(12) + '.png';
+  const imageName = id + '_' + randomstring.generate(12) + '.png';
 
   await image
     .resize(400)

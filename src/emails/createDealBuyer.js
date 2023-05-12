@@ -12,9 +12,10 @@ const sendCreatedDealToBuyer = async (info) => {
     html: `
     <h1>Haz hecho una oferta por ${info.name}</h1>
     <p>${info.usernameVendor} ha recibido tu oferta y la está valorando, se pondrá en contacto contigo para proponer hora, fecha y sitio de entrega.</p>
-  
-        <p>En caso de no querer continuar con la compra, por favor indica tus motivos y selecciona cancelar en el menu y el vendedor será informado.</p>
-        <h3>Formulario para cancelar tu proceso de compra</h3>
+    <h1>ESTE MAIL LO CAMBIAREMOS PARA QUE NOS LLEVE A UNA PAGINA AUTENTICADA QUE TENGA LA MISMA FUNCIONALIDAD</h1>
+
+        <p>formulario para actualizar proceso, enviar mensajes o COMPLETAR PARA PODER VALORAR AL OTRO. </p>
+        <h3>Actualizar proceso de compra</h3>
       <form action="${formUrl}" method="POST">
       
       <label for="message">Motivos de rechazo de la reserva:</label>
@@ -27,6 +28,7 @@ const sendCreatedDealToBuyer = async (info) => {
         <select id="status" name="status">
           <option value="requested">Esperando respuesta</option>
           <option value="cancelled">Cancelar</option>
+          <option value="completed">Entregado</option>
         </select><br><br>
   
         <button >Submit</button>
