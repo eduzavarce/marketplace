@@ -1,5 +1,15 @@
 const getPool = require('../../infrastructure/database');
 
+const findUserById = async (id) => {
+  const pool = await getPool();
+
+  const sql = 'SELECT * FROM users WHERE id=?';
+
+  const [users] = await pool.query(sql, id);
+
+  return users[0];
+};
+
 const findUserByEmail = async (email) => {
   const pool = await getPool();
 
@@ -65,19 +75,42 @@ const findAllUsers = async () => {
 };
 
 const updateUser = async (data) => {
-  const { id, name, email, password } = data;
+  const {
+    id,
+    name,
+    lastname,
+    email,
+    password,
+    avatar,
+    bio,
+    country,
+    region,
+    address,
+  } = data;
   const pool = await getPool();
   const sql = `
     UPDATE users
-    SET name = ?, email = ?, password = ?
+    SET name = ?,lastname = ?, email = ?, password = ?,avatar= ?,bio = ?,country = ?,region= ?,address = ?
     WHERE id = ?
   `;
-  await pool.query(sql, [name, email, password, id]);
+  await pool.query(sql, [
+    name,
+    lastname,
+    email,
+    password,
+    id,
+    avatar,
+    bio,
+    country,
+    region,
+    address,
+  ]);
 
   return true;
 };
 
 module.exports = {
+  findUserById,
   findUserByEmail,
   findUserByUsername,
   createUser,
