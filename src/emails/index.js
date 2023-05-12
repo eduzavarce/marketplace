@@ -1,3 +1,5 @@
+const { sendChatMessageToBuyer } = require('./chatMessagesToBuyer');
+const { sendChatMessageToVendor } = require('./chatMessagesToVendor');
 const { sendCreatedDealToBuyer } = require('./createDealBuyer');
 const { sendDealAcceptanceRequest } = require('./createDealVendor');
 const { sendVerificationCode } = require('./verificationEmail');
@@ -8,4 +10,6 @@ module.exports = {
   sendVerifiedConfirmation,
   sendDealAcceptanceRequest,
   sendCreatedDealToBuyer,
+  sendChatMessageToBuyer,
+  sendChatMessageToVendor,
 };

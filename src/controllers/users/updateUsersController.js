@@ -35,8 +35,7 @@ const updateUserController = async (req, res, next) => {
     const user = await findUserByUsername(username);
     if (!user) throwError(404, 'usuario no encontrado');
 
-    const { authId, role } = req.auth;
-
+    const { id: authId, role } = req.auth;
     let {
       id: idDataBase,
       name,
