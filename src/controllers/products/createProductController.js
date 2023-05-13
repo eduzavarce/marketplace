@@ -1,10 +1,7 @@
 const Joi = require('joi');
 const { HTTP_URL, PORT } = process.env;
 const { createProduct } = require('../../repositories');
-const {
-  insertLocationName,
-  insertLocation,
-} = require('../../repositories/products/productsRepositories');
+const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
   name: Joi.string().min(4).max(100).required(),
@@ -14,23 +11,25 @@ const schema = Joi.object().keys({
     .valid('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade')
     .required(),
   keywords: Joi.string().max(100),
-  idUser: Joi.string().required(),
-  defaultPicture: Joi.string(),
+  region: Joi.string().max(45).required(),
+  country: Joi.string().max(45).required(),
+  address: Joi.string().max(255).required(),
   status: Joi.string().valid('new', 'used', 'refurbished').required(),
 });
 
 const createProductController = async (req, res, next) => {
   try {
-    const { body } = req;
-
+    const { body, auth } = req;
+    const { id } = auth;
     const {
       name,
       description,
       price,
       category,
+      region,
+      country,
+      address,
       keywords,
-      idUser,
-      defaultPicture,
       status,
     } = body;
     await schema.validateAsync({
@@ -39,25 +38,31 @@ const createProductController = async (req, res, next) => {
       price,
       category,
       keywords,
-      idUser,
-      defaultPicture,
+      region,
+      country,
+      address,
       status,
     });
+
+    const fullAddress = `${address}, ${region}, ${country} `;
+    const coordinates = await findCoordinatesByLocationName(fullAddress);
+    const locationLat = coordinates.latitude;
+    const locationLong = coordinates.longitude;
+
     const product = await createProduct(
       name,
       description,
       price,
       category,
       keywords,
-      idUser,
+      region,
+      country,
+      address,
+      locationLat,
+      locationLong,
+      id,
       status
     );
-    if (body['[locationName]']) {
-      insertLocationName(body['[locationName]'], product);
-    } else {
-      const [locationLat, locationLong] = body['[location]'].split(',');
-      insertLocation(locationLat, locationLong, product);
-    }
 
     res.status(200).send({
       status: 'ok',
