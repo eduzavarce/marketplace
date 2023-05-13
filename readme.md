@@ -182,7 +182,7 @@ Respuesta esperada:
            "category":"console",
            "keywords":"consola Nintendo Zelda",
            "idUser":"6",
-           "[locationName]":"Madrid, España" || "[location]":"41.0570167, 1.0284417",
+           "address":"Madrid, España" || "[location]":"41.0570167, 1.0284417",
            "defaultPicture":"product.png",
            "status":"used || new || refurbished"
         }

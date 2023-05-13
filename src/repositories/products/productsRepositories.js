@@ -5,6 +5,11 @@ const createProduct = async (
   price,
   category,
   keywords,
+  region,
+  country,
+  address,
+  locationLat,
+  locationLong,
   idUser,
   status
 ) => {
@@ -16,9 +21,14 @@ const createProduct = async (
     price,
     category,
     keywords,
+    region,
+    country,
+    address,
+    locationLat,
+    locationLong,
     idUser,
     status) 
-    VALUES (?,?,?,?,?,?,?)`;
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
 
   const [response] = await pool.query(sql, [
     name,
@@ -26,6 +36,11 @@ const createProduct = async (
     price,
     category,
     keywords,
+    region,
+    country,
+    address,
+    locationLat,
+    locationLong,
     idUser,
     status,
   ]);
@@ -47,18 +62,29 @@ const updateProduct = async (
   price,
   category,
   keywords,
+  region,
+  country,
+  address,
+  locationLat,
+  locationLong,
   status,
   id
 ) => {
   const pool = await getPool();
   const sql = `
-  UPDATE products SET name=? ,description=? ,price=?,category=?,keywords=?,status=? WHERE id=?`;
+  UPDATE products SET
+  name=? ,description=? ,price=?,category=?,keywords=?,region=?, country=?, address=?,locationLat=?,locationLong=?,  status=? WHERE id=?;`;
   await pool.query(sql, [
     name,
     description,
     price,
     category,
     keywords,
+    region,
+    country,
+    address,
+    locationLat,
+    locationLong,
     status,
     id,
   ]);
