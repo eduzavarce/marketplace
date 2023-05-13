@@ -1,91 +1,159 @@
 const Joi = require('joi');
 const {
   findDealById,
-  findDealDataByVendorId,
-  updateDealStatus,
 
+  updateDealStatus,
   reactivateProductById,
   addDealMessage,
-  findDealDataByBuyerId,
+  findLatestMessageContentByDealId,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
-const schemaParams = Joi.object()
-  .keys({ idDeal: Joi.number().integer().positive().required() })
-  .required();
-
-const schemaBody = Joi.object().keys({
-  message: Joi.string().max(500).min(0),
-  usernameVendor: Joi.string().min(4).max(20),
-  usernameBuyer: Joi.string().min(4).max(20),
-  idVendor: Joi.number().positive().integer(),
-  idBuyer: Joi.number().positive().integer(),
-  idProduct: Joi.number().positive().integer().required(),
-  status: Joi.string().required(),
+const { sendChatEmails, sendRequestReviewEmails } = require('../../emails');
+const schema = Joi.object({
+  message: Joi.string().max(500).allow(''),
+  address: Joi.string().max(500).allow(''),
+  time: Joi.date().allow(''),
+  status: Joi.string().allow(''),
 });
+
 const dealsCommunicationController = async (req, res, next) => {
   const { idDeal } = req.params;
-  const { body } = req;
+  const { body, auth } = req;
   try {
-    await schemaParams.validateAsync(req.params);
-    await schemaBody.validateAsync(req.body);
-    const {
-      message,
-      idVendor: bodyIdVendor,
-      idProduct: bodyIdProduct,
-      status: bodyStatus,
-      idBuyer: bodyIdBuyer,
-    } = body;
-    console.log(bodyIdVendor, bodyIdBuyer, bodyIdProduct, bodyStatus);
+    await schema.validateAsync(req.body);
+    const { message, address, time, status } = body;
 
+    const { username } = auth;
     const deal = await findDealById(idDeal);
-
     if (!deal) throwError(404, 'datos incorrectos');
+    const {
+      idProduct,
+      nameProduct,
+      idVendor,
+      usernameVendor,
+      emailVendor,
+      idBuyer,
+      usernameBuyer,
+      emailBuyer,
+      statusDeal,
+    } = deal;
+    console.log(
+      'username',
+      username,
+      usernameBuyer === username,
+      usernameBuyer
+    );
+    const authorizedUsers = [usernameBuyer, usernameVendor];
+    if (!authorizedUsers.includes(username))
+      throwError(403, 'Error, usuario incorrecto');
+    if (
+      statusDeal === 'cancelled' ||
+      statusDeal === 'rejected' ||
+      statusDeal === 'completed'
+    )
+      throwError(
+        400,
+        'esta venta ha finalizado, no se pueden enviar mensajes.'
+      );
+    const previousMessages = await findLatestMessageContentByDealId(idDeal);
+    const latestData = previousMessages[0];
+    if (username === usernameVendor) {
+      if (status) {
+        const validStatus = ['approved', 'rejected', 'completed'];
+        if (!validStatus.includes(status))
+          throwError(
+            400,
+            'como vendedor solo puedes cambiar el status a approved, rejected o completed'
+          );
+        if (status !== statusDeal) {
+          await updateDealStatus(idDeal, status, new Date());
+          if (status === 'rejected') {
+            await reactivateProductById(idProduct, true);
+          }
 
-    console.log('deal info:', deal);
-    const { id: dealId, status: dealStatus, dealIdProduct } = deal;
-    if (dealStatus === 'rejected' || dealStatus === 'cancelled') {
-      //!comentar este if para hacer pruebas
-      throwError(400, 'La venta ha sido cancelada por una de las partes');
+          if (status === 'completed') {
+            await sendRequestReviewEmails(deal);
+          } else await sendChatEmails(deal, usernameVendor, body);
+        }
+      }
+
+      console.log(previousMessages);
+      console.log(latestData);
+      if (!latestData) {
+        await addDealMessage(
+          idDeal,
+          idVendor,
+          idBuyer,
+          message,
+          address,
+          time ? time : null,
+          'requested'
+        );
+      } else {
+        await addDealMessage(
+          idDeal,
+          idBuyer,
+          idVendor,
+          message,
+          address ? address : latestData.location,
+          time ? time : latestData.time,
+          status ? status : latestData.status
+        );
+      }
+    } else if (username === usernameBuyer) {
+      console.log(status);
+
+      if (status) {
+        const validStatus = ['cancelled', 'completed'];
+        if (!validStatus.includes(status))
+          throwError(
+            400,
+            'como comprador solo puedes cambiar el status a cancelled o completed'
+          );
+        if (status !== statusDeal) {
+          await updateDealStatus(idDeal, status, new Date());
+          if (status === 'cancelled') {
+            await reactivateProductById(idProduct, true);
+          }
+
+          if (status === 'completed') {
+            await sendRequestReviewEmails(deal);
+          } else await sendChatEmails(deal, usernameBuyer, body);
+        }
+      }
+
+      if (!latestData) {
+        await addDealMessage(
+          idDeal,
+          idBuyer,
+          idVendor,
+          message,
+          address,
+          time ? time : null,
+          'requested'
+        );
+      } else {
+        await addDealMessage(
+          idDeal,
+          idBuyer,
+          idVendor,
+          message,
+          address ? address : latestData.location,
+          time ? time : latestData.time,
+          status ? status : latestData.status
+        );
+      }
     }
+    const data = await findDealById(idDeal);
+    const messageLog = await findLatestMessageContentByDealId(idDeal);
 
-    if (!bodyIdBuyer && !bodyIdVendor) throwError(400, 'datos incompletos');
-    if (bodyIdBuyer && bodyIdVendor) throwError(400, 'datos incorrectos');
-
-    //* ----------------------si lo envía el vendedor------------------------------
-    if (bodyIdVendor) {
-      const validBodyStatus = ['rejected', 'approved'];
-      if (!validBodyStatus.includes(bodyStatus))
-        throwError(400, 'status incorrecto');
-      const dealData = await findDealDataByVendorId(dealId, bodyIdVendor);
-      const { idBuyer } = dealData;
-      console.log('dealData', dealData);
-
-      if (bodyStatus !== dealStatus)
-        await updateDealStatus(dealId, bodyStatus, new Date());
-      if (bodyStatus === 'rejected')
-        await reactivateProductById(bodyIdProduct, true);
-      await addDealMessage(idDeal, bodyIdVendor, idBuyer, message, bodyStatus);
-
-      //! sendRejectionNoticeToBuyer
-
-      res.send('hola Vendedor');
-      //* -----------------------si lo envía el comprador ----------------------------
-    } else if (bodyIdBuyer) {
-      const validBodyStatus = ['requested', 'cancelled'];
-      if (!validBodyStatus.includes(bodyStatus))
-        throwError(400, 'status incorrecto');
-      const dealData = await findDealDataByBuyerId(dealId, bodyIdBuyer);
-      const { idVendor } = dealData;
-      console.log('dealData', dealData);
-
-      if (bodyStatus !== dealStatus)
-        await updateDealStatus(dealId, bodyStatus, new Date());
-      if (bodyStatus === 'cancelled')
-        await reactivateProductById(bodyIdProduct, true);
-      await addDealMessage(idDeal, bodyIdBuyer, idVendor, message, bodyStatus);
-      //! sendCancellationNoticeToBuyer
-      res.send('hola comprador');
-    }
+    res.status(200).send({
+      status: 'ok',
+      sender: username,
+      content: body,
+      currentDealDetails: data,
+      messageLog,
+    });
   } catch (error) {
     next(error);
   }
