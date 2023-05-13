@@ -47,6 +47,13 @@ const updateProductController = async (req, res, next) => {
       throwError(403, 'Usuario no autorizado');
     }
 
+    let locationLat, locationLong;
+    if (bodyAddress) {
+      const fullAddress = `${bodyAddress}, ${bodyRegion}, ${bodyCountry} `;
+      const coordinates = await findCoordinatesByLocationName(fullAddress);
+      locationLat = coordinates.latitude;
+      locationLong = coordinates.longitude;
+    }
     await updateProduct(
       name ? name : product.name,
       description ? description : product.description,
@@ -56,16 +63,11 @@ const updateProductController = async (req, res, next) => {
       bodyRegion ? bodyRegion : product.region,
       bodyCountry ? bodyCountry : product.country,
       bodyAddress ? bodyAddress : product.address,
+      locationLat ? locationLat : product.locationLat,
+      locationLong ? locationLong : product.locationLong,
       status ? status : product.status,
       idProduct
     );
-    let locationLat, locationLong;
-    if (bodyAddress) {
-      const fullAddress = `${bodyAddress}, ${bodyRegion}, ${bodyCountry} `;
-      const coordinates = await findCoordinatesByLocationName(fullAddress);
-      locationLat = coordinates.latitude;
-      locationLong = coordinates.longitude;
-    }
 
     res.send({
       status: 'ok',
