@@ -1,4 +1,5 @@
 const sortByLocationName = require('../../helpers/sortLocation');
+const { throwError } = require('../../middlewares');
 const {
   findProductForLocationSearch,
   findProductByName,
@@ -44,6 +45,10 @@ const findProductByQuery = async (req, res, next) => {
         : (sorted = await sortProductByPriceDesc());
 
       res.send(sorted);
+    }
+
+    if (query) {
+      throwError(404, 'Parámetro no encontrado');
     }
   } catch (error) {
     next(error);
