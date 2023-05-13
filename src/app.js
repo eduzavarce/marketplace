@@ -17,6 +17,12 @@ app.use(express.static('./../public'));
 app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/deals', dealsRouter);
+app.get('/deals/:id', (req, res) => {
+  res.status(200).send('página en construcción, por ahora usa el postman!');
+});
+app.get('/reviews/:id', (req, res) => {
+  res.status(200).send('página en construcción, por ahora usa el postman!');
+});
 
 app.use(createError);
 app.use(notFoundError);
