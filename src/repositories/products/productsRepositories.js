@@ -114,6 +114,24 @@ const findProductById = async (id) => {
   const [products] = await pool.query(sql, id);
   return products[0];
 };
+const findProductByName = async (name) => {
+  const pool = await getPool();
+  const sql = `
+    SELECT * FROM products
+    WHERE name = ? `;
+  const [products] = await pool.query(sql, name);
+  return products[0];
+};
+const findProductByCategory = async (category) => {
+  const pool = await getPool();
+  const sql = `
+    SELECT * FROM products
+    WHERE category = ? `;
+  const [products] = await pool.query(sql, category);
+  return products[0];
+};
+// const sortProductByPrice =
+
 const reactivateProductById = async (id, active) => {
   const pool = await getPool();
   const sql = `
@@ -127,6 +145,13 @@ const insertProductImageName = async (idProduct, fileName) => {
   await pool.query(sql, [fileName, idProduct]);
 };
 
+const findProductForLocationSearch = async () => {
+  const pool = await getPool();
+  const sql = ` SELECT id, name, description, price, category, keywords, idUser, region, address, country, locationLat lat , locationLong "long", status FROM products`;
+
+  const [products] = await pool.query(sql);
+  return products;
+};
 module.exports = {
   findProductById,
   createProduct,
@@ -136,4 +161,6 @@ module.exports = {
   updateProduct,
   reactivateProductById,
   insertProductImageName,
+  findProductForLocationSearch,
+  findProductByName,
 };

@@ -18,6 +18,7 @@ const registerUserController = require('./users/registerUserController');
 const updateUserController = require('./users/updateUsersController');
 const verifyEmailController = require('./users/verifyEmailController');
 const reviewDealParticipantsController = require('./reviews/reviewDealParticipantsController');
+const findProductByQuery = require('./products/findProductByQuery');
 
 module.exports = {
   loginUserController,
@@ -33,4 +34,5 @@ module.exports = {
   updateProductController,
   uploadProductPicturesController,
   reviewDealParticipantsController,
+  findProductByQuery,
 };

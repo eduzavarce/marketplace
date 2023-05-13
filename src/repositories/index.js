@@ -18,6 +18,7 @@ const {
   updateProduct,
   reactivateProductById,
   insertProductImageName,
+  findProductForLocationSearch,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -60,4 +61,5 @@ module.exports = {
   findLatestMessageContentByDealId,
   findReviewsByDealId,
   addReview,
+  findProductForLocationSearch,
 };
