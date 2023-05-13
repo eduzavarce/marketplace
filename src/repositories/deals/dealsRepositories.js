@@ -100,10 +100,10 @@ const findAllDealsByUserId = async (id) => {
   SELECT deals.status status, deals.id idDeal, idBuyer, products.name, products.idUser idVendor, vendor.username usernameVendor FROM deals
 INNER JOIN products ON products.id = deals.idProduct
 INNER JOIN users vendor ON vendor.id = products.idUser
-WHERE idBuyer = ?
+WHERE idBuyer = ? OR idVendor = ?
 ORDER BY status
   `;
-  const [products] = await pool.query(sql, id);
+  const [products] = await pool.query(sql, [id, id]);
 
   return products;
 };

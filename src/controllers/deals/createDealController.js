@@ -20,7 +20,8 @@ const createDealController = async (req, res, next) => {
       emailBuyer,
       usernameBuyer,
     });
-
+    if (productInfo.idUser === idBuyer)
+      throwError(403, 'No puedes comprar tu propio producto');
     if (!productInfo.isActive) throwError(400, 'Producto no disponible');
     if (!productInfo.isActiveVendor)
       throwError(400, 'No se puede hacer la reserva en este momento');

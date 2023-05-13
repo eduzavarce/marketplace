@@ -123,14 +123,15 @@ const createNewDatabase = async () => {
         )`);
     await pool.query(`CREATE TABLE IF NOT EXISTS reviews (
         id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-        idDeals INT UNSIGNED NOT NULL,
-        idBuyer INT UNSIGNED,
-        idSeller INT UNSIGNED,
+        idDeal INT UNSIGNED NOT NULL,
         idProduct INT UNSIGNED,
+        idReviewer INT UNSIGNED,
+        idReviewed INT UNSIGNED,
+        roleReviewed ENUM('vendor','buyer'),
         score TINYINT NOT NULL,
         comments VARCHAR(255),
         createdAt DATETIME DEFAULT now(),
-        FOREIGN KEY (idDeals)
+        FOREIGN KEY (idDeal)
         REFERENCES deals (id)
         )`);
     await pool.query(`CREATE TABLE IF NOT EXISTS wishlist (
