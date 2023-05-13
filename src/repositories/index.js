@@ -19,6 +19,10 @@ const {
   reactivateProductById,
   insertProductImageName,
   findProductForLocationSearch,
+  findProductByCategory,
+  findProductByName,
+  sortProductByPriceAsc,
+  sortProductByPriceDesc,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -62,4 +66,8 @@ module.exports = {
   findReviewsByDealId,
   addReview,
   findProductForLocationSearch,
+  findProductByName,
+  findProductByCategory,
+  sortProductByPriceAsc,
+  sortProductByPriceDesc,
 };
