@@ -20,6 +20,10 @@ const {
   insertProductImageName,
 } = require('./products/productsRepositories');
 const {
+  findReviewsByDealId,
+  addReview,
+} = require('./reviews/reviewsRepositories');
+const {
   findUserById,
   findUserByEmail,
   findUserByUsername,
@@ -54,4 +58,6 @@ module.exports = {
   updateUser,
   findAllDealsByUserId,
   findLatestMessageContentByDealId,
+  findReviewsByDealId,
+  addReview,
 };

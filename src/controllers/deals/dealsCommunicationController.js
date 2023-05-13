@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const {
   findDealById,
-
   updateDealStatus,
   reactivateProductById,
   addDealMessage,
@@ -28,13 +27,10 @@ const dealsCommunicationController = async (req, res, next) => {
     if (!deal) throwError(404, 'datos incorrectos');
     const {
       idProduct,
-      nameProduct,
       idVendor,
       usernameVendor,
-      emailVendor,
       idBuyer,
       usernameBuyer,
-      emailBuyer,
       statusDeal,
     } = deal;
     console.log(

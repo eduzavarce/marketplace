@@ -385,17 +385,23 @@ Respuesta esperada:
 
 POST http://www.url.com/api/v1/deals/:id
 
+Tanto el comprador como el vendedor pueden dejar campos en blanco (como "")si no los quieren modificar
+
 ```Json
 //Mensajes del vendedor
-      {
-        "message": "dirección y hora de entrega propuesta",
-        "status":"approved || rejected || completed"
-       }
+     {
+    "message": "Contenido del mensaje hasta 500 caracteres",
+    "address":"Calle grande, 4, Ciudad ",
+    "time": "2023-05-18T16:45",
+    "status":"accepted" // Default accepted, el vendedor lo puede cambiar por "approved", "rejected" o "completed" en caso de ser completed recibirá un email con un link para valorar la venta
+}
 //mensajes del comprador
-      {
-        "message": "aceptada / cancelada la reserva o propongo otra hora o sitio....",
-        "status":"completed || cancelled || null"
-       }
+     {
+    "message": "Contenido del mensaje hasta 500 caracteres",
+    "address":"",
+    "time": "",
+    "status":"cancelled" // Default accepted, el vendedor lo puede cambiar por "approved", "cancelled" o "completed" en caso de ser completed recibirá un email con un link para valorar la venta
+}
 
 ```
 
@@ -405,28 +411,77 @@ Respuesta esperada:
 //ejemplo respuesta
 {
   "status": "ok",
-  "message": "enviado email con respuesta al comprador",
-  "data"{
-     "id":3,
-     "buyerUsername":"Pepito83",
-     "idProduct": 5
-  }
+  "sender": "comprador",
+  "content": {
+    "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+    "address": "",
+    "time": "",
+    "status": ""
+  },
+  "currentDealDetails": {
+    "idProduct": 1,
+    "nameProduct": "ATARI",
+    "idVendor": 14,
+    "usernameVendor": "janedoe",
+    "emailVendor": "janedoe@gmail.com",
+    "idBuyer": 15,
+    "usernameBuyer": "johndoe",
+    "emailBuyer": "johndoe@gmail.com",
+    "statusDeal": "requested",
+    "idDeal": 7
+  },
+  "messageLog": [
+    {
+      "id": 3,
+      "idDeal": 7,
+      "idSender": 15,
+      "idRecipient": 14,
+      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+      "location": "",
+      "proposedDate": null,
+      "status": "requested",
+      "createdAt": "2023-05-13T06:00:10.000Z"
+    },
+    {
+      "id": 2,
+      "idDeal": 7,
+      "idSender": 15,
+      "idRecipient": 14,
+      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+      "location": "",
+      "proposedDate": null,
+      "status": "requested",
+      "createdAt": "2023-05-13T05:58:41.000Z"
+    },
+    {
+      "id": 1,
+      "idDeal": 7,
+      "idSender": 15,
+      "idRecipient": 14,
+      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+      "location": "",
+      "proposedDate": null,
+      "status": "requested",
+      "createdAt": "2023-05-13T05:57:39.000Z"
+    }
+  ]
 }
 ```
 
-3. Valoración del proceso de compra-venta
+3. Valoración entre comprador y vendedor
 
-POST http://www.url.com/api/v1/reviews/:idDeals (comprador o vendedor autenticados)
+POST http://www.url.com/api/v1/reviews/:idDeal (comprador o vendedor autenticados)
+
+El comentario es opcional y puede contener hasta 255 caracteres
+La puntuación es un número entero entre 1 y 5.
 
 body:
 
 ```json
 {
-  "counterpartUsername": 5,
-
-  "data"{
+  {
      "comment": "comentario de valoración de experiencia",
-     "rating":"1-5",
+     "rating":5,
     }
 }
 ```

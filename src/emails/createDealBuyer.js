@@ -8,9 +8,9 @@ const sendCreatedDealToBuyer = async (info) => {
   const message = {
     from: SMTP_FROM,
     to: info.emailBuyer,
-    subject: `Felicidades ${info.usernameBuyer}, haz realizado una oferta!`,
+    subject: `Felicidades ${info.usernameBuyer}, has realizado una oferta!`,
     html: `
-    <h1>Haz hecho una oferta por ${info.name}</h1>
+    <h1>Has hecho una oferta por ${info.name}</h1>
     <p>${info.usernameVendor} ha recibido tu oferta y la está valorando, se pondrá en contacto contigo para proponer hora, fecha y sitio de entrega.</p>
   
     <p><a href="${linkUrl}" >CLICK AQUí PARA COMUNICARTE</a></p>
