@@ -1,10 +1,11 @@
+const { createImageUrl } = require('../../helpers');
 const { throwError } = require('../../middlewares');
 const {
   findAllDealsByUserId,
   findAllDealsChatHistoryByUserId,
 } = require('../../repositories');
 const { findUserById } = require('../../repositories/users/usersRepositories');
-
+const { FULL_DOMAIN } = process.env;
 const usersController = async (req, res, next) => {
   try {
     const { auth } = req;
@@ -19,6 +20,13 @@ const usersController = async (req, res, next) => {
     delete userData.verifiedAt;
     delete userData.type;
     delete userData.taxNumber;
+    if (userData.avatar) {
+      userData.avatarUrl = createImageUrl(
+        userData.avatar,
+        userData.id,
+        'users'
+      );
+    } else userData.avatarUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
 
     const userChatHistory = await findAllDealsChatHistoryByUserId(id);
     const usersDealsHistory = await findAllDealsByUserId(id);

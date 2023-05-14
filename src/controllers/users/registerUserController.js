@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const randomString = require('randomstring');
+const fs = require('fs/promises');
+
 const {
   findUserByEmail,
   findUserByUsername,
