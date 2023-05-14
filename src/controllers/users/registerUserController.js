@@ -55,6 +55,7 @@ const registerUserController = async (req, res, next) => {
 
     res.status(200).send({
       status: 'ok',
+      message: 'verification email sent',
       data: {
         id: user,
         username,

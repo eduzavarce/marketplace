@@ -22,7 +22,7 @@ const createDealController = async (req, res, next) => {
     });
     if (productInfo.idUser === idBuyer)
       throwError(403, 'No puedes comprar tu propio producto');
-    if (!productInfo.isActive) throwError(400, 'Producto no disponible');
+    if (!productInfo.isActive) throwError(403, 'Producto no disponible');
     if (!productInfo.isActiveVendor)
       throwError(400, 'No se puede hacer la reserva en este momento');
     //quitar status
@@ -36,17 +36,14 @@ const createDealController = async (req, res, next) => {
 
     const data = {
       id: insertId,
-      sellerUsername: productInfo.idVendor,
-      productId: idProduct,
       productName: productInfo.name,
-      productPrice: productInfo.price,
-      productImages: [`pendiente insetar imagenes cuando existan`], //TODO
       productUrl: `${FULL_DOMAIN}/api/v1/products/${idProduct}`,
     };
 
     res.status(200).send({
       status: 'ok',
-      message: 'enviado email de petición de reserva del producto',
+      message:
+        'enviado emails donde comprador y vendedor se pueden comunicar y cambiar el estado de la venta',
       data,
     });
   } catch (error) {

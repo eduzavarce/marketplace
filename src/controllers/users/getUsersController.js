@@ -1,8 +1,9 @@
 const { createImageUrl } = require('../../helpers');
 const { throwError } = require('../../middlewares');
 const {
-  findProductByUserId,
   findAvgReviewsByUserId,
+  findProductForResponsesByUserId,
+  findImagesByIdProduct,
 } = require('../../repositories');
 const {
   findUserByUsername,
@@ -14,11 +15,7 @@ const usersController = async (req, res, next) => {
 
     const userData = await findUserByUsername(username);
     if (!userData) throwError(404, 'el usuario no existe');
-    delete userData.password;
-    delete userData.verificationCode;
-    delete userData.verifiedAt;
-    delete userData.type;
-    delete userData.taxNumber;
+
     if (userData.avatar) {
       userData.avatarUrl = createImageUrl(
         userData.avatar,
@@ -27,8 +24,23 @@ const usersController = async (req, res, next) => {
       );
     } else userData.avatarUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
 
-    const products = await findProductByUserId(userData.id);
+    let products = await findProductForResponsesByUserId(userData.id);
+    products = products.filter((product) => product.isActive);
     const avgReviews = await findAvgReviewsByUserId(userData.id);
+
+    for await (const product of products) {
+      const picturesFileNames = await findImagesByIdProduct(product.id);
+      // console.log(picturesFileNames);
+      if (picturesFileNames) {
+        const pictures = picturesFileNames.map((picture) => {
+          // console.log('hola');
+          // console.log('filename: ', picture.fileName, product.id);
+          const url = createImageUrl(picture.fileName, product.id, 'products');
+          return url;
+        });
+        product.images = pictures;
+      }
+    }
 
     const response = {
       status: 'ok',
@@ -37,10 +49,10 @@ const usersController = async (req, res, next) => {
           username: userData.username,
           avatar: userData.avatar,
           bio: userData.bio,
+          avgScore: avgReviews.avgScore,
           avatarUrl: userData.avatarUrl,
         },
         products,
-        avgReviews,
       },
     };
 

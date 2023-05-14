@@ -24,3 +24,5 @@ RESERVA:
 VALORACIÓN:
 --Valoracion de usuario y comprador --EDU
 
+
+asignar imagen de producto por defecto

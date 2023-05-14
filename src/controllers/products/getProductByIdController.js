@@ -2,8 +2,10 @@ const { createImageUrl } = require('../../helpers');
 const {
   findProductById,
   findImagesByIdProduct,
+  findAvgReviewsByUserId,
+  findUserById,
 } = require('../../repositories');
-
+const { FULL_DOMAIN } = process.env;
 const findProductByIdController = async (req, res, next) => {
   try {
     const { idProduct } = req.params;
@@ -14,24 +16,34 @@ const findProductByIdController = async (req, res, next) => {
       id,
       name,
       description,
+      city,
       price,
       category,
-      idUser: idSeller,
+      idUser: idVendor,
     } = product;
     const picturesFileNames = await findImagesByIdProduct(idProduct);
 
     const pictures = picturesFileNames.map((picture) => {
-      console.log('filename: ', picture.fileName, idProduct);
       return createImageUrl(picture.fileName, idProduct, 'products');
     });
 
+    const avgReviews = await findAvgReviewsByUserId(idVendor);
+    const vendorData = await findUserById(idVendor);
+    const { username } = vendorData;
+    const { avgScore } = avgReviews;
+    const vendorInfo = {
+      username,
+      profileUrl: `${FULL_DOMAIN}/api/v1/users/${username}`,
+      avgScore,
+    };
     const data = {
       id,
       name,
       description,
+      city,
       price,
       category,
-      idSeller,
+      vendorInfo,
       url: `${HTTP_URL}:${PORT}/api/vi/products/${id}`,
     };
     data.pictures = pictures;

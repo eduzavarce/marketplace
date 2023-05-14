@@ -8,20 +8,21 @@ const {
   findUserById,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
-const { uploadImage } = require('../../helpers');
+const { uploadImage, createImageUrl } = require('../../helpers');
 const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
-  name: Joi.string().min(3).max(45),
-  lastname: Joi.string().min(3).max(45),
+  name: Joi.string().min(0).max(45),
+  lastname: Joi.string().min(0).max(45),
   email: Joi.string().email(),
   password: Joi.string().optional(),
   repeatPassword: Joi.string().optional(),
   // avatar: Joi.string().min(3).max(80),
-  bio: Joi.string().min(3).max(255),
-  country: Joi.string().min(3).max(45),
-  region: Joi.string().min(3).max(45),
-  address: Joi.string().min(3).max(255),
+  bio: Joi.string().min(0).max(255),
+  country: Joi.string().min(0).max(45),
+  region: Joi.string().min(0).max(45),
+  address: Joi.string().min(0).max(255),
+  city: Joi.string().min(0).max(255),
   images: Joi.string().min(0),
 });
 
@@ -47,6 +48,7 @@ const updateUserController = async (req, res, next) => {
       country,
       region,
       address,
+      city,
       locationLat,
       locationLong,
     } = user;
@@ -62,13 +64,13 @@ const updateUserController = async (req, res, next) => {
     const {
       name: bodyName,
       lastname: bodyLastname,
-      email: bodyEmail,
       password: bodyPassword,
       bio: bodyBio,
       repeatPassword,
       country: bodyCountry,
       region: bodyRegion,
       address: bodyAddress,
+      city: bodyCity,
       locationLat: bodyLocationLat,
       locationLong: bodyLocationLong,
     } = body;
@@ -110,6 +112,7 @@ const updateUserController = async (req, res, next) => {
       bodyCountry ? bodyCountry : country,
       bodyRegion ? bodyRegion : region,
       bodyAddress ? bodyAddress : address,
+      bodyCity ? bodyCity : city,
       bodyLocationLat ? bodyLocationLat : locationLat,
       bodyLocationLong ? bodyLocationLong : locationLong,
       idDataBase
@@ -120,17 +123,13 @@ const updateUserController = async (req, res, next) => {
     delete responseUser.verifiedAt;
     delete responseUser.type;
     delete responseUser.taxNumber;
-    /*
-    if (email !== userById.email) {
-      const verificationCode = randomstring.generate(64);
-      await addVerificationCode(id, verificationCode);
-      await sendVerificationCode(name, email, verificationCode);
-    }
 
+    responseUser.avatarUrl = createImageUrl(
+      responseUser.avatar,
+      responseUser.id,
+      'users'
+    );
 
-
-    res.send({ id, name, email, role: userById.role });
-    */
     res.status(200).send({
       status: 'ok',
       data: responseUser,
