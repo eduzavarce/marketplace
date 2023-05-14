@@ -6,6 +6,7 @@ const {
   loginUserController,
   updateUserController,
   verifyEmailController,
+  ownUserController,
 } = require('../../controllers');
 const { validateAuth, isAccountVerified } = require('../../middlewares');
 
@@ -15,10 +16,12 @@ const usersRouter = express.Router();
 
 usersRouter.route('/login').all(isAccountVerified).post(loginUserController);
 usersRouter
-  .route('/:username/profile')
+  .route('/:username/profile/edit')
   .all(validateAuth)
   .patch(updateUserController)
-  .get(usersController);
+  .get(ownUserController);
+
+usersRouter.route('/:username/profile').get(usersController);
 
 usersRouter.route('/register').post(registerUserController);
 usersRouter.route('/activate/:code').get(verifyEmailController);

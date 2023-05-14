@@ -1,5 +1,7 @@
 const { createImageUrl } = require('../../helpers');
 const {
+  findAllDealsByUserId,
+  findAllDealsChatHistoryByUserId,
   findProductByUserId,
   findAvgReviewsByUserId,
 } = require('../../repositories');
@@ -7,8 +9,9 @@ const {
   findUserByUsername,
 } = require('../../repositories/users/usersRepositories');
 const { FULL_DOMAIN } = process.env;
-const usersController = async (req, res, next) => {
+const ownUserController = async (req, res, next) => {
   try {
+    const { auth } = req;
     const { username } = req.params;
 
     const userData = await findUserByUsername(username);
@@ -28,19 +31,34 @@ const usersController = async (req, res, next) => {
     const products = await findProductByUserId(userData.id);
     const avgReviews = await findAvgReviewsByUserId(userData.id);
 
-    const response = {
-      status: 'ok',
-      data: {
-        userData: {
-          username: userData.username,
-          avatar: userData.avatar,
-          bio: userData.bio,
-          avatarUrl: userData.avatarUrl,
+    const userChatHistory = await findAllDealsChatHistoryByUserId(userData.id);
+    const usersDealsHistory = await findAllDealsByUserId(userData.id);
+    let response;
+    if (auth && auth.username === username) {
+      response = {
+        status: 'ok',
+        data: {
+          userData,
+          products,
+          dealsHistory: usersDealsHistory,
+          chatHistory: userChatHistory,
         },
-        products,
-        avgReviews,
-      },
-    };
+      };
+    } else {
+      response = {
+        status: 'ok',
+        data: {
+          userData: {
+            username: userData.username,
+            avatar: userData.avatar,
+            bio: userData.bio,
+            avatarUrl: userData.avatarUrl,
+          },
+          products,
+          avgReviews,
+        },
+      };
+    }
 
     res.status(200);
     res.send(response);
@@ -49,4 +67,4 @@ const usersController = async (req, res, next) => {
   }
 };
 
-module.exports = usersController;
+module.exports = ownUserController;
