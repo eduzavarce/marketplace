@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "645d0718-b95b-4430-9987-b33811754020",
+		"_postman_id": "a78c0833-8225-4135-ab4e-41315a95fae2",
 		"name": "Marketplace",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27077908"
+		"_exporter_id": "26457391"
 	},
 	"item": [
 		{
@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"edu3aasrdoqwe32\",\r\n    \"password\":\"asdasd\",\r\n    \"repeatPassword\":\"asdasd\",\r\n    \"email\":\"eduzavar2ce+1223@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"username\":\"userneame\",\r\n    \"password\":\"asdasd\",\r\n    \"repeatPassword\":\"asdasd\",\r\n    \"email\":\"eduzavarce+33se3@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -39,14 +39,14 @@
 					"response": []
 				},
 				{
-					"name": "LoginUser",
+					"name": "LoginUser VENDEDOR",
 					"event": [
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"const response = pm.response.json();\r",
-									"pm.environment.set(\"accessToken\", response.accessToken)"
+									"pm.environment.set(\"accessToken\", response.data.accessToken)"
 								],
 								"type": "text/javascript"
 							}
@@ -54,16 +54,92 @@
 					],
 					"request": {
 						"method": "POST",
-						"header": [
-							{
-								"key": "Authorization",
-								"value": "bearer {{accessToken}}",
-								"type": "text"
-							}
-						],
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"prueba\",\r\n    \"password\":\"prueba\"\r\n}   ",
+							"raw": "{\r\n    \"username\":\"vendedor\",\r\n    \"password\":\"asdasd\"\r\n}   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/users/login",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser COMPRADOR",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"accessToken\", response.data.accessToken)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"comprador\",\r\n    \"password\":\"asdasd\"\r\n}   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/users/login",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const response = pm.response.json();\r",
+									"pm.environment.set(\"accessToken\", response.data.accessToken)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"pepito\",\r\n    \"password\":\"asdasd\"\r\n}   ",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -93,7 +169,7 @@
 							"script": {
 								"exec": [
 									"const response = pm.response.json();\r",
-									"pm.environment.set(\"accessToken\", response.accessToken)"
+									"pm.environment.set(\"accessToken\", response.data.accessToken)"
 								],
 								"type": "text/javascript"
 							}
@@ -134,7 +210,7 @@
 							"script": {
 								"exec": [
 									"const response = pm.response.json();\r",
-									"pm.environment.set(\"accessToken\", response.accessToken)"
+									"pm.environment.set(\"accessToken\", response.data.accessToken)"
 								],
 								"type": "text/javascript"
 							}
@@ -180,7 +256,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\":\"root\",\r\n    \"password\":\"asdasd\"\r\n}   ",
+							"raw": "{\r\n      \"name\" : \"Eduardo\",\r\n      \"lastname\": \"Zavarce\",\r\n      \"password\": \"asdasd\",\r\n      \"repeatPassword\":\"asdasd\",\r\n      \"bio\":\"warrior@hackaboss\",\r\n      \"country\":\"españa\",\r\n      \"region\":\"cataluña\",      \r\n       \"address\":\"\",\r\n       \"city\":\"Cambrils\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -188,7 +264,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/users/prueba/profile",
+							"raw": "{{backendUrl}}/api/v1/users/private/comprador",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -196,15 +272,54 @@
 								"api",
 								"v1",
 								"users",
-								"prueba",
-								"profile"
+								"private",
+								"comprador"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "GetOwnUserInfo",
+					"name": "GetOwnFullProfileInfo",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/users/private/comprador",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"private",
+								"comprador"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetAnyUserInfo",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -215,7 +330,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/users/admin",
+							"raw": "{{backendUrl}}/api/v1/users/vendedor",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -223,7 +338,7 @@
 								"api",
 								"v1",
 								"users",
-								"admin"
+								"vendedor"
 							]
 						}
 					},
@@ -247,7 +362,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\":\"NES Nintendo original\",\r\n        \"description\":\"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!\",\r\n        \"precio\":299.99,\r\n        \"category\":\"console\",\r\n        \"keywords\":\"consola Nintendo Zelda\",\r\n        \"idUser\":\"6\",\r\n        \"[locationName]\":\"Cambrils, Tarragona\",\r\n        \"defaultPicture\":\"product.png\",\r\n        \"status\":\"used\"\r\n     }",
+							"raw": "{\r\n        \"name\":\"NES Nintendo original\",\r\n        \"description\":\"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!\",\r\n        \"price\":299.99,\r\n        \"category\":\"consoles\",\r\n        \"keywords\":\"consola Nintendo Zelda\",\r\n        \"address\":\"\",\r\n        \"region\":\"\",\r\n        \"country\":\"\",\r\n        \"city\":\"barcelona\",\r\n        \"status\":\"used\"\r\n     }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -282,7 +397,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"name\":\"NES Nintendo original\",\r\n        \"description\":\"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!\",\r\n        \"precio\":299.99,\r\n        \"category\":\"console\",\r\n        \"keywords\":\"consola Nintendo Zelda\",\r\n        \"idUser\":\"6\",\r\n        \"[locationName]\":\"Cambrils, Tarragona\",\r\n        \"defaultPicture\":\"product.png\",\r\n        \"status\":\"new\"\r\n     }",
+							"raw": "{\r\n        \"name\":\"NES Nintendo original\",\r\n        \"description\":\"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!\",\r\n        \"price\":299.99,\r\n        \"category\":\"consoles\",\r\n        \"keywords\":\"consola Nintendo Zelda\",\r\n        \"country\":\"españa\",\r\n        \"region\":\"\",\r\n        \"address\":\"\",\r\n        \"city\":\"coruña\",\r\n        \"status\":\"refurbished\"\r\n     }",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -290,7 +405,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/products/85",
+							"raw": "{{backendUrl}}/api/v1/products/5",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -298,7 +413,7 @@
 								"api",
 								"v1",
 								"products",
-								"85"
+								"5"
 							]
 						}
 					},
@@ -319,19 +434,23 @@
 							"mode": "formdata",
 							"formdata": [
 								{
-									"key": "",
+									"key": "images",
 									"type": "file",
 									"src": [
-										"/D:/hab/proyecto 2/images/aedrian-mSS2r9_RGgA-unsplash.jpg",
-										"/D:/hab/proyecto 2/images/arthur-hinton-RgViR2O5r2o-unsplash.jpg",
-										"/D:/hab/proyecto 2/images/jerome-heuze-9kNKz7LBgfg-unsplash.jpg",
-										"/D:/hab/proyecto 2/images/jerome-heuze-317ZoppCty4-unsplash.jpg"
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 039.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 040.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 041.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 042.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 044.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 045.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 046.jpg",
+										"/C:/Users/eduar/OneDrive/Pictures/CAMILA/ABRIL  2008 049.jpg"
 									]
 								}
 							]
 						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/products/85",
+							"raw": "{{backendUrl}}/api/v1/products/5",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -339,7 +458,7 @@
 								"api",
 								"v1",
 								"products",
-								"85"
+								"5"
 							]
 						}
 					},
@@ -365,12 +484,12 @@
 					"response": []
 				},
 				{
-					"name": "GetProductDetails",
+					"name": "ListAllProductsByName",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/products/82",
+							"raw": "{{backendUrl}}/api/v1/products/search/?name=nintendo",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -378,7 +497,140 @@
 								"api",
 								"v1",
 								"products",
-								"82"
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "nintendo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListAllProductsByCategory",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/products/search/?category=consoles",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "consoles"
+								},
+								{
+									"key": "category",
+									"value": "games",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "pc",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "cloth",
+									"disabled": true
+								},
+								{
+									"key": "category",
+									"value": "controllers",
+									"disabled": true
+								},
+								{
+									"key": "categoty",
+									"value": "arcade",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListAllProductsByLocation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/products/search/?location=madrid",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "location",
+									"value": "madrid"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ListAllProductsByPrice",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/products/search/?price=ASC",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "price",
+									"value": "ASC"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetProductDetails",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/products/8",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"products",
+								"8"
 							]
 						}
 					},
@@ -400,8 +652,17 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/products/85\n",
+							"raw": "{{backendUrl}}/api/v1/products/4",
 							"host": [
 								"{{backendUrl}}"
 							],
@@ -409,14 +670,14 @@
 								"api",
 								"v1",
 								"products",
-								"85\n"
+								"4"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "BidOnProduct Copy",
+					"name": "DealsChatAsVendor",
 					"request": {
 						"method": "POST",
 						"header": [
@@ -426,16 +687,100 @@
 								"type": "text"
 							}
 						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30\",\r\n    \"address\":\"C/ Gran Vía, 32, 28013 Madrid\",\r\n    \"time\": \"2023-05-18T18:00\",\r\n    \"status\":\"completed\"\r\n}\r\n//status validos: \"approved\", \"rejected\" \"completed\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{backendUrl}}/api/v1/products/85\n",
+							"raw": "{{backendUrl}}/api/v1/deals/4",
 							"host": [
 								"{{backendUrl}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"products",
-								"85\n"
+								"deals",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DealsChatAsBuyer",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"message\": \"yo lo queria para hoy tio, gracias\",\r\n    \"address\":\"\",\r\n    \"time\": \"\",\r\n    \"status\":\"\"\r\n}\r\n//status validos: \"cancelled\", \"completed\", \"\" para no modificar",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/deals/4",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"deals",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Reviews",
+			"item": [
+				{
+					"name": "Review Deal",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{accessToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"comment\":\"Es un vendedor muy amable y puntual, el producto estaba en perfecto estado\",\r\n    \"score\": 5\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{backendUrl}}/api/v1/reviews/1",
+							"host": [
+								"{{backendUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reviews",
+								"1"
 							]
 						}
 					},
