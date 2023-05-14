@@ -2,8 +2,8 @@ const Joi = require('joi');
 const { throwError } = require('../../middlewares');
 const {
   findDealById,
-  findReviewsByDealId,
   addReview,
+  findExistingUserReviewsByDealId,
 } = require('../../repositories');
 
 const schema = Joi.object({
@@ -20,20 +20,30 @@ const reviewDealParticipantsController = async (req, res, next) => {
     await schema.validateAsync(req.body);
     const deal = await findDealById(idDeal);
     if (!deal) throwError(404, 'No existe esta venta');
-    const { idVendor, idBuyer, usernameVendor, usernameBuyer, idProduct } =
-      deal;
-    console.log(deal);
+    const {
+      idVendor,
+      idBuyer,
+      usernameVendor,
+      usernameBuyer,
+      idProduct,
+      statusDeal,
+    } = deal;
+
     if (idAuth !== idVendor && idAuth !== idBuyer)
       throwError(
         403,
         'Solo el comprador y el vendedor pueden valorar esta venta'
       );
-    const existingReviews = await findReviewsByDealId(idDeal);
+    if (statusDeal !== 'completed')
+      throwError(403, 'La venta no ha finalizado, aún no se puede valorar');
+    const verifyIfPreviouslyReviewed = await findExistingUserReviewsByDealId(
+      idDeal,
+      idAuth
+    );
+    if (verifyIfPreviouslyReviewed)
+      throwError(403, 'Ya haz valorado esta venta');
     let response;
     if (idAuth === idVendor) {
-      //   console.log(existingReviews);
-      if (existingReviews.idReviewer && existingReviews.idReviewer === idAuth)
-        throwError(403, 'Ya haz valorado esta venta');
       await addReview(
         idDeal,
         idProduct,
@@ -48,6 +58,26 @@ const reviewDealParticipantsController = async (req, res, next) => {
         data: {
           reviewer: usernameVendor,
           buyer: usernameBuyer,
+          score,
+          comments,
+        },
+      };
+    }
+    if (idAuth === idBuyer) {
+      await addReview(
+        idDeal,
+        idProduct,
+        idAuth,
+        idVendor,
+        'Vendor',
+        score,
+        comments
+      );
+      response = {
+        status: 'ok',
+        data: {
+          reviewer: usernameBuyer,
+          vendor: usernameVendor,
           score,
           comments,
         },

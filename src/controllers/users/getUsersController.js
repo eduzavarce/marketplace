@@ -1,5 +1,8 @@
 const { throwError } = require('../../middlewares');
-const { findAllDealsByUserId } = require('../../repositories');
+const {
+  findAllDealsByUserId,
+  findAllDealsChatHistoryByUserId,
+} = require('../../repositories');
 const { findUserById } = require('../../repositories/users/usersRepositories');
 
 const usersController = async (req, res, next) => {
@@ -17,11 +20,16 @@ const usersController = async (req, res, next) => {
     delete userData.type;
     delete userData.taxNumber;
 
+    const userChatHistory = await findAllDealsChatHistoryByUserId(id);
     const usersDealsHistory = await findAllDealsByUserId(id);
     res.status(200);
     res.send({
       status: 'ok',
-      data: { userData, usersDealsHistory },
+      data: {
+        userData,
+        dealsHistory: usersDealsHistory,
+        chatHistory: userChatHistory,
+      },
     });
   } catch (error) {
     next(error);

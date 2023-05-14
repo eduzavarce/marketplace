@@ -33,12 +33,6 @@ const dealsCommunicationController = async (req, res, next) => {
       usernameBuyer,
       statusDeal,
     } = deal;
-    console.log(
-      'username',
-      username,
-      usernameBuyer === username,
-      usernameBuyer
-    );
     const authorizedUsers = [usernameBuyer, usernameVendor];
     if (!authorizedUsers.includes(username))
       throwError(403, 'Error, usuario incorrecto');
@@ -73,8 +67,6 @@ const dealsCommunicationController = async (req, res, next) => {
         }
       }
 
-      console.log(previousMessages);
-      console.log(latestData);
       if (!latestData) {
         await addDealMessage(
           idDeal,

@@ -23,7 +23,7 @@ const validateAuth = async (req, res, next) => {
         name,
       };
     } catch {
-      throwError(400, 'Autorización no válida');
+      throwError(403, 'Autorización no válida');
     }
 
     next();

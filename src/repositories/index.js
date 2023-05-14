@@ -8,6 +8,7 @@ const {
   findDealDataByBuyerId,
   findAllDealsByUserId,
   findLatestMessageContentByDealId,
+  findAllDealsChatHistoryByUserId,
 } = require('./deals/dealsRepositories');
 const {
   createProduct,
@@ -27,6 +28,9 @@ const {
 const {
   findReviewsByDealId,
   addReview,
+  findExistingUserReviewsByDealId,
+  findAvgReviewsByUserId,
+  findAvgReviewsAsBuyerOrVendorByUserId,
 } = require('./reviews/reviewsRepositories');
 const {
   findUserById,
@@ -37,8 +41,10 @@ const {
   addUserVerificationDate,
   updateUser,
 } = require('./users/usersRepositories');
-
+findAllDealsChatHistoryByUserId;
 module.exports = {
+  findAvgReviewsAsBuyerOrVendorByUserId,
+  findAvgReviewsByUserId,
   findUserById,
   findUserByUsername,
   findUserByEmail,
@@ -70,4 +76,6 @@ module.exports = {
   findProductByCategory,
   sortProductByPriceAsc,
   sortProductByPriceDesc,
+  findExistingUserReviewsByDealId,
+  findAllDealsChatHistoryByUserId,
 };
