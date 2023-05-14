@@ -31,7 +31,7 @@ const findAllReviewsByUserId = async (id) => {
 const findAvgReviewsByUserId = async (id) => {
   const pool = await getPool();
   const sql = `
-    select idReviewed idUser ,avg(score) FROM reviews
+    select idReviewed idUser ,avg(score) avgScore FROM reviews
     where  idReviewed = ?
     group by idReviewed
 
