@@ -1,4 +1,5 @@
 const { createImageUrl } = require('../../helpers');
+const { throwError } = require('../../middlewares');
 const {
   findAllDealsByUserId,
   findAllDealsChatHistoryByUserId,
@@ -15,6 +16,8 @@ const ownUserController = async (req, res, next) => {
     const { username } = req.params;
 
     const userData = await findUserByUsername(username);
+    if (!userData) throwError(404, 'usuario no existe');
+
     delete userData.password;
     delete userData.verificationCode;
     delete userData.verifiedAt;

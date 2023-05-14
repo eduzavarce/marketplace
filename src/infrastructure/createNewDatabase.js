@@ -1,5 +1,23 @@
 require('dotenv').config();
-const getPool = require('./database');
+const mysql = require('mysql2/promise');
+
+const { DATABASE_HOST, DATABASE_PORT, DATABASE_USER, DATABASE_PASSWORD } =
+  process.env;
+
+let pool;
+
+const getPool = async () => {
+  if (!pool) {
+    pool = await mysql.createPool({
+      host: DATABASE_HOST,
+      port: DATABASE_PORT,
+      user: DATABASE_USER,
+      password: DATABASE_PASSWORD,
+      timezone: 'Z',
+    });
+  }
+  return pool;
+};
 
 const createNewDatabase = async () => {
   try {
@@ -34,13 +52,15 @@ const createNewDatabase = async () => {
         role ENUM('root', 'admin', 'user') DEFAULT 'user',
         verifiedAt DATETIME ,
         bio VARCHAR(255) ,
+        address VARCHAR(255) ,
+        city VARCHAR(255) ,
         region VARCHAR(45) ,
         country VARCHAR(45) ,
         locationLat VARCHAR(45) ,
         locationLong VARCHAR(45) ,
         type ENUM('store', 'regular') ,
-        taxNumber VARCHAR(45) ,
-        address VARCHAR(255) 
+        taxNumber VARCHAR(45) 
+       
         )`);
     await pool.query(`CREATE TABLE IF NOT EXISTS products (
         id  INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -53,9 +73,10 @@ const createNewDatabase = async () => {
         createdAt DATETIME DEFAULT now(),
         updatedAt DATETIME ,
         isActive BOOLEAN DEFAULT true,
+        address VARCHAR(200)  ,
+        city VARCHAR(200)  ,
         region VARCHAR(45) ,
         country VARCHAR(45) ,
-        address VARCHAR(200)  ,
         locationLat VARCHAR(45)  ,
         locationLong VARCHAR(45)  ,
         status ENUM('new', 'used', 'refurbished') NOT NULL,

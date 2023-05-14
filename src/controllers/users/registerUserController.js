@@ -1,7 +1,6 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const randomString = require('randomstring');
-const fs = require('fs/promises');
 
 const {
   findUserByEmail,
@@ -58,6 +57,7 @@ const registerUserController = async (req, res, next) => {
       status: 'ok',
       data: {
         id: user,
+        username,
         testVerificationLink: verificationLink,
       },
     });
