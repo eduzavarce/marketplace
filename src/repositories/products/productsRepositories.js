@@ -8,6 +8,7 @@ const createProduct = async (
   region,
   country,
   address,
+  city,
   locationLat,
   locationLong,
   idUser,
@@ -24,11 +25,12 @@ const createProduct = async (
     region,
     country,
     address,
+    city,
     locationLat,
     locationLong,
     idUser,
-    status) 
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`;
+    status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )`;
 
   const [response] = await pool.query(sql, [
     name,
@@ -39,6 +41,7 @@ const createProduct = async (
     region,
     country,
     address,
+    city,
     locationLat,
     locationLong,
     idUser,
@@ -65,6 +68,7 @@ const updateProduct = async (
   region,
   country,
   address,
+  city,
   locationLat,
   locationLong,
   status,
@@ -73,7 +77,7 @@ const updateProduct = async (
   const pool = await getPool();
   const sql = `
   UPDATE products SET
-  name=? ,description=? ,price=?,category=?,keywords=?,region=?, country=?, address=?,locationLat=?,locationLong=?,  status=? WHERE id=?;`;
+  name=? ,description=? ,price=?,category=?,keywords=?,region=?, country=?, address=?, city=?,locationLat=?,locationLong=?,  status=? WHERE id=?;`;
   await pool.query(sql, [
     name,
     description,
@@ -83,6 +87,7 @@ const updateProduct = async (
     region,
     country,
     address,
+    city,
     locationLat,
     locationLong,
     status,
@@ -121,6 +126,22 @@ const findProductByUserId = async (idUser) => {
     SELECT * FROM products
     WHERE idUser = ? `;
   const [products] = await pool.query(sql, idUser);
+  return products;
+};
+const findProductForResponsesByUserId = async (idUser) => {
+  const pool = await getPool();
+  const sql = `
+    SELECT id, name, description, price, category, keywords, status, isActive, city  FROM products
+    WHERE idUser = ? `;
+  const [products] = await pool.query(sql, idUser);
+  return products;
+};
+const findProductByCity = async (city) => {
+  const pool = await getPool();
+  const sql = `
+    SELECT * FROM products
+    WHERE city LIKE ? `;
+  const [products] = await pool.query(sql, '%' + city + '%');
   return products;
 };
 
@@ -183,6 +204,7 @@ const findProductForLocationSearch = async () => {
   return products;
 };
 module.exports = {
+  findProductByCity,
   findProductById,
   createProduct,
   insertLocationName,
@@ -198,4 +220,5 @@ module.exports = {
   sortProductByPriceDesc,
   findImagesByIdProduct,
   findProductByUserId,
+  findProductForResponsesByUserId,
 };

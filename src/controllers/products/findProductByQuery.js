@@ -1,11 +1,10 @@
-const sortByLocationName = require('../../helpers/sortLocation');
 const { throwError } = require('../../middlewares');
 const {
-  findProductForLocationSearch,
   findProductByName,
   findProductByCategory,
   sortProductByPriceAsc,
   sortProductByPriceDesc,
+  findProductByCity,
 } = require('../../repositories');
 
 const Joi = require('joi');
@@ -24,18 +23,29 @@ const findProductByQuery = async (req, res, next) => {
       'arcade'
     );
     if (location) {
-      const products = await findProductForLocationSearch();
-      const sorted = await sortByLocationName(location, products);
-      res.send(sorted);
+      const sorted = await findProductByCity(location);
+      res.status(200).send({
+        status: 'ok',
+        data: { products: sorted },
+      });
+      return;
     }
     if (name) {
       const sorted = await findProductByName(name);
-      res.send(sorted);
+      res.status(200).send({
+        status: 'ok',
+        data: { products: sorted },
+      });
+      return;
     }
     if (category) {
       await schemaCategory.validateAsync(category);
       const sorted = await findProductByCategory(category);
-      res.send(sorted);
+      res.status(200).send({
+        status: 'ok',
+        data: { products: sorted },
+      });
+      return;
     }
     if (price) {
       await schemaPrice.validateAsync(price);
@@ -44,7 +54,11 @@ const findProductByQuery = async (req, res, next) => {
         ? (sorted = await sortProductByPriceAsc())
         : (sorted = await sortProductByPriceDesc());
 
-      res.send(sorted);
+      res.status(200).send({
+        status: 'ok',
+        data: { products: sorted },
+      });
+      return;
     }
 
     if (query) {

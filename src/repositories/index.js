@@ -26,6 +26,8 @@ const {
   sortProductByPriceDesc,
   findImagesByIdProduct,
   findProductByUserId,
+  findProductForResponsesByUserId,
+  findProductByCity,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -45,6 +47,8 @@ const {
 } = require('./users/usersRepositories');
 
 module.exports = {
+  findProductByCity,
+  findProductForResponsesByUserId,
   findImagesByIdProduct,
   findAvgReviewsAsBuyerOrVendorByUserId,
   findAvgReviewsByUserId,

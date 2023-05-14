@@ -1,6 +1,6 @@
 const Joi = require('joi');
 const { HTTP_URL, PORT } = process.env;
-const { createProduct } = require('../../repositories');
+const { createProduct, findProductById } = require('../../repositories');
 const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
@@ -11,15 +11,17 @@ const schema = Joi.object().keys({
     .valid('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade')
     .required(),
   keywords: Joi.string().max(100),
-  region: Joi.string().max(45).required(),
-  country: Joi.string().max(45).required(),
-  address: Joi.string().max(255).required(),
+  region: Joi.string().max(45).allow(''),
+  country: Joi.string().max(45).allow(''),
+  address: Joi.string().max(200).allow(''),
+  city: Joi.string().max(200).required(),
   status: Joi.string().valid('new', 'used', 'refurbished').required(),
 });
 
 const createProductController = async (req, res, next) => {
   try {
     const { body, auth } = req;
+
     const { id } = auth;
     const {
       name,
@@ -29,6 +31,7 @@ const createProductController = async (req, res, next) => {
       region,
       country,
       address,
+      city,
       keywords,
       status,
     } = body;
@@ -39,16 +42,18 @@ const createProductController = async (req, res, next) => {
       category,
       keywords,
       region,
+      city,
       country,
       address,
       status,
     });
-
-    const fullAddress = `${address}, ${region}, ${country} `;
-    const coordinates = await findCoordinatesByLocationName(fullAddress);
-    const locationLat = coordinates.latitude;
-    const locationLong = coordinates.longitude;
-
+    let locationLat, locationLong;
+    if (address) {
+      const fullAddress = `${address}, ${region}, ${country} `;
+      const coordinates = await findCoordinatesByLocationName(fullAddress);
+      locationLat = coordinates.latitude;
+      locationLong = coordinates.longitude;
+    }
     const product = await createProduct(
       name,
       description,
@@ -58,17 +63,20 @@ const createProductController = async (req, res, next) => {
       region,
       country,
       address,
-      locationLat,
-      locationLong,
+      city,
+      locationLat ? locationLat : null,
+      locationLong ? locationLong : null,
       id,
       status
     );
+    const productInfo = await findProductById(product);
 
     res.status(200).send({
       status: 'ok',
       data: {
-        id: product,
+        productInfo,
         url: `http://${HTTP_URL}:${PORT}/api/v1/products/${product}`,
+        uploadImagesUrl: `http://${HTTP_URL}:${PORT}/api/v1/products/${product}`,
       },
     });
   } catch (error) {

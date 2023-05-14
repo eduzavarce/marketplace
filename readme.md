@@ -28,9 +28,10 @@
    ```json
    {
      "status": "ok",
+     "message": "verification email sent",
      "data": {
-       "id": "1",
-       "testVerificationLink": "http://localhost:3000/api/vi/user/activate/code=[verificationCode]"
+       "id": 13,
+       "username": "username"
      }
    }
    ```
@@ -44,7 +45,8 @@
    ```json
    {
      "status": "ok",
-     "message": "Email verificado correctamente"
+     "message": "Email verificado correctamente",
+     "profileUrl": "http://localhost:3000/users/private/userneame (url para editar perfil en el navegador, no existe aun)"
    }
    ```
 
@@ -67,8 +69,8 @@
         {
             "status":"ok",
             "data":{
-                "accessToken": "eyJhfasdGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsIm5hbWUiOiJQZXBpdasdgUMOhZXoiLCJlbWFpbCI6ImVkdXphdmFyY2UrMDVAZ21haWwuY29tIiwicm9sZSI6InJlYWRlciIsImVqZW1wbG8iOiJhc2RmIiwiaWF0IjoxNjgzNTg2NjQ3LCJleHAiOjE2ODM1OTc0NDd9.4i2wIjZGwEoEqewI8uDkH8yNw4Sz3OF6b549lY_mJlw",
-                "expiresIn": "20m"
+                "accessToken": "eyJhfasdGciOiJIUzI1jiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsIm5hbWsiOiJQZXBpdasdgUMOhZXoiLCJlbWFpbCI6ImVkdXphdmFyY2UrMDVAZ21haWwuY29tIiwicm9sZSI6InJlYWRlciIsImVqZW1wbG8iOiJhc2RmIiwiaWF0IjoxNjgzNTg2NjQ3LCJleHAiOjE2ODM1OTc0NDd9.4i2wIjZGwEoEqewI8uDkH8yNp4Sz3OF6b549lY_mJlw",
+                "expiresIn": "1y"
             }
         }
    ```
@@ -81,29 +83,126 @@
 
    ```Json
        {
-           "[username]":"username",
-           "[password]":"xxxx",
-           "[repeatPassword]":"xxxx",
-           "[name]":"name",
-           "[lastName]":"last name/s",
-           "[avatar]":"image.jpg",
-           "[bio]":"texto información del usuario",
-           "[address]":"Calle principal, 23, Madrid",
-           "[region]":"Madrid",
-           "[country]":"España"
-       }
+      "[name]" : "John",
+      "[lastname]": "Doe",
+      "[password]": "asdasd",
+      "[repeatPassword]":"asdasd",
+      "[bio]":"warrior@hackaboss",
+      "[country]":"españa",
+      "[region]":"cataluña",
+       "[address]":"",
+       "[city]":"barcelona",
+       "[avatar]":"{file.png}"
+    }
    ```
 
    Respuesta esperada:
 
    ```Json
-        {
-            "status":"ok",
-            "message": "Datos actualizados correctamente"
-        }
+      {
+    "status": "ok",
+    "data": {
+        "id": 3,
+        "username": "username",
+        "name": "John",
+        "lastName": "Doe",
+        "email": "something2@gmail.com",
+        "avatar": "3_wZAdHT9mHVhi.png",
+        "createdAt": "2023-05-09T18:28:35.000Z",
+        "isActive": 1,
+        "role": "user",
+        "bio": "warrior@hackaboss",
+        "address": null,
+        "city": "barcelona",
+        "region": "cataluña",
+        "country": "españa",
+        "locationLat": null,
+        "locationLong": null,
+        "avatarUrl": "http://localhost:3000/users/3/3_wZAdHT9mHVhi.png"
+    }
+   }
    ```
 
 5. Datos del usuario (usuario autenticado)
+
+GET http://www.url.com/api/v1/users/private/:username
+
+Respuesta esperada:
+
+```Json
+    {
+    "status": "ok",
+    "data": {
+        "userData": {
+            "id": 3,
+            "username": "vendedor",
+            "name": "John",
+            "lastName": "Doe",
+            "email": "something@gmail.com",
+            "avatar": "3_wZAdHT9mHVhi.png",
+            "createdAt": "2023-05-09T18:28:35.000Z",
+            "isActive": 1,
+            "role": "user",
+            "bio": "warrior@hackaboss",
+            "address": null,
+            "city": "barcelona",
+            "region": "cataluña",
+            "country": "españa",
+            "locationLat": null,
+            "locationLong": null,
+            "avgScore": "4.2500",
+            "avatarUrl": "http://localhost:3000/users/3/3_wZAdHT9mHVhi.png"
+        },
+        "products": [
+            {
+                "id": 1,
+                "name": "ATARI",
+                "description": "ATARI 2600",
+                "price": "50.00",
+                "category": "games",
+                "keywords": "CONSOLA PACMAN GALAXY",
+                "status": "new",
+                "isActive": 0,
+                "city": "zaragoza",
+                "images": []
+            },
+            {
+                "id": 2,
+                "name": "ATARI",
+                "description": "ATARI 2600",
+                "price": "50.00",
+                "category": "games",
+                "keywords": "CONSOLA PACMAN GALAXY",
+                "status": "new",
+                "isActive": 0,
+                "city": "madrid",
+                "images": []
+            },
+        ],
+        "dealsHistory": [
+            {
+                "status": "requested",
+                "idDeal": 4,
+                "idBuyer": 8,
+                "name": "sega",
+                "idVendor": 3,
+                "usernameVendor": "vendedor"
+            },
+            {
+                "status": "completed",
+                "idDeal": 1,
+                "idBuyer": 8,
+                "name": "ATARI",
+                "idVendor": 3,
+                "usernameVendor": "vendedor"
+            }
+        ],
+        "chatHistory": []
+    }
+}
+```
+
+6. Datos de otro usuario
 
 GET http://www.url.com/api/v1/users/:username
 
@@ -114,52 +213,24 @@ Respuesta esperada:
     "status": "ok",
     "data": {
         "userData": {
-            "id": 15,
-            "username": "johndoe",
-            "name": "john",
-            "lastName": "doe",
-            "email": "johndoe@gmail.com",
-            "avatar": "default-avatar.png",
-            "createdAt": "2023-05-12T18:32:28.000Z",
-            "isActive": 1,
-            "role": "user",
-            "bio": "tipo pesado",
-            "region": "Tarragona",
-            "country": "España",
-            "address": "calle 4 cambirls"
+            "username": "vendedor",
+            "avatar": null,
+            "bio": null,
+            "avgScore": "4.0000",
+            "avatarUrl": "http://localhost:3000/users/default-avatar.png"
         },
-        "usersDealsHistory": [
+        "products": [
             {
-                "status": "requested",
-                "idDeal": 3,
-                "idBuyer": 15,
-                "name": "ATARI",
-                "idVendor": 1,
-                "usernameVendor": "admin"
-            },
-            {
-                "status": "requested",
-                "idDeal": 4,
-                "idBuyer": 15,
-                "name": "ATARI",
-                "idVendor": 1,
-                "usernameVendor": "admin"
-            },
-            {
-                "status": "requested",
-                "idDeal": 5,
-                "idBuyer": 15,
+                "id": 4,
                 "name": "NINTENDO",
-                "idVendor": 4,
-                "usernameVendor": "juanito"
-            },
-            {
-                "status": "requested",
-                "idDeal": 6,
-                "idBuyer": 15,
-                "name": "NINTENDO",
-                "idVendor": 4,
-                "usernameVendor": "juanito"
+                "description": "NES",
+                "price": "70.00",
+                "category": "consoles",
+                "keywords": "mario zelda nes contra",
+                "status": "used",
+                "isActive": 1,
+                "city": "madrid",
+                "images": []
             }
         ]
     }
@@ -176,16 +247,17 @@ Respuesta esperada:
 
    ```Json
        {
-           "name":"nombre del producto",
-           "description":"descripción del producto",
-           "price":299.99,
-           "category":"console",
-           "keywords":"consola Nintendo Zelda",
-           "idUser":"6",
-           "address":"Madrid, España" || "[location]":"41.0570167, 1.0284417",
-           "defaultPicture":"product.png",
-           "status":"used || new || refurbished"
-        }
+        "name":"NES Nintendo original",
+        "description":"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+        "price":299.99,
+        "category":"consoles",
+        "keywords":"consola Nintendo Zelda",
+        "address":"",
+        "region":"",
+        "country":"",
+        "city":"barcelona",
+        "status":"used"
+     }
    ```
 
    Respuesta esperada:
@@ -194,8 +266,27 @@ Respuesta esperada:
    {
      "status": "ok",
      "data": {
-       "id": "85",
-       "url": "http://www.url.com/api/v1/products/:85"
+       "productInfo": {
+         "id": 16,
+         "name": "NES Nintendo original",
+         "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+         "price": "299.99",
+         "category": "consoles",
+         "keywords": "consola Nintendo Zelda",
+         "idUser": 3,
+         "createdAt": "2023-05-14T20:28:36.000Z",
+         "updatedAt": null,
+         "isActive": 1,
+         "address": "",
+         "city": "coruña",
+         "region": "",
+         "country": "",
+         "locationLat": null,
+         "locationLong": null,
+         "status": "used"
+       },
+       "url": "http://localhost:3000/api/v1/products/16",
+       "uploadImagesUrl": "http://localhost:3000/api/v1/products/16"
      }
    }
    ```
@@ -207,15 +298,16 @@ Body petición:
 
 ```Json
     {
-        "[name]":"nombre del producto",
-        "[description]":"descripción del producto",
-        "[price]":299.99,
-        "[category]":"console",
-        "[keywords]":"consola Nintendo Zelda",
-        "[idUser]":"6",
-        "[locationName]":"Madrid, España" || "[location]":"41.0570167, 1.0284417",
-        "[defaultPicture]":"product.png",
-        "[status]":"used || new || refurbished"
+        "name":"NES Nintendo original",
+        "description":"Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+        "price":299.99,
+        "category":"consoles",
+        "keywords":"consola Nintendo Zelda",
+        "country":"españa",
+        "region":"",
+        "address":"",
+        "city":"coruña",
+        "status":"refurbished"
      }
 ```
 
@@ -225,8 +317,23 @@ Respuesta esperada:
 {
   "status": "ok",
   "data": {
-    "id": "85",
-    "url": "http://www.url.com/api/v1/products/:85"
+    "id": 8,
+    "name": 8,
+    "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+    "price": "299.99",
+    "category": "consoles",
+    "url": "localhost:3000/api/vi/products/3",
+    "pictures": [
+      "http://localhost:3000/products/8/8_TqG2nAH5Jyys.png",
+      "http://localhost:3000/products/8/8_VtnntHAj4XCg.png",
+      "http://localhost:3000/products/8/8_L0WmOSL73j8a.png",
+      "http://localhost:3000/products/8/8_RmxLpFSCeyWr.png",
+      "http://localhost:3000/products/8/8_OoVc3FXwUDmG.png",
+      "http://localhost:3000/products/8/8_QAZosS8uwAd6.png",
+      "http://localhost:3000/products/8/8_MeJGf0MgPyTB.png",
+      "http://localhost:3000/products/8/8_afsGOE5JARN2.png",
+      "http://localhost:3000/products/8/8_dYRsJqK2DAny.png"
+    ]
   }
 }
 ```
@@ -236,13 +343,9 @@ Respuesta esperada:
 PUT http://www.url.com/api/v1/products/:85
 
 ```Json
+  //se introducen en formdata con el key "images, maximo 10 fotos"
       {
-          "[image1]":"image1.jpg",
-          "[image2]":"image2.png",
-          "[image3]":"image3.webp",
-          "[image4]":"image4.bmp",
-          "[image5]":"image5.bmp",
-
+          "images":["image1.jpg","image2.png","image3.webp","image4.bmp","image5.bmp"]
        }
 ```
 
@@ -252,10 +355,13 @@ Respuesta esperada:
 {
   "status": "ok",
   "data": {
-    "id": "1",
+    "id": "7",
     "imageList": {
-      "image 1": "http://localhost:3000/api/v1/products/1/HO4JY9UdfHQy.png",
-      "image 2": "http://localhost:3000/api/v1/products/1/LDrmdssU4jzX.png"
+      "image 1": "http://localhost:3000/api/v1/products/7/7_np7DAUbD4xii.png",
+      "image 2": "http://localhost:3000/api/v1/products/7/7_HOoopAuqOVPk.png",
+      "image 3": "http://localhost:3000/api/v1/products/7/7_QmDL59oElLjJ.png",
+      "image 4": "http://localhost:3000/api/v1/products/7/7_uULMkEUznrEf.png",
+      "image 5": "http://localhost:3000/api/v1/products/7/7_Y3IecEueg3tP.png"
     }
   }
 }
@@ -270,48 +376,299 @@ Respuesta esperada:
 ```json
 {
   "status": "ok",
-  "data": [
+  "products": [
     {
-      "id": 85,
-      "name": "nombre del producto",
-      "description": "descripción del producto",
-      "precio": 299.99,
-      "category": "console",
-      "keywords": "consola Nintendo Zelda",
-      "locationName": "Madrid, España",
-      "defaultPicture": "product.png",
-      "url": "http://www.url.com/api/v1/products/:85",
-      "status": "used"
+      "id": 1,
+      "name": "ATARI",
+      "description": "ATARI 2600",
+      "price": "50.00",
+      "category": "games",
+      "keywords": "CONSOLA PACMAN GALAXY",
+      "idUser": 3,
+      "createdAt": "2023-05-14T14:48:34.000Z",
+      "updatedAt": null,
+      "isActive": 0,
+      "address": null,
+      "city": "zaragoza",
+      "region": null,
+      "country": null,
+      "locationLat": null,
+      "locationLong": null,
+      "status": "new",
+      "images": []
     },
     {
-      "id": 86,
-      "name": "nombre del producto",
-      "description": "descripción del producto",
-      "precio": 299.99,
-      "sellerName": "Pepita",
-      "category": "console",
+      "id": 8,
+      "name": "NES Nintendo original",
+      "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+      "price": "299.99",
+      "category": "consoles",
       "keywords": "consola Nintendo Zelda",
-      "locationName": "Madrid, España",
-      "defaultPicture": "product.png",
-      "status": "used"
-    },
-    {
-      "id": 87,
-      "name": "nombre del producto",
-      "description": "descripción del producto",
-      "precio": 299.99,
-      "sellerName": "Pepita",
-      "category": "console",
-      "keywords": "consola Nintendo Zelda",
-      "locationName": "Madrid, España",
-      "defaultPicture": "product.png",
-      "status": "used"
+      "idUser": 3,
+      "createdAt": "2023-05-14T17:25:14.000Z",
+      "updatedAt": null,
+      "isActive": 1,
+      "address": null,
+      "city": "coruña",
+      "region": null,
+      "country": "spain",
+      "locationLat": "40.968136",
+      "locationLong": "-5.662155",
+      "status": "used",
+      "images": [
+        "http://localhost:3000/products/8/8_TqG2nAH5Jyys.png",
+        "http://localhost:3000/products/8/8_VtnntHAj4XCg.png",
+        "http://localhost:3000/products/8/8_L0WmOSL73j8a.png",
+        "http://localhost:3000/products/8/8_RmxLpFSCeyWr.png",
+        "http://localhost:3000/products/8/8_OoVc3FXwUDmG.png",
+        "http://localhost:3000/products/8/8_QAZosS8uwAd6.png",
+        "http://localhost:3000/products/8/8_MeJGf0MgPyTB.png",
+        "http://localhost:3000/products/8/8_afsGOE5JARN2.png",
+        "http://localhost:3000/products/8/8_dYRsJqK2DAny.png"
+      ]
     }
   ]
 }
 ```
 
-5. Detalles de un producto (público):
+5. Listar todos los productos por nombre (público):
+   GET http://www.url.com/api/v1/products/search/?name=nintendo
+
+Respuesta esperada:
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "products": [
+      {
+        "id": 4,
+        "name": "NINTENDO",
+        "description": "NES",
+        "price": "70.00",
+        "category": "consoles",
+        "keywords": "mario zelda nes contra",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "Barcelona, España",
+        "city": "madrid",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "used"
+      },
+      {
+        "id": 5,
+        "name": "NES Nintendo original",
+        "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+        "price": "299.99",
+        "category": "consoles",
+        "keywords": "consola Nintendo Zelda",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "zaragoza",
+        "city": "coruña",
+        "region": null,
+        "country": "españa",
+        "locationLat": null,
+        "locationLong": null,
+        "status": "refurbished"
+      }
+    ]
+  }
+}
+```
+
+6. Listar todos los productos por categoría (público):
+
+GET http://www.url.com/api/v1/products/search/?category=consoles
+
+Categorías válidas:
+
+'consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade'
+
+Respuesta esperada:
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "products": [
+      {
+        "id": 4,
+        "name": "NINTENDO",
+        "description": "NES",
+        "price": "70.00",
+        "category": "consoles",
+        "keywords": "mario zelda nes contra",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "Barcelona, España",
+        "city": "madrid",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "used"
+      },
+      {
+        "id": 5,
+        "name": "NES Nintendo original",
+        "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+        "price": "299.99",
+        "category": "consoles",
+        "keywords": "consola Nintendo Zelda",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "zaragoza",
+        "city": "coruña",
+        "region": null,
+        "country": "españa",
+        "locationLat": null,
+        "locationLong": null,
+        "status": "refurbished"
+      }
+    ]
+  }
+}
+```
+
+7. Listar todos los productos por localidad (público):
+
+GET http://www.url.com/api/v1/products/search/?location=madrid
+
+Respuesta esperada:
+
+`````json
+{
+    "status": "ok",
+    "data": {
+        "products": [
+            {
+                "id": 2,
+                "name": "ATARI",
+                "description": "ATARI 2600",
+                "price": "50.00",
+                "category": "games",
+                "keywords": "CONSOLA PACMAN GALAXY",
+                "idUser": 3,
+                "createdAt": "2023-05-14T14:48:34.000Z",
+                "updatedAt": null,
+                "isActive": 0,
+                "address": "Madrid, España",
+                "city": "madrid",
+                "region": null,
+                "country": null,
+                "locationLat": null,
+                "locationLong": null,
+                "status": "new"
+            },
+            {
+                "id": 4,
+                "name": "NINTENDO",
+                "description": "NES",
+                "price": "70.00",
+                "category": "consoles",
+                "keywords": "mario zelda nes contra",
+                "idUser": 3,
+                "createdAt": "2023-05-14T14:48:34.000Z",
+                "updatedAt": null,
+                "isActive": 1,
+                "address": "Barcelona, España",
+                "city": "madrid",
+                "region": null,
+                "country": null,
+                "locationLat": null,
+                "locationLong": null,
+                "status": "used"
+            }
+        ]
+    }
+}```
+
+8. Listar todos los productos por precio (público):
+
+GET http://www.url.com/api/v1/products/search/?price=ASC
+
+Respuesta esperada:
+
+````json
+{
+    "status": "ok",
+    "data": {
+        "products": [
+            {
+                "id": 3,
+                "name": "ATARI",
+                "description": "ATARI 2600",
+                "price": "50.00",
+                "category": "games",
+                "keywords": "CONSOLA PACMAN GALAXY",
+                "idUser": 3,
+                "createdAt": "2023-05-14T14:48:34.000Z",
+                "updatedAt": null,
+                "isActive": 0,
+                "address": "Madrid, España",
+                "city": "zaragoza",
+                "region": null,
+                "country": null,
+                "locationLat": null,
+                "locationLong": null,
+                "status": "new"
+            },
+            {
+                "id": 7,
+                "name": "sega",
+                "description": "sega genesis",
+                "price": "60.00",
+                "category": "consoles",
+                "keywords": "sonic sega",
+                "idUser": 3,
+                "createdAt": "2023-05-14T14:48:34.000Z",
+                "updatedAt": null,
+                "isActive": 0,
+                "address": "Valencia",
+                "city": "barcelona",
+                "region": null,
+                "country": null,
+                "locationLat": null,
+                "locationLong": null,
+                "status": "refurbished"
+            },
+            {
+                "id": 4,
+                "name": "NINTENDO",
+                "description": "NES",
+                "price": "70.00",
+                "category": "consoles",
+                "keywords": "mario zelda nes contra",
+                "idUser": 3,
+                "createdAt": "2023-05-14T14:48:34.000Z",
+                "updatedAt": null,
+                "isActive": 1,
+                "address": "Barcelona, España",
+                "city": "madrid",
+                "region": null,
+                "country": null,
+                "locationLat": null,
+                "locationLong": null,
+                "status": "used"
+            }
+        ]
+    }
+}
+```
+
+9. Detalles de un producto (público):
 
 GET http://www.url.com/api/v1/products/:85
 
@@ -320,22 +677,33 @@ Respuesta esperada:
 ```json
 {
   "status": "ok",
-  "data": [
-    {
-      "id": 85,
-      "name": "nombre del producto",
-      "description": "descripción del producto",
-      "precio": 299.99,
-      "sellerName": "Pepita",
-      "category": "console",
-      "keywords": "consola Nintendo Zelda",
-      "locationName": "Madrid, España",
-      "defaultPicture": "product.png",
-      "status": "used"
-    }
-  ]
+  "data": {
+    "id": 8,
+    "name": "NES Nintendo original",
+    "description": "Consola original Nintendo NES con controles, pistola y alfombra. todo en buen estado!",
+    "city": "madrid",
+    "price": "299.99",
+    "category": "consoles",
+    "vendorInfo": {
+      "username": "vendedor",
+      "profileUrl": "http://localhost:3000/api/v1/users/vendedor",
+      "avgScore": "4.0000"
+    },
+    "url": "localhost:3000/api/vi/products/8",
+    "pictures": [
+      "http://localhost:3000/products/8/8_TqG2nAH5Jyys.png",
+      "http://localhost:3000/products/8/8_VtnntHAj4XCg.png",
+      "http://localhost:3000/products/8/8_L0WmOSL73j8a.png",
+      "http://localhost:3000/products/8/8_RmxLpFSCeyWr.png",
+      "http://localhost:3000/products/8/8_OoVc3FXwUDmG.png",
+      "http://localhost:3000/products/8/8_QAZosS8uwAd6.png",
+      "http://localhost:3000/products/8/8_MeJGf0MgPyTB.png",
+      "http://localhost:3000/products/8/8_afsGOE5JARN2.png",
+      "http://localhost:3000/products/8/8_dYRsJqK2DAny.png"
+    ]
+  }
 }
-```
+`````
 
 ### Proceso de reserva y venta:
 
@@ -344,37 +712,26 @@ Respuesta esperada:
 
 POST http://www.url.com/api/v1/products/:idProduct
 
-Respuesta esperada:
+Respuesta esperada si el producto ya está reservado:
+
+```json
+{
+  "status": "error",
+  "code": 403,
+  "error": "Producto no disponible"
+}
+```
+
+Respuesta esperada si el producto está disponible:
 
 ```json
 {
   "status": "ok",
-  "message": "enviado email de petición de reserva del producto",
+  "message": "enviado emails donde comprador y vendedor se pueden comunicar y cambiar el estado de la venta",
   "data": {
-    "id": 41,
-    "sellerUsername": 1,
-    "productId": "3",
-    "productName": "ATARI",
-    "productPrice": "50.00",
-    "productImages": [
-      {
-        "imageName": "image1.png",
-        "imageUrl": "http://localhost:3000/api/v1/products/3/image1.png"
-      },
-      {
-        "imageName": "image2.png",
-        "imageUrl": "http://localhost:3000/api/v1/products/3/image2.png"
-      },
-      {
-        "imageName": "image3.png",
-        "imageUrl": "http://localhost:3000/api/v1/products/3/image3.png"
-      },
-      {
-        "imageName": "image4.png",
-        "imageUrl": "http://localhost:3000/api/v1/products/3/image4.png"
-      }
-    ],
-    "productUrl": "http://localhost:3000/api/v1/products/3"
+    "id": 6,
+    "productName": "NES Nintendo original",
+    "productUrl": "http://localhost:3000/api/v1/products/9"
   }
 }
 ```
@@ -389,19 +746,20 @@ Tanto el comprador como el vendedor pueden dejar campos en blanco (como "")si no
 
 ```Json
 //Mensajes del vendedor
-     {
-    "message": "Contenido del mensaje hasta 500 caracteres",
-    "address":"Calle grande, 4, Ciudad ",
-    "time": "2023-05-18T16:45",
-    "status":"accepted" // Default accepted, el vendedor lo puede cambiar por "approved", "rejected" o "completed" en caso de ser completed recibirá un email con un link para valorar la venta
+{
+    "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+    "address":"C/ Gran Vía, 32, 28013 Madrid",
+    "time": "2023-05-18T18:00",
+    "status":"completed"
 }
-//mensajes del comprador
-     {
-    "message": "Contenido del mensaje hasta 500 caracteres",
+//status validos: "approved", "rejected" "completed", "" para no modificar
+{
+    "message": "yo lo queria para hoy tio, gracias",
     "address":"",
     "time": "",
-    "status":"cancelled" // Default accepted, el vendedor lo puede cambiar por "approved", "cancelled" o "completed" en caso de ser completed recibirá un email con un link para valorar la venta
+    "status":""
 }
+//status validos: "cancelled", "completed", "" para no modificar
 
 ```
 
@@ -413,56 +771,34 @@ Respuesta esperada:
   "status": "ok",
   "sender": "comprador",
   "content": {
-    "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+    "message": "yo lo queria para hoy tio, gracias",
     "address": "",
     "time": "",
-    "status": ""
+    "status": "cancelled"
   },
   "currentDealDetails": {
-    "idProduct": 1,
-    "nameProduct": "ATARI",
-    "idVendor": 14,
-    "usernameVendor": "janedoe",
-    "emailVendor": "janedoe@gmail.com",
-    "idBuyer": 15,
-    "usernameBuyer": "johndoe",
-    "emailBuyer": "johndoe@gmail.com",
-    "statusDeal": "requested",
-    "idDeal": 7
+    "idProduct": 9,
+    "nameProduct": "NES Nintendo original",
+    "idVendor": 3,
+    "usernameVendor": "vendedor",
+    "emailVendor": "eduzavarce+2@gmail.com",
+    "idBuyer": 8,
+    "usernameBuyer": "comprador",
+    "emailBuyer": "eduzavarce+7@gmail.com",
+    "statusDeal": "cancelled",
+    "idDeal": 6
   },
   "messageLog": [
     {
-      "id": 3,
-      "idDeal": 7,
-      "idSender": 15,
-      "idRecipient": 14,
-      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
-      "location": "",
-      "proposedDate": null,
-      "status": "requested",
-      "createdAt": "2023-05-13T06:00:10.000Z"
-    },
-    {
-      "id": 2,
-      "idDeal": 7,
-      "idSender": 15,
-      "idRecipient": 14,
-      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
-      "location": "",
-      "proposedDate": null,
-      "status": "requested",
-      "createdAt": "2023-05-13T05:58:41.000Z"
-    },
-    {
       "id": 1,
-      "idDeal": 7,
-      "idSender": 15,
-      "idRecipient": 14,
-      "message": "Hola!, el ATARI tiene todos sus mandos?, ¿Cuándo podemos quedar?. Gracias!",
+      "idDeal": 6,
+      "idSender": 8,
+      "idRecipient": 3,
+      "message": "yo lo queria para hoy tio, gracias",
       "location": "",
       "proposedDate": null,
-      "status": "requested",
-      "createdAt": "2023-05-13T05:57:39.000Z"
+      "status": "cancelled",
+      "createdAt": "2023-05-14T20:42:46.000Z"
     }
   ]
 }
@@ -491,9 +827,10 @@ Respuesta esperada:
 ```json
 {
   "status": "ok",
-  "data"{
-     "rating":3,
-     "comment":"comentario de valoración de experiencia",
+  "data": {
+    "reviewer": "comprador",
+    "vendor": "vendedor",
+    "score": 5
   }
 }
 ```

@@ -37,7 +37,7 @@ const findAvgReviewsByUserId = async (id) => {
 
     `;
   const [reviews] = await pool.query(sql, [id]);
-  return reviews;
+  return reviews[0];
 };
 const findAvgReviewsAsBuyerOrVendorByUserId = async (id) => {
   const pool = await getPool();
