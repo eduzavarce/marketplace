@@ -155,6 +155,15 @@ const insertProductImageName = async (idProduct, fileName) => {
   const sql = `INSERT INTO productImages(fileName, idProduct)VALUES (?, ?)`;
   await pool.query(sql, [fileName, idProduct]);
 };
+const findImagesByIdProduct = async (id) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT fileName, isDefault FROM productImages
+  WHERE idProduct =?
+  `;
+  const [images] = await pool.query(sql, id);
+  return images;
+};
 
 const findProductForLocationSearch = async () => {
   const pool = await getPool();
@@ -177,4 +186,5 @@ module.exports = {
   findProductByCategory,
   sortProductByPriceAsc,
   sortProductByPriceDesc,
+  findImagesByIdProduct,
 };
