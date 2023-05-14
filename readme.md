@@ -4,6 +4,22 @@
 
     Backend para plataforma de venta de artículos retro gaming nuevos o usados directamente entre usuarios......
 
+## Configuración inicial:
+
+1. Para crear la base de datos:
+
+```bash
+npm run createDatabase
+```
+
+2. Para insertar algunos datos de usuarios, productos, etc:
+
+```bash
+npm run fillDatabase
+```
+
+3.  Archivos de configuración Postman en `/docs/postman`, hay uno de enviroments para grabar la url y el access token automáticamente cuando se hace login.
+
 ## Endpoints
 
 ### Usuarios:
@@ -548,52 +564,53 @@ GET http://www.url.com/api/v1/products/search/?location=madrid
 
 Respuesta esperada:
 
-`````json
+```json
 {
-    "status": "ok",
-    "data": {
-        "products": [
-            {
-                "id": 2,
-                "name": "ATARI",
-                "description": "ATARI 2600",
-                "price": "50.00",
-                "category": "games",
-                "keywords": "CONSOLA PACMAN GALAXY",
-                "idUser": 3,
-                "createdAt": "2023-05-14T14:48:34.000Z",
-                "updatedAt": null,
-                "isActive": 0,
-                "address": "Madrid, España",
-                "city": "madrid",
-                "region": null,
-                "country": null,
-                "locationLat": null,
-                "locationLong": null,
-                "status": "new"
-            },
-            {
-                "id": 4,
-                "name": "NINTENDO",
-                "description": "NES",
-                "price": "70.00",
-                "category": "consoles",
-                "keywords": "mario zelda nes contra",
-                "idUser": 3,
-                "createdAt": "2023-05-14T14:48:34.000Z",
-                "updatedAt": null,
-                "isActive": 1,
-                "address": "Barcelona, España",
-                "city": "madrid",
-                "region": null,
-                "country": null,
-                "locationLat": null,
-                "locationLong": null,
-                "status": "used"
-            }
-        ]
-    }
-}```
+  "status": "ok",
+  "data": {
+    "products": [
+      {
+        "id": 2,
+        "name": "ATARI",
+        "description": "ATARI 2600",
+        "price": "50.00",
+        "category": "games",
+        "keywords": "CONSOLA PACMAN GALAXY",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 0,
+        "address": "Madrid, España",
+        "city": "madrid",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "new"
+      },
+      {
+        "id": 4,
+        "name": "NINTENDO",
+        "description": "NES",
+        "price": "70.00",
+        "category": "consoles",
+        "keywords": "mario zelda nes contra",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "Barcelona, España",
+        "city": "madrid",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "used"
+      }
+    ]
+  }
+}
+```
 
 8. Listar todos los productos por precio (público):
 
@@ -601,70 +618,70 @@ GET http://www.url.com/api/v1/products/search/?price=ASC
 
 Respuesta esperada:
 
-````json
+```json
 {
-    "status": "ok",
-    "data": {
-        "products": [
-            {
-                "id": 3,
-                "name": "ATARI",
-                "description": "ATARI 2600",
-                "price": "50.00",
-                "category": "games",
-                "keywords": "CONSOLA PACMAN GALAXY",
-                "idUser": 3,
-                "createdAt": "2023-05-14T14:48:34.000Z",
-                "updatedAt": null,
-                "isActive": 0,
-                "address": "Madrid, España",
-                "city": "zaragoza",
-                "region": null,
-                "country": null,
-                "locationLat": null,
-                "locationLong": null,
-                "status": "new"
-            },
-            {
-                "id": 7,
-                "name": "sega",
-                "description": "sega genesis",
-                "price": "60.00",
-                "category": "consoles",
-                "keywords": "sonic sega",
-                "idUser": 3,
-                "createdAt": "2023-05-14T14:48:34.000Z",
-                "updatedAt": null,
-                "isActive": 0,
-                "address": "Valencia",
-                "city": "barcelona",
-                "region": null,
-                "country": null,
-                "locationLat": null,
-                "locationLong": null,
-                "status": "refurbished"
-            },
-            {
-                "id": 4,
-                "name": "NINTENDO",
-                "description": "NES",
-                "price": "70.00",
-                "category": "consoles",
-                "keywords": "mario zelda nes contra",
-                "idUser": 3,
-                "createdAt": "2023-05-14T14:48:34.000Z",
-                "updatedAt": null,
-                "isActive": 1,
-                "address": "Barcelona, España",
-                "city": "madrid",
-                "region": null,
-                "country": null,
-                "locationLat": null,
-                "locationLong": null,
-                "status": "used"
-            }
-        ]
-    }
+  "status": "ok",
+  "data": {
+    "products": [
+      {
+        "id": 3,
+        "name": "ATARI",
+        "description": "ATARI 2600",
+        "price": "50.00",
+        "category": "games",
+        "keywords": "CONSOLA PACMAN GALAXY",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 0,
+        "address": "Madrid, España",
+        "city": "zaragoza",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "new"
+      },
+      {
+        "id": 7,
+        "name": "sega",
+        "description": "sega genesis",
+        "price": "60.00",
+        "category": "consoles",
+        "keywords": "sonic sega",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 0,
+        "address": "Valencia",
+        "city": "barcelona",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "refurbished"
+      },
+      {
+        "id": 4,
+        "name": "NINTENDO",
+        "description": "NES",
+        "price": "70.00",
+        "category": "consoles",
+        "keywords": "mario zelda nes contra",
+        "idUser": 3,
+        "createdAt": "2023-05-14T14:48:34.000Z",
+        "updatedAt": null,
+        "isActive": 1,
+        "address": "Barcelona, España",
+        "city": "madrid",
+        "region": null,
+        "country": null,
+        "locationLat": null,
+        "locationLong": null,
+        "status": "used"
+      }
+    ]
+  }
 }
 ```
 
@@ -703,7 +720,7 @@ Respuesta esperada:
     ]
   }
 }
-`````
+```
 
 ### Proceso de reserva y venta:
 
