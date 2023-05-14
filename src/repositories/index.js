@@ -24,6 +24,7 @@ const {
   findProductByName,
   sortProductByPriceAsc,
   sortProductByPriceDesc,
+  findImagesByIdProduct,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -41,8 +42,9 @@ const {
   addUserVerificationDate,
   updateUser,
 } = require('./users/usersRepositories');
-findAllDealsChatHistoryByUserId;
+
 module.exports = {
+  findImagesByIdProduct,
   findAvgReviewsAsBuyerOrVendorByUserId,
   findAvgReviewsByUserId,
   findUserById,

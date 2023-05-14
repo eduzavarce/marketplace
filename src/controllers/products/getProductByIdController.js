@@ -1,4 +1,8 @@
-const { findProductById } = require('../../repositories');
+const { createImageUrl } = require('../../helpers');
+const {
+  findProductById,
+  findImagesByIdProduct,
+} = require('../../repositories');
 
 const findProductByIdController = async (req, res, next) => {
   try {
@@ -6,7 +10,6 @@ const findProductByIdController = async (req, res, next) => {
     const product = await findProductById(idProduct);
 
     const { HTTP_URL, PORT } = process.env;
-
     const {
       id,
       name,
@@ -15,6 +18,12 @@ const findProductByIdController = async (req, res, next) => {
       category,
       idUser: idSeller,
     } = product;
+    const picturesFileNames = await findImagesByIdProduct(idProduct);
+
+    const pictures = picturesFileNames.map((picture) => {
+      console.log('filename: ', picture.fileName, idProduct);
+      return createImageUrl(picture.fileName, idProduct, 'products');
+    });
 
     const data = {
       id,
@@ -25,7 +34,7 @@ const findProductByIdController = async (req, res, next) => {
       idSeller,
       url: `${HTTP_URL}:${PORT}/api/vi/products/${id}`,
     };
-
+    data.pictures = pictures;
     res.status(200);
     res.send({
       status: 'ok',
