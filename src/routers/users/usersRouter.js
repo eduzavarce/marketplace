@@ -16,17 +16,12 @@ const usersRouter = express.Router();
 
 usersRouter.route('/login').all(isAccountVerified).post(loginUserController);
 usersRouter
-  .route('/:username/profile/edit')
+  .route('/private/:username/')
   .all(validateAuth)
   .patch(updateUserController)
   .get(ownUserController);
-
-usersRouter.route('/:username/profile').get(usersController);
-
+usersRouter.route('/:username/').get(usersController);
 usersRouter.route('/register').post(registerUserController);
 usersRouter.route('/activate/:code').get(verifyEmailController);
 
-usersRouter.route('/profile').put(updateUserController);
-
-// tienda.com/api/v1/users/profile
 module.exports = usersRouter;
