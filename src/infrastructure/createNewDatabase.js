@@ -27,7 +27,7 @@ const createNewDatabase = async () => {
         lastName VARCHAR(45) ,
         email VARCHAR(100) NOT NULL UNIQUE,
         password VARCHAR(100) NOT NULL,
-        avatar VARCHAR(45) DEFAULT 'default-avatar.png',
+        avatar VARCHAR(45) ,
         createdAt DATETIME DEFAULT NOW(),
         verificationCode VARCHAR(64) NOT NULL,
         isActive BOOLEAN DEFAULT true,

@@ -1,3 +1,4 @@
+const createImageUrl = require('./createImageUls');
 const {
   findLocationNameByCoordinates,
   findCoordinatesByLocationName,
@@ -8,4 +9,5 @@ module.exports = {
   findCoordinatesByLocationName,
   findLocationNameByCoordinates,
   uploadImage,
+  createImageUrl,
 };
