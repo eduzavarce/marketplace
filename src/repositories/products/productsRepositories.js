@@ -114,6 +114,16 @@ const findProductById = async (id) => {
   const [products] = await pool.query(sql, id);
   return products[0];
 };
+
+const findProductByUserId = async (idUser) => {
+  const pool = await getPool();
+  const sql = `
+    SELECT * FROM products
+    WHERE idUser = ? `;
+  const [products] = await pool.query(sql, idUser);
+  return products;
+};
+
 const findProductByName = async (name) => {
   const pool = await getPool();
   const sql = `
@@ -187,4 +197,5 @@ module.exports = {
   sortProductByPriceAsc,
   sortProductByPriceDesc,
   findImagesByIdProduct,
+  findProductByUserId,
 };

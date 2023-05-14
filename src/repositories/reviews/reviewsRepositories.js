@@ -31,8 +31,10 @@ const findAllReviewsByUserId = async (id) => {
 const findAvgReviewsByUserId = async (id) => {
   const pool = await getPool();
   const sql = `
-    select idReviewer, idReviewed idUser, roleReviewed ,avg(score) FROM reviews
+    select idReviewed idUser ,avg(score) FROM reviews
     where  idReviewed = ?
+    group by idReviewed
+
     `;
   const [reviews] = await pool.query(sql, [id]);
   return reviews;
