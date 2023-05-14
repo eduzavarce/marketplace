@@ -100,12 +100,27 @@ const findAllDealsByUserId = async (id) => {
   SELECT deals.status status, deals.id idDeal, idBuyer, products.name, products.idUser idVendor, vendor.username usernameVendor FROM deals
 INNER JOIN products ON products.id = deals.idProduct
 INNER JOIN users vendor ON vendor.id = products.idUser
-WHERE idBuyer = ? OR idVendor = ?
+WHERE idBuyer = ? OR products.idUser = ?
 ORDER BY status
   `;
   const [products] = await pool.query(sql, [id, id]);
 
   return products;
+};
+const findAllDealsChatHistoryByUserId = async (id) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT products.name, sender.username, recipient.username, mess.message message, mess.location location, mess.proposedDate date, mess.status status, mess.createdAt postedDate FROM dealsmessages mess
+INNER JOIN users sender ON mess.idSender = sender.id
+INNER JOIN users recipient ON mess.idRecipient = recipient.id
+INNER JOIN deals ON deals.id = mess.idDeal
+INNER JOIN products ON products.id = deals.idProduct
+WHERE mess.idSender = ? or mess.idRecipient = ?
+
+ORDER BY mess.createdAt
+  `;
+  const [messages] = await pool.query(sql, [id, id]);
+  return messages;
 };
 module.exports = {
   findBuyRequestData,
@@ -117,4 +132,5 @@ module.exports = {
   addDealMessage,
   findAllDealsByUserId,
   findLatestMessageContentByDealId,
+  findAllDealsChatHistoryByUserId,
 };
