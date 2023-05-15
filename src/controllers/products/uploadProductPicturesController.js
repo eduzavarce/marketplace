@@ -1,10 +1,10 @@
 const Joi = require('joi');
-const fs = require('fs/promises');
 const path = require('path');
 const { uploadImage } = require('../../helpers');
 const {
   insertProductImageName,
   findProductById,
+  findImagesByIdProduct,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
 
@@ -32,11 +32,18 @@ const uploadProductPicturesController = async (req, res, next) => {
     if (id !== product.idUser && role !== 'admin') {
       throwError(403, 'Usuario no autorizado');
     }
+    const currentProductImages = await findImagesByIdProduct(idProduct);
+    const currentImageslength = currentProductImages.length;
     await filesSchema.validateAsync(req.files);
     const { images } = req.files;
     const imagesNames = [];
     const imageList = {};
     if (Array.isArray(images)) {
+      if (images.length + currentImageslength >= 10)
+        throwError(
+          400,
+          `el producto ya tiene ${currentImageslength}, el máximo de fotos es 10.`
+        );
       for await (const image of images) {
         const filename = await uploadImage(
           productImagesFolder,
@@ -61,6 +68,11 @@ const uploadProductPicturesController = async (req, res, next) => {
         },
       });
     } else {
+      if (currentImageslength >= 10)
+        throwError(
+          400,
+          `el producto ya tiene ${currentImageslength}, el máximo de fotos es 10.`
+        );
       const filename = await uploadImage(
         productImagesFolder,
         idProduct,

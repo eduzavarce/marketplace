@@ -14,11 +14,11 @@ const usersRouter = express.Router();
 
 usersRouter.route('/login').all(isAccountVerified).post(loginUserController);
 usersRouter
-  .route('/private/:username/')
+  .route('/private/:username')
   .all(validateAuth)
   .patch(updateUserController)
   .get(ownUserController);
-usersRouter.route('/:username/').get(usersController);
+usersRouter.route('/:username').get(usersController);
 usersRouter.route('/register').post(registerUserController);
 usersRouter.route('/activate/:code').get(verifyEmailController);
 

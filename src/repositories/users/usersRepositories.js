@@ -83,6 +83,7 @@ const updateUser = async (
   country,
   region,
   address,
+  city,
   locationLat,
   locationLong,
   id
@@ -90,7 +91,7 @@ const updateUser = async (
   const pool = await getPool();
   const sql = `
     UPDATE users
-    SET name = ?,lastname = ?, password = ?,avatar= ?,bio = ?,country = ?,region= ?,address = ?,locationLat=?,locationLong=?
+    SET name = ?,lastname = ?, password = ?,avatar= ?,bio = ?,country = ?,region= ?,address = ?,city =?, locationLat=?,locationLong=?
     WHERE id = ?
   `;
   await pool.query(sql, [
@@ -102,6 +103,7 @@ const updateUser = async (
     country,
     region,
     address,
+    city,
     locationLat,
     locationLong,
     id,

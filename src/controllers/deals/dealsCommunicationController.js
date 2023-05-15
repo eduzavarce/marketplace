@@ -75,13 +75,13 @@ const dealsCommunicationController = async (req, res, next) => {
           message,
           address,
           time ? time : null,
-          'requested'
+          status ? status : 'requested'
         );
       } else {
         await addDealMessage(
           idDeal,
-          idBuyer,
           idVendor,
+          idBuyer,
           message,
           address ? address : latestData.location,
           time ? time : latestData.time,
@@ -89,8 +89,6 @@ const dealsCommunicationController = async (req, res, next) => {
         );
       }
     } else if (username === usernameBuyer) {
-      console.log(status);
-
       if (status) {
         const validStatus = ['cancelled', 'completed'];
         if (!validStatus.includes(status))
@@ -118,7 +116,7 @@ const dealsCommunicationController = async (req, res, next) => {
           message,
           address,
           time ? time : null,
-          'requested'
+          status ? status : 'requested'
         );
       } else {
         await addDealMessage(

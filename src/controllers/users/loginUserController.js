@@ -33,7 +33,7 @@ const loginUserController = async (req, res, next) => {
 
     const payload = { email, role, id, username, name };
 
-    const expiresIn = '1h';
+    const expiresIn = '1y';
 
     const token = jwt.sign(payload, SECRET, { expiresIn });
 

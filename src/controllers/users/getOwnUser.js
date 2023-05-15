@@ -1,9 +1,11 @@
 const { createImageUrl } = require('../../helpers');
+const { throwError } = require('../../middlewares');
 const {
   findAllDealsByUserId,
   findAllDealsChatHistoryByUserId,
-  findProductByUserId,
   findAvgReviewsByUserId,
+  findImagesByIdProduct,
+  findProductForResponsesByUserId,
 } = require('../../repositories');
 const {
   findUserByUsername,
@@ -14,7 +16,12 @@ const ownUserController = async (req, res, next) => {
     const { auth } = req;
     const { username } = req.params;
 
+    if (auth.username !== username) throwError(403, 'Usuario inválido');
+
     const userData = await findUserByUsername(username);
+    if (!userData) throwError(404, 'usuario no existe');
+    const avgReviews = await findAvgReviewsByUserId(userData.id);
+    userData.avgScore = avgReviews.avgScore;
     delete userData.password;
     delete userData.verificationCode;
     delete userData.verifiedAt;
@@ -28,37 +35,47 @@ const ownUserController = async (req, res, next) => {
       );
     } else userData.avatarUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
 
-    const products = await findProductByUserId(userData.id);
-    const avgReviews = await findAvgReviewsByUserId(userData.id);
+    const products = await findProductForResponsesByUserId(userData.id);
+
+    for await (const product of products) {
+      const picturesFileNames = await findImagesByIdProduct(product.id);
+      if (picturesFileNames) {
+        const pictures = picturesFileNames.map((picture) => {
+          const url = createImageUrl(picture.fileName, product.id, 'products');
+          return url;
+        });
+        product.images = pictures;
+      }
+    }
 
     const userChatHistory = await findAllDealsChatHistoryByUserId(userData.id);
     const usersDealsHistory = await findAllDealsByUserId(userData.id);
-    let response;
-    if (auth && auth.username === username) {
-      response = {
-        status: 'ok',
-        data: {
-          userData,
-          products,
-          dealsHistory: usersDealsHistory,
-          chatHistory: userChatHistory,
-        },
-      };
-    } else {
-      response = {
-        status: 'ok',
-        data: {
-          userData: {
-            username: userData.username,
-            avatar: userData.avatar,
-            bio: userData.bio,
-            avatarUrl: userData.avatarUrl,
-          },
-          products,
-          avgReviews,
-        },
-      };
-    }
+    const response = {
+      status: 'ok',
+      data: {
+        userData,
+
+        products,
+        dealsHistory: usersDealsHistory,
+        chatHistory: userChatHistory,
+      },
+    };
+
+    //  else {
+    //   response = {
+    //     status: 'ok',
+    //     data: {
+    //       userData: {
+    //         username: userData.username,
+    //         avatar: userData.avatar,
+    //         bio: userData.bio,
+    //
+    //         avatarUrl: userData.avatarUrl,
+    //       },
+    //       products,
+    //     },
+    //   };
+    // }
 
     res.status(200);
     res.send(response);
