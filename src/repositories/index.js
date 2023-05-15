@@ -28,6 +28,7 @@ const {
   findProductByUserId,
   findProductForResponsesByUserId,
   findProductByCity,
+  sortProductsByLocation,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -47,6 +48,7 @@ const {
 } = require('./users/usersRepositories');
 
 module.exports = {
+  sortProductsByLocation,
   findProductByCity,
   findProductForResponsesByUserId,
   findImagesByIdProduct,

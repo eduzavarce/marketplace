@@ -195,7 +195,26 @@ const findImagesByIdProduct = async (id) => {
   const [images] = await pool.query(sql, id);
   return images;
 };
+const sortProductsByLocation = async (lat, long) => {
+  const pool = await getPool();
+  const sql = ` 
+  SELECT
+  *, (
+    ST_Distance_Sphere(
+      point(locationLat, locationLong), 
+      point(?, ?)
+    )
+  ) distance   
+FROM
+  products
+WHERE locationLat IS NOT NULL
+ORDER BY distance ASC
+  `;
 
+  const [products] = await pool.query(sql, [lat, long]);
+  console.log(products);
+  return products;
+};
 const findProductForLocationSearch = async () => {
   const pool = await getPool();
   const sql = ` SELECT id, name, description, price, category, keywords, idUser, region, address, country, locationLat lat , locationLong "long", status FROM products`;
@@ -221,4 +240,5 @@ module.exports = {
   findImagesByIdProduct,
   findProductByUserId,
   findProductForResponsesByUserId,
+  sortProductsByLocation,
 };

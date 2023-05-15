@@ -5,6 +5,7 @@ const {
   sortProductByPriceAsc,
   sortProductByPriceDesc,
   findProductByCity,
+  sortProductsByLocation,
 } = require('../../repositories');
 
 const Joi = require('joi');
@@ -24,6 +25,7 @@ const findProductByQuery = async (req, res, next) => {
     );
     if (location) {
       const sorted = await findProductByCity(location);
+      await sortProductsByLocation(40.42303945117233, -3.6804417870805737);
       res.status(200).send({
         status: 'ok',
         data: { products: sorted },
