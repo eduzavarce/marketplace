@@ -25,7 +25,7 @@ const findProductByQuery = async (req, res, next) => {
     );
     if (location) {
       const sorted = await findProductByCity(location);
-      await sortProductsByLocation(40.42303945117233, -3.6804417870805737);
+      await sortProductsByLocation(40.42303945117233, -3.6804417870805737); /// por implementar, estas coordenadas son del centro de Madrid y ordena por distancia.
       res.status(200).send({
         status: 'ok',
         data: { products: sorted },
