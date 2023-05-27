@@ -12,11 +12,9 @@ const { validateAuth, isAccountVerified } = require('../../middlewares');
 
 const usersRouter = express.Router();
 
-//TODO endpoints
-
 usersRouter.route('/login').all(isAccountVerified).post(loginUserController);
 usersRouter
-  .route('/private/:username')
+  .route('/private/')
   .all(validateAuth)
   .patch(updateUserController)
   .get(ownUserController);

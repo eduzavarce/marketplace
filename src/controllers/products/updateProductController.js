@@ -87,7 +87,7 @@ const updateProductController = async (req, res, next) => {
       description: productAfterUpdate.description,
       price: productAfterUpdate.price,
       category: productAfterUpdate.category,
-      url: `${HTTP_URL}:${PORT}/api/vi/products/${id}`,
+      url: `http://${HTTP_URL}:${PORT}/api/vi/products/${id}`,
     };
     const picturesFileNames = await findImagesByIdProduct(idProduct);
 

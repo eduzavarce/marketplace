@@ -2,10 +2,10 @@ const { createImageUrl } = require('../../helpers');
 const { throwError } = require('../../middlewares');
 const {
   findAllDealsByUserId,
-  findAllDealsChatHistoryByUserId,
   findAvgReviewsByUserId,
   findImagesByIdProduct,
   findProductForResponsesByUserId,
+  findLatestMessageContentByDealId,
 } = require('../../repositories');
 const {
   findUserByUsername,
@@ -13,15 +13,14 @@ const {
 const { FULL_DOMAIN } = process.env;
 const ownUserController = async (req, res, next) => {
   try {
-    const { auth } = req;
-    const { username } = req.params;
-
-    if (auth.username !== username) throwError(403, 'Usuario inválido');
+    const {
+      auth: { username },
+    } = req;
 
     const userData = await findUserByUsername(username);
     if (!userData) throwError(404, 'usuario no existe');
     const avgReviews = await findAvgReviewsByUserId(userData.id);
-    userData.avgScore = avgReviews.avgScore;
+    userData.avgScore = avgReviews?.avgScore || 0;
     delete userData.password;
     delete userData.verificationCode;
     delete userData.verifiedAt;
@@ -48,34 +47,56 @@ const ownUserController = async (req, res, next) => {
       }
     }
 
-    const userChatHistory = await findAllDealsChatHistoryByUserId(userData.id);
     const usersDealsHistory = await findAllDealsByUserId(userData.id);
+    for await (const deal of usersDealsHistory) {
+      if (deal.avatarBuyer) {
+        deal.avatarBuyerUrl = createImageUrl(
+          deal.avatarBuyer,
+          deal.idBuyer,
+          'users'
+        );
+      } else deal.avatarBuyerUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
+      if (deal.avatarVendor) {
+        deal.avatarVendorUrl = createImageUrl(
+          deal.avatarVendor,
+          deal.idVendor,
+          'users'
+        );
+      } else deal.avatarVendorUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
+      let messages = await findLatestMessageContentByDealId(deal.idDeal);
+      messages = messages.map((msg) => {
+        if (msg.idSender === deal.idBuyer) {
+          msg.usernameSender = deal.usernameBuyer;
+          msg.avatarSender = deal.avatarBuyerUrl;
+          msg.usernameRecipient = deal.usernameVendor;
+          msg.avatarRecipient = deal.avatarVendorUrl;
+        } else if (msg.idSender === deal.idVendor) {
+          msg.usernameSender = deal.usernameVendor;
+          msg.avatarSender = deal.avatarVendorUrl;
+          msg.usernameRecipient = deal.usernameBuyer;
+          msg.avatarRecipient = deal.avatarBuyerUrl;
+        }
+        return msg;
+      });
+      deal.messages = messages;
+    }
+    const dealsAsVendor = usersDealsHistory.filter((deal) => {
+      return deal.usernameVendor === username;
+    });
+    const dealsAsBuyer = usersDealsHistory.filter((deal) => {
+      return deal.usernameBuyer === username;
+    });
     const response = {
       status: 'ok',
       data: {
         userData,
-
         products,
-        dealsHistory: usersDealsHistory,
-        chatHistory: userChatHistory,
+        deals: {
+          selling: dealsAsVendor,
+          buying: dealsAsBuyer,
+        },
       },
     };
-
-    //  else {
-    //   response = {
-    //     status: 'ok',
-    //     data: {
-    //       userData: {
-    //         username: userData.username,
-    //         avatar: userData.avatar,
-    //         bio: userData.bio,
-    //
-    //         avatarUrl: userData.avatarUrl,
-    //       },
-    //       products,
-    //     },
-    //   };
-    // }
 
     res.status(200);
     res.send(response);

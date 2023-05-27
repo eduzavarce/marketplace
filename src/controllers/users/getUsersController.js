@@ -49,7 +49,7 @@ const usersController = async (req, res, next) => {
           username: userData.username,
           avatar: userData.avatar,
           bio: userData.bio,
-          avgScore: avgReviews.avgScore,
+          avgScore: avgReviews?.avgScore || 0,
           avatarUrl: userData.avatarUrl,
         },
         products,
