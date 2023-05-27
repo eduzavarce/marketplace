@@ -141,7 +141,7 @@ npm run fillDatabase
 
 5. Datos del usuario (usuario autenticado)
 
-GET http://www.url.com/api/v1/users/private/:username
+GET http://www.url.com/api/v1/users/private/
 
 Respuesta esperada:
 

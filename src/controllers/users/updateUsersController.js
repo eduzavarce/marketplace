@@ -12,8 +12,8 @@ const { uploadImage, createImageUrl } = require('../../helpers');
 const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
-  name: Joi.string().min(0).max(45),
-  lastname: Joi.string().min(0).max(45),
+  name: Joi.string().min(4).max(45).allow(''),
+  lastname: Joi.string().min(4).max(45).allow(''),
   email: Joi.string().email(),
   password: Joi.string().optional(),
   repeatPassword: Joi.string().optional(),
@@ -33,11 +33,11 @@ const schemaPassword = Joi.object().keys({
 
 const updateUserController = async (req, res, next) => {
   try {
-    const { username } = req.params;
+    const { id: authId, role, username } = req.auth;
+
     const user = await findUserByUsername(username);
     if (!user) throwError(404, 'usuario no encontrado');
 
-    const { id: authId, role } = req.auth;
     let {
       id: idDataBase,
       name,
@@ -84,7 +84,7 @@ const updateUserController = async (req, res, next) => {
       body.bodyPassword = passwordHash;
     }
 
-    if (req.files) {
+    if (req.files?.images) {
       const { images } = req.files;
 
       if (Array.isArray(images))

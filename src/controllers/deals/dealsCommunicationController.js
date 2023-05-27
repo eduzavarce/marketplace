@@ -24,7 +24,7 @@ const dealsCommunicationController = async (req, res, next) => {
 
     const { username } = auth;
     const deal = await findDealById(idDeal);
-    if (!deal) throwError(404, 'datos incorrectos');
+    if (!deal) throwError(404, 'deal no existe');
     const {
       idProduct,
       idVendor,
