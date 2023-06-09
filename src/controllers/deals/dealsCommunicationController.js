@@ -24,7 +24,7 @@ const dealsCommunicationController = async (req, res, next) => {
 
     const { username } = auth;
     const deal = await findDealById(idDeal);
-    if (!deal) throwError(404, 'datos incorrectos');
+    if (!deal) throwError(404, 'deal no existe');
     const {
       idProduct,
       idVendor,
@@ -55,18 +55,18 @@ const dealsCommunicationController = async (req, res, next) => {
             400,
             'como vendedor solo puedes cambiar el status a approved, rejected o completed'
           );
-        if (status !== statusDeal) {
-          await updateDealStatus(idDeal, status, new Date());
-          if (status === 'rejected') {
-            await reactivateProductById(idProduct, true);
-          }
 
-          if (status === 'completed') {
-            await sendRequestReviewEmails(deal);
-          } else await sendChatEmails(deal, usernameVendor, body);
-        }
+        if (status === 'completed') {
+          await sendRequestReviewEmails(deal);
+        } else await sendChatEmails(deal, usernameVendor, body);
       }
 
+      if (status !== statusDeal) {
+        await updateDealStatus(idDeal, status, new Date());
+        if (status === 'rejected') {
+          await reactivateProductById(idProduct, true);
+        }
+      }
       if (!latestData) {
         await addDealMessage(
           idDeal,
@@ -96,15 +96,16 @@ const dealsCommunicationController = async (req, res, next) => {
             400,
             'como comprador solo puedes cambiar el status a cancelled o completed'
           );
+
+        if (status === 'cancelled') {
+          await sendRequestReviewEmails(deal);
+        } else await sendChatEmails(deal, usernameBuyer, body);
+
         if (status !== statusDeal) {
           await updateDealStatus(idDeal, status, new Date());
           if (status === 'cancelled') {
             await reactivateProductById(idProduct, true);
           }
-
-          if (status === 'completed') {
-            await sendRequestReviewEmails(deal);
-          } else await sendChatEmails(deal, usernameBuyer, body);
         }
       }
 

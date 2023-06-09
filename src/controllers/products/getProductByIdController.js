@@ -30,7 +30,7 @@ const findProductByIdController = async (req, res, next) => {
     const avgReviews = await findAvgReviewsByUserId(idVendor);
     const vendorData = await findUserById(idVendor);
     const { username } = vendorData;
-    const { avgScore } = avgReviews;
+    const { avgScore } = avgReviews || {};
     const vendorInfo = {
       username,
       profileUrl: `${FULL_DOMAIN}/api/v1/users/${username}`,

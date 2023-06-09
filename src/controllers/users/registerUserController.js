@@ -59,7 +59,7 @@ const registerUserController = async (req, res, next) => {
       data: {
         id: user,
         username,
-        testVerificationLink: verificationLink,
+        // testVerificationLink: verificationLink,
       },
     });
   } catch (error) {
