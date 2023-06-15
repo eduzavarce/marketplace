@@ -20,7 +20,7 @@ const loginUserController = async (req, res, next) => {
 
     const user = await findUserByUsername(username);
     if (!user) {
-      throwError(404, 'El usuario y/o la contraseña no son correctos');
+      throwError(401, 'El usuario y/o la contraseña no son correctos');
     }
 
     const { password: passwordHash, name, email, role, id } = user;
@@ -28,7 +28,7 @@ const loginUserController = async (req, res, next) => {
     const validPassword = await bcrypt.compare(password, passwordHash);
 
     if (!validPassword) {
-      throwError(404, 'El usuario y/o la contraseña no son correctos');
+      throwError(401, 'El usuario y/o la contraseña no son correctos');
     }
     const { SECRET } = process.env;
 

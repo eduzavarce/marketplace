@@ -20,6 +20,10 @@ const verifyEmailController = require('./users/verifyEmailController');
 const reviewDealParticipantsController = require('./reviews/reviewDealParticipantsController');
 const findProductByQuery = require('./products/findProductByQuery');
 const ownUserController = require('./users/getOwnUser');
+const { getWishlistController } = require('./wishlist/getWishlistController');
+const {
+  changeWishlistController,
+} = require('./wishlist/changeWishlistController');
 
 module.exports = {
   loginUserController,
@@ -37,4 +41,6 @@ module.exports = {
   reviewDealParticipantsController,
   findProductByQuery,
   ownUserController,
+  getWishlistController,
+  changeWishlistController,
 };

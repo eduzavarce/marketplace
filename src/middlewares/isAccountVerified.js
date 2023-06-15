@@ -5,7 +5,7 @@ const isAccountVerified = async (req, res, next) => {
   const { username } = req.body;
   try {
     const user = await findUserByUsername(username);
-    if (!user) throwError(404, 'El usuario y/o la contraseña no son correctos');
+    if (!user) throwError(404, 'usuario no encontrado');
 
     const { verifiedAt } = user;
 
