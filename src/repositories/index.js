@@ -46,6 +46,12 @@ const {
   addUserVerificationDate,
   updateUser,
 } = require('./users/usersRepositories');
+const {
+  getWishlist,
+  addToWishlist,
+  changeWishlistStatus,
+  checkIfInWishlist,
+} = require('./wishlist/wishlist');
 
 module.exports = {
   sortProductsByLocation,
@@ -88,4 +94,8 @@ module.exports = {
   sortProductByPriceDesc,
   findExistingUserReviewsByDealId,
   findAllDealsChatHistoryByUserId,
+  getWishlist,
+  addToWishlist,
+  changeWishlistStatus,
+  checkIfInWishlist,
 };
