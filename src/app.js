@@ -8,11 +8,14 @@ const {
   productsRouter,
   dealsRouter,
   reviewsRouter,
+  wishlistRouter,
 } = require('./routers');
+const morgan = require('morgan');
 const { PORT, HTTP_URL } = process.env;
 const port = PORT || 3005;
 const app = express();
 app.use(cors());
+app.use(morgan('tiny'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -23,15 +26,7 @@ app.use('/api/v1/users', usersRouter);
 app.use('/api/v1/products', productsRouter);
 app.use('/api/v1/deals', dealsRouter);
 app.use('/api/v1/reviews', reviewsRouter);
-
-//endpoints temporales para probar funcionamiento de los emails hasta que tengamos frontend.
-app.get('/deals/:id', (req, res) => {
-  res.status(200).send('página en construcción, por ahora usa el postman!');
-});
-app.get('/reviews/:id', (req, res) => {
-  res.status(200).send('página en construcción, por ahora usa el postman!');
-});
-//-----
+app.use('/api/v1/wishlist', wishlistRouter);
 
 app.use(createError);
 app.use(notFoundError);

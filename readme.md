@@ -82,13 +82,15 @@ npm run fillDatabase
    Respuesta esperada:
 
    ```Json
-        {
-            "status":"ok",
-            "data":{
-                "accessToken": "eyJhfasdGciOiJIUzI1jiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTMsIm5hbWsiOiJQZXBpdasdgUMOhZXoiLCJlbWFpbCI6ImVkdXphdmFyY2UrMDVAZ21haWwuY29tIiwicm9sZSI6InJlYWRlciIsImVqZW1wbG8iOiJhc2RmIiwiaWF0IjoxNjgzNTg2NjQ3LCJleHAiOjE2ODM1OTc0NDd9.4i2wIjZGwEoEqewI8uDkH8yNp4Sz3OF6b549lY_mJlw",
-                "expiresIn": "1y"
-            }
+       {
+    "status": "ok",
+    "data": {
+        "username": "vendedor",
+        "avatar": "http://localhost:3000/users/3/3_gSVcOV5W8N6P.png",
+        "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImVkdXphdmFyY2UrMkBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlkIjozLCJ1c2VybmFtZSI6InZlbmRlZG9yIiwibmFtZSI6IkVkdWFyZG8iLCJpYXQiOjE2ODY3NzcxNTUsImV4cCI6MTcxODMzNDc1NX0.EPa9rueAzH6_rLgoGBANT6Vhfhs09vCKO08UWLbz7Jw",
+        "expiresIn": "1y"
         }
+      }
    ```
 
 4. Editar cuenta del usuario autenticado:
