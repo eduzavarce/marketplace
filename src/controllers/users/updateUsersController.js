@@ -41,7 +41,7 @@ const updateUserController = async (req, res, next) => {
     let {
       id: idDataBase,
       name,
-      lastname,
+      lastName,
       password,
       bio,
       avatar,
@@ -74,7 +74,7 @@ const updateUserController = async (req, res, next) => {
       locationLat: bodyLocationLat,
       locationLong: bodyLocationLong,
     } = body;
-
+    console.log(body);
     let passwordHash;
 
     if (bodyPassword) {
@@ -83,7 +83,6 @@ const updateUserController = async (req, res, next) => {
 
       body.bodyPassword = passwordHash;
     }
-
     if (req.files?.images) {
       const { images } = req.files;
 
@@ -100,12 +99,12 @@ const updateUserController = async (req, res, next) => {
     if (bodyAddress) {
       const fullAddress = `${bodyAddress}, ${bodyRegion}, ${bodyCountry} `;
       const coordinates = await findCoordinatesByLocationName(fullAddress);
-      locationLat = coordinates.latitude;
-      locationLong = coordinates.longitude;
+      locationLat = coordinates?.latitude;
+      locationLong = coordinates?.longitude;
     }
     await updateUser(
       bodyName ? bodyName : name,
-      bodyLastname ? bodyLastname : lastname,
+      bodyLastname ? bodyLastname : lastName,
       bodyPassword ? passwordHash : password,
       avatar,
       bodyBio ? bodyBio : bio,
