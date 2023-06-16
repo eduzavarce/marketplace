@@ -74,7 +74,7 @@ const updateUserController = async (req, res, next) => {
       locationLat: bodyLocationLat,
       locationLong: bodyLocationLong,
     } = body;
-    console.log(body);
+    // console.log(body);
     let passwordHash;
 
     if (bodyPassword) {

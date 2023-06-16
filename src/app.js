@@ -10,10 +10,12 @@ const {
   reviewsRouter,
   wishlistRouter,
 } = require('./routers');
+const morgan = require('morgan');
 const { PORT, HTTP_URL } = process.env;
 const port = PORT || 3005;
 const app = express();
 app.use(cors());
+app.use(morgan('tiny'));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
