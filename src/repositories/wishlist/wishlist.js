@@ -3,7 +3,7 @@ const getPool = require('../../infrastructure/database');
 const getWishlist = async (idUser) => {
   const pool = await getPool();
 
-  const sql = `SELECT w.* FROM wishlist w
+  const sql = `SELECT p.* FROM wishlist w
   INNER JOIN products p ON p.id = w.idProducts
    WHERE w.idUsers=? and w.isActive = true and p.isActive = true `;
 
