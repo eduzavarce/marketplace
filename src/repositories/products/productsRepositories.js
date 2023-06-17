@@ -53,7 +53,9 @@ const createProduct = async (
 const findAllProducts = async () => {
   const pool = await getPool();
   const sql = `
-  SELECT * FROM products`;
+  SELECT * FROM products
+  WHERE isActive = true`;
+
   const [products] = await pool.query(sql);
 
   return products;
@@ -140,7 +142,7 @@ const findProductByCity = async (city) => {
   const pool = await getPool();
   const sql = `
     SELECT * FROM products
-    WHERE city LIKE ? `;
+    WHERE city LIKE ? and isActive = true`;
   const [products] = await pool.query(sql, '%' + city + '%');
   return products;
 };
@@ -149,7 +151,7 @@ const findProductByName = async (name) => {
   const pool = await getPool();
   const sql = `
     SELECT * FROM products
-    WHERE name LIKE ? `;
+    WHERE name LIKE ? and isActive = true`;
   const [products] = await pool.query(sql, '%' + name + '%');
   return products;
 };
@@ -157,19 +159,19 @@ const findProductByCategory = async (category) => {
   const pool = await getPool();
   const sql = `
     SELECT * FROM products
-    WHERE category = ? `;
+    WHERE category = ? and isActive = true`;
   const [products] = await pool.query(sql, category);
   return products;
 };
 const sortProductByPriceAsc = async () => {
   const pool = await getPool();
-  const sql = `SELECT * FROM products ORDER BY price ASC `;
+  const sql = `SELECT * FROM products WHERE isActive = true ORDER BY price ASC  `;
   const [products] = await pool.query(sql);
   return products;
 };
 const sortProductByPriceDesc = async () => {
   const pool = await getPool();
-  const sql = `SELECT * FROM products ORDER BY price DESC `;
+  const sql = `SELECT * FROM products WHERE isActive = true ORDER BY price DESC `;
   const [products] = await pool.query(sql);
   return products;
 };
@@ -207,7 +209,7 @@ const sortProductsByLocation = async (lat, long) => {
   ) distance   
 FROM
   products
-WHERE locationLat IS NOT NULL
+WHERE locationLat IS NOT NULL AND  isActive = true
 ORDER BY distance ASC
   `;
 
@@ -217,7 +219,7 @@ ORDER BY distance ASC
 };
 const findProductForLocationSearch = async () => {
   const pool = await getPool();
-  const sql = ` SELECT id, name, description, price, category, keywords, idUser, region, address, country, locationLat lat , locationLong "long", status FROM products`;
+  const sql = ` SELECT id, name, description, price, category, keywords, idUser, region, address, country, locationLat lat , locationLong "long", status FROM products WHERE isActive = true`;
 
   const [products] = await pool.query(sql);
   return products;
