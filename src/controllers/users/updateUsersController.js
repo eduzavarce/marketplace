@@ -1,6 +1,7 @@
 const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const path = require('path');
+const fs = require('fs');
 
 const {
   findUserByUsername,
@@ -74,7 +75,6 @@ const updateUserController = async (req, res, next) => {
       locationLat: bodyLocationLat,
       locationLong: bodyLocationLong,
     } = body;
-    // console.log(body);
     let passwordHash;
 
     if (bodyPassword) {
@@ -85,7 +85,6 @@ const updateUserController = async (req, res, next) => {
     }
     if (req.files?.images) {
       const { images } = req.files;
-
       if (Array.isArray(images))
         throwError(400, 'debes introducir solo una imagen');
       const usersImagesFolder = path.join(
@@ -93,6 +92,11 @@ const updateUserController = async (req, res, next) => {
         '../../../public',
         `/users/${idDataBase}`
       );
+      if (fs.existsSync(usersImagesFolder)) {
+        fs.rmSync(usersImagesFolder, { recursive: true }, (err) => {
+          if (err) throwError(err);
+        });
+      }
       avatar = await uploadImage(usersImagesFolder, idDataBase, images.data);
     }
 

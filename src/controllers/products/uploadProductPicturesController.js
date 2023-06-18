@@ -34,6 +34,7 @@ const uploadProductPicturesController = async (req, res, next) => {
     }
     const currentProductImages = await findImagesByIdProduct(idProduct);
     const currentImageslength = currentProductImages.length;
+    console.log(req.files);
     await filesSchema.validateAsync(req.files);
     const { images } = req.files;
     const imagesNames = [];
