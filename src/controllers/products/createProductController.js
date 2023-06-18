@@ -5,7 +5,7 @@ const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
   name: Joi.string().min(4).max(100).required(),
-  description: Joi.string().min(4).max(100).required(),
+  description: Joi.string().min(4).max(255).required(),
   price: Joi.number().required(),
   category: Joi.string()
     .valid('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade')
@@ -51,8 +51,8 @@ const createProductController = async (req, res, next) => {
     if (address) {
       const fullAddress = `${address}, ${region}, ${country} `;
       const coordinates = await findCoordinatesByLocationName(fullAddress);
-      locationLat = coordinates.latitude;
-      locationLong = coordinates.longitude;
+      locationLat = coordinates?.latitude;
+      locationLong = coordinates?.longitude;
     }
     const product = await createProduct(
       name,
