@@ -46,6 +46,7 @@ const usersController = async (req, res, next) => {
       status: 'ok',
       data: {
         userData: {
+          id: userData.id,
           username: userData.username,
           avatar: userData.avatar,
           bio: userData.bio,
