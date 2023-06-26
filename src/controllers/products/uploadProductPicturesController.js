@@ -34,13 +34,14 @@ const uploadProductPicturesController = async (req, res, next) => {
     }
     const currentProductImages = await findImagesByIdProduct(idProduct);
     const currentImageslength = currentProductImages.length;
-    console.log(req.files);
+    // console.log(req.files);
     await filesSchema.validateAsync(req.files);
     const { images } = req.files;
     const imagesNames = [];
     const imageList = {};
+    // console.log(images);
     if (Array.isArray(images)) {
-      if (images.length + currentImageslength >= 10)
+      if (images.length + currentImageslength > 10)
         throwError(
           400,
           `el producto ya tiene ${currentImageslength}, el máximo de fotos es 10.`

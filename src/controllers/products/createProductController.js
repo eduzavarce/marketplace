@@ -1,6 +1,10 @@
 const Joi = require('joi');
 const { HTTP_URL, PORT } = process.env;
-const { createProduct, findProductById } = require('../../repositories');
+const {
+  createProduct,
+  findProductById,
+  findUserById,
+} = require('../../repositories');
 const { findCoordinatesByLocationName } = require('../../helpers');
 
 const schema = Joi.object().keys({
@@ -14,8 +18,9 @@ const schema = Joi.object().keys({
   region: Joi.string().max(45).allow(''),
   country: Joi.string().max(45).allow(''),
   address: Joi.string().max(200).allow(''),
-  city: Joi.string().max(200).required(),
+  city: Joi.string().max(200).allow(''),
   status: Joi.string().valid('new', 'used', 'refurbished').required(),
+  useSavedAddress: Joi.bool(),
 });
 
 const createProductController = async (req, res, next) => {
@@ -34,6 +39,7 @@ const createProductController = async (req, res, next) => {
       city,
       keywords,
       status,
+      useSavedAddress,
     } = body;
     await schema.validateAsync({
       name,
@@ -54,21 +60,45 @@ const createProductController = async (req, res, next) => {
       locationLat = coordinates?.latitude;
       locationLong = coordinates?.longitude;
     }
-    const product = await createProduct(
-      name,
-      description,
-      price,
-      category,
-      keywords,
-      region,
-      country,
-      address,
-      city,
-      locationLat ? locationLat : null,
-      locationLong ? locationLong : null,
-      id,
-      status
-    );
+    console.log(body);
+    let product;
+    if (useSavedAddress) {
+      const user = await findUserById(id);
+      const { address, city, region, country, locationLat, locationLong } =
+        user;
+      product = await createProduct(
+        name,
+        description,
+        price,
+        category,
+        keywords,
+        region,
+        country,
+        address,
+        city,
+        locationLat,
+        locationLong,
+        id,
+        status
+      );
+    } else {
+      product = await createProduct(
+        name,
+        description,
+        price,
+        category,
+        keywords,
+        region,
+        country,
+        address,
+        city,
+        locationLat ? locationLat : null,
+        locationLong ? locationLong : null,
+        id,
+        status
+      );
+    }
+
     const productInfo = await findProductById(product);
 
     res.status(200).send({
