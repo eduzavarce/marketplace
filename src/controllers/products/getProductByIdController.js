@@ -46,7 +46,7 @@ const findProductByIdController = async (req, res, next) => {
       vendorInfo,
       url: `${HTTP_URL}:${PORT}/api/vi/products/${id}`,
     };
-    data.pictures = pictures;
+    data.images = pictures;
     res.status(200);
     res.send({
       status: 'ok',
