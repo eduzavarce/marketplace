@@ -18,12 +18,15 @@ const findProductByQuery = async (req, res, next) => {
     const { name, category, price, location } = query;
     const schemaPrice = Joi.string().valid('ASC', 'DESC');
     const schemaCategory = Joi.string().valid(
-      'consoles',
-      'games',
-      'PC',
+      'music',
+      'video',
+      'photography',
+      'gaming',
+      'computer',
+      'collector',
+      'television',
       'cloth',
-      'controllers',
-      'arcade'
+      'others'
     );
     if (location) {
       const sorted = await findProductByCity(location);
