@@ -12,7 +12,17 @@ const schema = Joi.object().keys({
   description: Joi.string().min(4).max(255).required(),
   price: Joi.number().required(),
   category: Joi.string()
-    .valid('consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade')
+    .valid(
+      'music',
+      'video',
+      'photography',
+      'gaming',
+      'computer',
+      'collector',
+      'television',
+      'cloth',
+      'others'
+    )
     .required(),
   keywords: Joi.string().max(100),
   region: Joi.string().max(45).allow(''),
