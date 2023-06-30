@@ -263,6 +263,8 @@ Respuesta esperada:
 
    Body petición:
 
+   Categorías válidas: 'music','video','photography','gaming','computer','collector','television','cloth','others'
+
    ```Json
        {
         "name":"NES Nintendo original",
@@ -508,7 +510,7 @@ GET http://www.url.com/api/v1/products/search/?category=consoles
 
 Categorías válidas:
 
-'consoles', 'games', 'PC', 'cloth', 'controllers', 'arcade'
+'music','video','photography','gaming','computer','collector','television','cloth','others'
 
 Respuesta esperada:
 
@@ -823,7 +825,115 @@ Respuesta esperada:
 }
 ```
 
-3. Valoración entre comprador y vendedor
+3. Detalles del proceso de compra-venta
+
+GET http://www.url.com/api/v1/deals/:idDeal (comprador o vendedor autenticados)
+
+Respuesta esperada:
+
+```json
+{
+  "status": "ok",
+  "data": {
+    "dealData": {
+      "id": "3",
+      "userRole": "buyer",
+      "idVendor": 2,
+      "usernameVendor": "vendedor",
+      "avatarVendorUrl": "http://localhost:3000/users/default-avatar.png",
+      "avgReviewsVendor": null,
+      "idBuyer": 3,
+      "usernameBuyer": "comprador",
+      "avatarBuyerUrl": "http://localhost:3000/users/default-avatar.png",
+      "avgReviewsBuyer": "5.0000",
+      "status": "completed",
+      "dealReviewedByCurrentUser": false
+    },
+    "productData": {
+      "id": 2,
+      "name": "nintendo",
+      "description": "nintendo nes",
+      "price": "149.00",
+      "category": "music",
+      "pictures": [
+        "http://localhost:3000/products/2/2_AU66T6aXk7OW.png",
+        "http://localhost:3000/products/2/2_BaVxCtjGcKwj.png",
+        "http://localhost:3000/products/2/2_XJt6oApRZok0.png"
+      ]
+    },
+    "messages": [
+      {
+        "id": 6,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "completed",
+        "createdAt": "2023-06-30T03:14:52.000Z"
+      },
+      {
+        "id": 5,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "approved",
+        "createdAt": "2023-06-30T03:12:10.000Z"
+      },
+      {
+        "id": 4,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "approved",
+        "createdAt": "2023-06-30T03:12:10.000Z"
+      },
+      {
+        "id": 3,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "approved",
+        "createdAt": "2023-06-30T03:12:09.000Z"
+      },
+      {
+        "id": 2,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "approved",
+        "createdAt": "2023-06-30T03:12:08.000Z"
+      },
+      {
+        "id": 1,
+        "idDeal": 3,
+        "idSender": 2,
+        "idRecipient": 3,
+        "message": "mensaje de respuesta, propongo entrega la direccion x le lunes 15 a las 16:30",
+        "location": "C/ Gran Vía, 32, 28013 Madrid",
+        "proposedDate": "2023-05-18T18:00:00.000Z",
+        "status": "approved",
+        "createdAt": "2023-06-30T03:11:37.000Z"
+      }
+    ]
+  }
+}
+```
+
+4. Valoración entre comprador y vendedor
 
 POST http://www.url.com/api/v1/reviews/:idDeal (comprador o vendedor autenticados)
 

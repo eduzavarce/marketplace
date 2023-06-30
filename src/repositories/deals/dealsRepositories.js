@@ -25,7 +25,7 @@ const createDeal = async (params) => {
 };
 const findDealById = async (id) => {
   const pool = await getPool();
-  const sql = `SELECT products.id idProduct, products.name nameProduct, vendor.id idVendor, vendor.username usernameVendor, vendor.email emailVendor, deals.idBuyer, buyer.username usernameBuyer, buyer.email emailBuyer, deals.status statusDeal, deals.id idDeal 
+  const sql = `SELECT products.id idProduct, products.name nameProduct, vendor.id idVendor, vendor.username usernameVendor, vendor.email emailVendor, vendor.avatar avatarVendor, deals.idBuyer, buyer.username usernameBuyer, buyer.email emailBuyer, buyer.avatar avatarBuyer, deals.status statusDeal, deals.id idDeal 
   FROM deals
   INNER JOIN products ON products.id = deals.idProduct
   INNER JOIN users vendor ON vendor.id = products.idUser

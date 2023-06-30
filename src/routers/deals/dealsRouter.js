@@ -1,12 +1,16 @@
 const express = require('express');
 const { validateAuth } = require('../../middlewares');
-const { dealsCommunicationController } = require('../../controllers');
+const {
+  dealsCommunicationController,
+  getDealDetailsByIdController,
+} = require('../../controllers');
 
 const dealsRouter = express.Router();
 
 dealsRouter
   .route('/:idDeal')
   .all(validateAuth)
-  .post(dealsCommunicationController);
+  .post(dealsCommunicationController)
+  .get(getDealDetailsByIdController);
 
 module.exports = dealsRouter;

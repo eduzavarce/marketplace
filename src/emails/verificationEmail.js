@@ -2,7 +2,8 @@ const throwError = require('../middlewares/errors/throwError');
 const transporter = require('./transporter');
 const { SMTP_FROM, HTTP_URL, PORT } = process.env;
 const sendVerificationCode = async (email, username, verificationCode) => {
-  const verificationLink = `http://${HTTP_URL}:${PORT}/api/v1/users/activate/${verificationCode}`;
+  const verificationLink = `http://localhost:5173/validate/${verificationCode}`;
+
   const message = {
     from: SMTP_FROM,
     to: email,
