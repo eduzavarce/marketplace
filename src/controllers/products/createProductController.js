@@ -63,6 +63,7 @@ const createProductController = async (req, res, next) => {
       address,
       status,
     });
+
     let locationLat, locationLong;
     if (address) {
       const fullAddress = `${address}, ${region}, ${country} `;
