@@ -97,7 +97,7 @@ const findLatestMessageContentByDealId = async (id) => {
 const findAllDealsByUserId = async (id) => {
   const pool = await getPool();
   const sql = `
-  SELECT deals.id idDeal, deals.status status, idBuyer, buyer.username usernameBuyer, buyer.avatar avatarBuyer, products.name, products.idUser idVendor, vendor.username usernameVendor, vendor.avatar avatarVendor FROM deals
+  SELECT deals.id idDeal, deals.status status, idBuyer, buyer.username usernameBuyer, buyer.avatar avatarBuyer, products.id idProduct, products.name, products.idUser idVendor, vendor.username usernameVendor, vendor.avatar avatarVendor FROM deals
 INNER JOIN products ON products.id = deals.idProduct
 INNER JOIN users vendor ON vendor.id = products.idUser
 INNER JOIN users buyer ON buyer.id = deals.idBuyer 
