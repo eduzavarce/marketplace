@@ -48,6 +48,7 @@ const ownUserController = async (req, res, next) => {
     }
 
     const usersDealsHistory = await findAllDealsByUserId(userData.id);
+    console.log(usersDealsHistory);
     for await (const deal of usersDealsHistory) {
       if (deal.avatarBuyer) {
         deal.avatarBuyerUrl = createImageUrl(
@@ -63,6 +64,19 @@ const ownUserController = async (req, res, next) => {
           'users'
         );
       } else deal.avatarVendorUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
+
+      const picturesFileNames = await findImagesByIdProduct(deal.idProduct);
+      if (picturesFileNames) {
+        const pictures = picturesFileNames.map((picture) => {
+          const url = createImageUrl(
+            picture.fileName,
+            deal.idProduct,
+            'products'
+          );
+          return url;
+        });
+        deal.images = pictures;
+      }
       let messages = await findLatestMessageContentByDealId(deal.idDeal);
       messages = messages.map((msg) => {
         if (msg.idSender === deal.idBuyer) {
