@@ -30,7 +30,7 @@ const findProductByQuery = async (req, res, next) => {
       'cloth',
       'others'
     );
-    if (category) await schemaCategory.validateAsync(category);
+    // if (category) await schemaCategory.validateAsync(category);
     if (price) await schemaPrice.validateAsync(price);
     const sorted = await findProductsByAllQuerys(name, category, price);
     if (sorted) {

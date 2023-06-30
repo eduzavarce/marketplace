@@ -146,13 +146,14 @@ const findProductsByAllQuerys = async (name, category, price) => {
   WHERE isActive = true`;
   const values = [];
   let clause = ' AND';
-  if (name !== 'none' && name) {
+  if (name !== '' && name) {
     sql += ` ${clause} name LIKE ?`;
     values.push(`%${name}%`);
     clause = 'AND';
   }
-  if (category !== 'all' && category) {
+  if (category && category !== 'All') {
     sql += ` ${clause} category LIKE ?`;
+    console.log('aqui');
     values.push(category);
     clause = ' AND';
   }
