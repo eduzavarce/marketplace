@@ -138,6 +138,32 @@ const findProductForResponsesByUserId = async (idUser) => {
   const [products] = await pool.query(sql, idUser);
   return products;
 };
+
+const findProductsByAllQuerys = async (name, category, price) => {
+  const pool = await getPool();
+  let sql = `
+  SELECT * FROM products 
+  WHERE isActive = true`;
+  const values = [];
+  let clause = ' AND';
+  if (name !== 'none' && name) {
+    sql += ` ${clause} name LIKE ?`;
+    values.push(`%${name}%`);
+    clause = 'AND';
+  }
+  if (category !== 'all' && category) {
+    sql += ` ${clause} category LIKE ?`;
+    values.push(category);
+    clause = ' AND';
+  }
+  if (price === 'ASC') {
+    sql += ` ORDER BY price ASC`;
+  } else if (price === 'DESC') {
+    sql += ` ORDER BY price DESC`;
+  }
+  const [products] = await pool.query(sql, values);
+  return products;
+};
 const findProductByCity = async (city) => {
   const pool = await getPool();
   const sql = `
@@ -243,4 +269,5 @@ module.exports = {
   findProductByUserId,
   findProductForResponsesByUserId,
   sortProductsByLocation,
+  findProductsByAllQuerys,
 };

@@ -29,6 +29,7 @@ const {
   findProductForResponsesByUserId,
   findProductByCity,
   sortProductsByLocation,
+  findProductsByAllQuerys,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -98,4 +99,5 @@ module.exports = {
   addToWishlist,
   changeWishlistStatus,
   checkIfInWishlist,
+  findProductsByAllQuerys,
 };
