@@ -24,6 +24,9 @@ const { getWishlistController } = require('./wishlist/getWishlistController');
 const {
   changeWishlistController,
 } = require('./wishlist/changeWishlistController');
+const {
+  getDealDetailsByIdController,
+} = require('./deals/getDealDetailsByIdController');
 
 module.exports = {
   loginUserController,
@@ -43,4 +46,5 @@ module.exports = {
   ownUserController,
   getWishlistController,
   changeWishlistController,
+  getDealDetailsByIdController,
 };
