@@ -146,7 +146,8 @@ const findProductsByAllQuerys = async (name, category, price) => {
   WHERE isActive = true`;
   const values = [];
   let clause = ' AND';
-  if (name !== '' && name) {
+  if (name !== '' && name && name !== 'null') {
+    console.log('aqui');
     sql += ` ${clause} name LIKE ?`;
     values.push(`%${name}%`);
     clause = 'AND';
