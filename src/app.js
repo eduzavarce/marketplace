@@ -34,3 +34,5 @@ app.use(notFoundError);
 app.listen(port, () => {
   console.log(`Server running at ${HTTP_URL}:${port} `);
 });
+
+module.exports = app;
