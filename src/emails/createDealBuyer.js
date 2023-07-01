@@ -4,7 +4,7 @@ const transporter = require('./transporter');
 const { SMTP_FROM, FULL_DOMAIN } = process.env;
 
 const sendCreatedDealToBuyer = async (info) => {
-  const linkUrl = `${FULL_DOMAIN}/deals/${info.IdDeal}`;
+  const linkUrl = `http://localhost:5173/deals/${info.idDeal}`;
   const message = {
     from: SMTP_FROM,
     to: info.emailBuyer,

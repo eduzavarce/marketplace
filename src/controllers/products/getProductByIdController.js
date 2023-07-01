@@ -11,7 +11,6 @@ const findProductByIdController = async (req, res, next) => {
     const { idProduct } = req.params;
     const product = await findProductById(idProduct);
 
-    const { HTTP_URL, PORT } = process.env;
     const {
       id,
       name,
@@ -31,11 +30,7 @@ const findProductByIdController = async (req, res, next) => {
     const vendorData = await findUserById(idVendor);
     const { username } = vendorData;
     const { avgScore } = avgReviews || {};
-    const vendorInfo = {
-      username,
-      profileUrl: `${FULL_DOMAIN}/api/v1/users/${username}`,
-      avgScore,
-    };
+
     const data = {
       id,
       name,
@@ -43,8 +38,11 @@ const findProductByIdController = async (req, res, next) => {
       city,
       price,
       category,
-      vendorInfo,
-      url: `${HTTP_URL}:${PORT}/api/vi/products/${id}`,
+      usernameVendor: username,
+      profileUrlVendor: `${FULL_DOMAIN}/api/v1/users/${username}`,
+      avgReviewsVendor: avgScore || null,
+
+      url: `${FULL_DOMAIN}/api/vi/products/${id}`,
     };
     data.images = pictures;
     res.status(200);

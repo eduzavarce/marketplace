@@ -29,7 +29,7 @@ const createDealController = async (req, res, next) => {
     const requestParams = [idBuyer, idProduct, 'requested'];
 
     const insertId = await createDeal(requestParams);
-    productInfo.IdDeal = insertId;
+    productInfo.idDeal = insertId;
 
     await sendDealAcceptanceRequest(productInfo);
     await sendCreatedDealToBuyer(productInfo);
