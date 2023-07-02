@@ -139,12 +139,19 @@ const findProductForResponsesByUserId = async (idUser) => {
   return products;
 };
 
-const findProductsByAllQuerys = async (name, category, price) => {
+const findProductsByAllQuerys = async (name, category, order, lat, long) => {
   const pool = await getPool();
   let sql = `
-  SELECT * FROM products 
+  SELECT *, 
+  (
+    ST_Distance_Sphere(
+      point(locationLat, locationLong), 
+      point(?, ?)
+    )
+  ) distance  
+  FROM products 
   WHERE isActive = true`;
-  const values = [];
+  const values = [lat, long];
   let clause = ' AND';
   if (name !== '' && name && name !== 'null') {
     console.log('aqui');
@@ -158,11 +165,15 @@ const findProductsByAllQuerys = async (name, category, price) => {
     values.push(category);
     clause = ' AND';
   }
-  if (price === 'ASC') {
+  if (order === 'ASC') {
     sql += ` ORDER BY price ASC`;
-  } else if (price === 'DESC') {
+  } else if (order === 'DESC') {
     sql += ` ORDER BY price DESC`;
+  } else if (order === 'Location') {
+    sql += ` ORDER BY distance ASC`;
   }
+  console.log(sql, values);
+
   const [products] = await pool.query(sql, values);
   return products;
 };
