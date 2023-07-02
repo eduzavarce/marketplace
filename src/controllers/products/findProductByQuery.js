@@ -16,8 +16,10 @@ const Joi = require('joi');
 
 const findProductByQuery = async (req, res, next) => {
   try {
-    const { query } = req;
-    const { name, category, price, location } = query;
+    const { query, params } = req;
+    const { name, category, order, lat, long } = query;
+    console.log(params);
+    console.log(query);
     const schemaPrice = Joi.string().valid('ASC', 'DESC');
     const schemaCategory = Joi.string().valid(
       'music',
@@ -31,8 +33,13 @@ const findProductByQuery = async (req, res, next) => {
       'others'
     );
     // if (category) await schemaCategory.validateAsync(category);
-    if (price) await schemaPrice.validateAsync(price);
-    const sorted = await findProductsByAllQuerys(name, category, price);
+    const sorted = await findProductsByAllQuerys(
+      name,
+      category,
+      order,
+      lat,
+      long
+    );
     if (sorted) {
       await Promise.all(
         sorted?.map(async (product) => {
