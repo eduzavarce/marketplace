@@ -18,8 +18,6 @@ const findProductByQuery = async (req, res, next) => {
   try {
     const { query, params } = req;
     const { name, category, order, lat, long } = query;
-    console.log(params);
-    console.log(query);
     const schemaPrice = Joi.string().valid('ASC', 'DESC');
     const schemaCategory = Joi.string().valid(
       'music',
@@ -43,6 +41,11 @@ const findProductByQuery = async (req, res, next) => {
     if (sorted) {
       await Promise.all(
         sorted?.map(async (product) => {
+          const result = await findAvgReviewsByUserId(product.idUser);
+          if (result) {
+            const { avgScore } = result;
+            product.avgReviewsVendor = avgScore;
+          }
           const picturesFileNames = await findImagesByIdProduct(product.id);
           if (picturesFileNames) {
             const pictures = picturesFileNames.map((picture) => {
