@@ -10,6 +10,7 @@ const {
   findImagesByIdProduct,
   findAllProducts,
   findProductsByAllQuerys,
+  findAvgReviewsByUserId,
 } = require('../../repositories');
 
 const Joi = require('joi');
