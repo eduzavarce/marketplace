@@ -18,6 +18,7 @@ const findProductByIdController = async (req, res, next) => {
       city,
       price,
       category,
+      usernameVendor,
       idUser: idVendor,
     } = product;
     const picturesFileNames = await findImagesByIdProduct(idProduct);
@@ -27,8 +28,7 @@ const findProductByIdController = async (req, res, next) => {
     });
 
     const avgReviews = await findAvgReviewsByUserId(idVendor);
-    const vendorData = await findUserById(idVendor);
-    const { username } = vendorData;
+
     const { avgScore } = avgReviews || {};
 
     const data = {
@@ -38,8 +38,8 @@ const findProductByIdController = async (req, res, next) => {
       city,
       price,
       category,
-      usernameVendor: username,
-      profileUrlVendor: `${FULL_DOMAIN}/api/v1/users/${username}`,
+      usernameVendor,
+      profileUrlVendor: `${FULL_DOMAIN}/api/v1/users/${usernameVendor}`,
       avgReviewsVendor: avgScore || null,
 
       url: `${FULL_DOMAIN}/api/vi/products/${id}`,

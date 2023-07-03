@@ -97,7 +97,7 @@ const dealsCommunicationController = async (req, res, next) => {
             'como comprador solo puedes cambiar el status a cancelled o completed'
           );
 
-        if (status === 'cancelled') {
+        if (status === 'completed') {
           await sendRequestReviewEmails(deal);
         } else await sendChatEmails(deal, usernameBuyer, body);
 
