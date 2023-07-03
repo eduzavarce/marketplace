@@ -30,6 +30,7 @@ const {
   findProductByCity,
   sortProductsByLocation,
   findProductsByAllQuerys,
+  findLatestMessageContentByProductId,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -55,6 +56,7 @@ const {
 } = require('./wishlist/wishlist');
 
 module.exports = {
+  findLatestMessageContentByProductId,
   sortProductsByLocation,
   findProductByCity,
   findProductForResponsesByUserId,

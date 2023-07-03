@@ -116,8 +116,9 @@ const insertLocation = async (locationLat, locationLong, id) => {
 const findProductById = async (id) => {
   const pool = await getPool();
   const sql = `
-    SELECT * FROM products
-    WHERE id = ? `;
+    SELECT products.*, users.username usernameVendor FROM products
+    INNER JOIN users On products.idUser = users.id
+    WHERE products.id = ? `;
   const [products] = await pool.query(sql, id);
   return products[0];
 };
@@ -261,6 +262,28 @@ const findProductForLocationSearch = async () => {
   const [products] = await pool.query(sql);
   return products;
 };
+const findChatIdbyUserAndProductId = async (idUser, idProduct) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT * FROM productChats
+  WHERE  ? in (idUser, idVendor) and idProduct = ?
+  ORDER BY id DESC
+  
+  `;
+  const [messages] = await pool.query(sql, idUser, idProduct);
+  return messages;
+};
+const findLatestMessageContentByChatId = async (id) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT * FROM productMessages
+  WHERE idProductChat = ?
+  ORDER BY id DESC
+  
+  `;
+  const [messages] = await pool.query(sql, id);
+  return messages;
+};
 module.exports = {
   findProductByCity,
   findProductById,
@@ -281,4 +304,5 @@ module.exports = {
   findProductForResponsesByUserId,
   sortProductsByLocation,
   findProductsByAllQuerys,
+  findLatestMessageContentByChatId,
 };

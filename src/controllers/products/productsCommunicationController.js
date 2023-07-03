@@ -5,26 +5,25 @@ const {
   reactivateProductById,
   addDealMessage,
   findLatestMessageContentByDealId,
+  findProductById,
 } = require('../../repositories');
 const { throwError } = require('../../middlewares');
-const { sendChatEmails, sendRequestReviewEmails } = require('../../emails');
+const { sendProductChatEmails } = require('../../emails');
 const schema = Joi.object({
   message: Joi.string().max(500).allow(''),
-  address: Joi.string().max(500).allow(''),
-  time: Joi.date().allow(''),
-  status: Joi.string().allow(''),
 });
 
-const dealsCommunicationController = async (req, res, next) => {
-  const { idDeal } = req.params;
-  const { body, auth } = req;
+const productsCommunicationController = async (req, res, next) => {
   try {
+    const { idProduct } = req.params;
+    const { body, auth } = req;
+
     await schema.validateAsync(req.body);
-    const { message, address, time, status } = body;
+    const { message } = body;
 
     const { username } = auth;
-    const deal = await findDealById(idDeal);
-    if (!deal) throwError(404, 'deal no existe');
+    const product = await findProductById(idProduct);
+    if (!product) throwError(404, 'producto no existe');
     const {
       idProduct,
       idVendor,
@@ -58,7 +57,7 @@ const dealsCommunicationController = async (req, res, next) => {
 
         if (status === 'completed') {
           await sendRequestReviewEmails(deal);
-        } else await sendChatEmails(deal, usernameVendor, body);
+        } else await sendProductChatEmails(deal, usernameVendor, body);
       }
 
       if (status !== statusDeal) {
@@ -97,9 +96,9 @@ const dealsCommunicationController = async (req, res, next) => {
             'como comprador solo puedes cambiar el status a cancelled o completed'
           );
 
-        if (status === 'completed') {
+        if (status === 'cancelled') {
           await sendRequestReviewEmails(deal);
-        } else await sendChatEmails(deal, usernameBuyer, body);
+        } else await sendProductChatEmails(deal, usernameBuyer, body);
 
         if (status !== statusDeal) {
           await updateDealStatus(idDeal, status, new Date());
@@ -145,4 +144,4 @@ const dealsCommunicationController = async (req, res, next) => {
     next(error);
   }
 };
-module.exports = { dealsCommunicationController };
+module.exports = { productsCommunicationController };
