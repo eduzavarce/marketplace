@@ -154,14 +154,12 @@ const findProductsByAllQuerys = async (name, category, order, lat, long) => {
   const values = [lat, long];
   let clause = ' AND';
   if (name !== '' && name && name !== 'null') {
-    console.log('aqui');
     sql += ` ${clause} name LIKE ?`;
     values.push(`%${name}%`);
     clause = 'AND';
   }
-  if (category && category !== 'All') {
+  if (category !== 'undefined' && category && category !== 'All') {
     sql += ` ${clause} category LIKE ?`;
-    console.log('aqui');
     values.push(category);
     clause = ' AND';
   }
