@@ -15,9 +15,9 @@ const verifyEmailController = async (req, res, next) => {
     const { code } = params;
     if (!code) throwError(400, 'Petición inválida');
     const user = await findUserByActivationCode(code);
-    if (!user) throwError(400, 'Código de validación incorrecto');
+    if (!user) throwError(404, 'Código de validación incorrecto');
     const { email, name, verifiedAt, username } = user;
-    if (verifiedAt !== null) throwError(400, 'Usuario verificado previamente');
+    if (verifiedAt !== null) throwError(403, 'Usuario verificado previamente');
     await addUserVerificationDate(email, name);
 
     res.status(200).send({

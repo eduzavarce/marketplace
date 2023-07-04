@@ -6,6 +6,7 @@ const {
   findUserById,
 } = require('../../repositories');
 const { findCoordinatesByLocationName } = require('../../helpers');
+const { throwError } = require('../../middlewares');
 
 const schema = Joi.object().keys({
   name: Joi.string().min(4).max(100).required(),
@@ -49,7 +50,6 @@ const createProductController = async (req, res, next) => {
       city,
       keywords,
       status,
-      useSavedAddress,
     } = body;
     await schema.validateAsync({
       name,
@@ -73,8 +73,9 @@ const createProductController = async (req, res, next) => {
     }
     console.log(body);
     let product;
-    if (useSavedAddress) {
+    if (!address) {
       const user = await findUserById(id);
+      if (!user.address) throwError(400, 'Debes especificar una dirección');
       const { address, city, region, country, locationLat, locationLong } =
         user;
       product = await createProduct(
