@@ -6,6 +6,8 @@ const {
   findImagesByIdProduct,
   findProductForResponsesByUserId,
   findLatestMessageContentByDealId,
+  findChatsbyUserId,
+  findLatestMessageContentByChatId,
 } = require('../../repositories');
 const {
   findUserByUsername,
@@ -14,7 +16,7 @@ const { FULL_DOMAIN } = process.env;
 const ownUserController = async (req, res, next) => {
   try {
     const {
-      auth: { username },
+      auth: { username, id },
     } = req;
 
     const userData = await findUserByUsername(username);
@@ -46,9 +48,53 @@ const ownUserController = async (req, res, next) => {
         product.images = pictures;
       }
     }
+    const userChatsHistory = await findChatsbyUserId(id);
+    for await (const chat of userChatsHistory) {
+      if (chat.avatarBuyer) {
+        chat.avatarBuyerUrl = createImageUrl(
+          chat.avatarBuyer,
+          chat.idBuyer,
+          'users'
+        );
+      } else chat.avatarBuyerUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
+      if (chat.avatarVendor) {
+        chat.avatarVendorUrl = createImageUrl(
+          chat.avatarVendor,
+          chat.idVendor,
+          'users'
+        );
+      } else chat.avatarVendorUrl = `${FULL_DOMAIN}/users/default-avatar.png`;
 
+      const picturesFileNames = await findImagesByIdProduct(chat.idProduct);
+      if (picturesFileNames) {
+        const pictures = picturesFileNames.map((picture) => {
+          const url = createImageUrl(
+            picture.fileName,
+            chat.idProduct,
+            'products'
+          );
+          return url;
+        });
+        chat.images = pictures;
+      }
+      let messages = await findLatestMessageContentByChatId(chat.id);
+      messages = messages.map((msg) => {
+        if (msg.idSender === chat.idBuyer) {
+          msg.usernameSender = chat.usernameBuyer;
+          msg.avatarSender = chat.avatarBuyerUrl;
+          msg.usernameRecipient = chat.usernameVendor;
+          msg.avatarRecipient = chat.avatarVendorUrl;
+        } else if (msg.idSender === chat.idVendor) {
+          msg.usernameSender = chat.usernameVendor;
+          msg.avatarSender = chat.avatarVendorUrl;
+          msg.usernameRecipient = chat.usernameBuyer;
+          msg.avatarRecipient = chat.avatarBuyerUrl;
+        }
+        return msg;
+      });
+      chat.messages = messages;
+    }
     const usersDealsHistory = await findAllDealsByUserId(userData.id);
-    console.log(usersDealsHistory);
     for await (const deal of usersDealsHistory) {
       if (deal.avatarBuyer) {
         deal.avatarBuyerUrl = createImageUrl(
@@ -105,6 +151,7 @@ const ownUserController = async (req, res, next) => {
       data: {
         userData,
         products,
+        productChats: userChatsHistory,
         deals: {
           selling: dealsAsVendor,
           buying: dealsAsBuyer,

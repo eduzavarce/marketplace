@@ -10,6 +10,7 @@ const {
   findLatestMessageContentByDealId,
   findAllDealsChatHistoryByUserId,
 } = require('./deals/dealsRepositories');
+
 const {
   createProduct,
   findProductById,
@@ -30,7 +31,12 @@ const {
   findProductByCity,
   sortProductsByLocation,
   findProductsByAllQuerys,
-  findLatestMessageContentByProductId,
+
+  findChatIdbyUserAndProductId,
+  findLatestMessageContentByChatId,
+  createNewChat,
+  createNewChatMessage,
+  findChatsbyUserId,
 } = require('./products/productsRepositories');
 const {
   findReviewsByDealId,
@@ -56,7 +62,9 @@ const {
 } = require('./wishlist/wishlist');
 
 module.exports = {
-  findLatestMessageContentByProductId,
+  createNewChatMessage,
+  createNewChat,
+  findLatestMessageContentByChatId,
   sortProductsByLocation,
   findProductByCity,
   findProductForResponsesByUserId,
@@ -102,4 +110,6 @@ module.exports = {
   changeWishlistStatus,
   checkIfInWishlist,
   findProductsByAllQuerys,
+  findChatIdbyUserAndProductId,
+  findChatsbyUserId,
 };

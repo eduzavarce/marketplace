@@ -265,26 +265,61 @@ const findProductForLocationSearch = async () => {
 const findChatIdbyUserAndProductId = async (idUser, idProduct) => {
   const pool = await getPool();
   const sql = `
-  SELECT * FROM productChats
-  WHERE  ? in (idUser, idVendor) and idProduct = ?
-  ORDER BY id DESC
+  SELECT pc.*, vendor.username usernameVendor, vendor.email emailVendor, vendor.avatar avatarVendor, buyer.username usernameBuyer, buyer.email emailBuyer, buyer.avatar avatarBuyer, p.name nameProduct FROM productChats pc
+  INNER JOIN users vendor on pc.idVendor = vendor.id
+  INNER JOIN users buyer on pc.idBuyer = buyer.id
+  INNER JOIN products p on p.id = pc.idProduct
+  WHERE  ? in (pc.idBuyer, pc.idVendor) and pc.idProduct = ?
   
   `;
-  const [messages] = await pool.query(sql, idUser, idProduct);
+  const [messages] = await pool.query(sql, [idUser, idProduct]);
+  return messages[0];
+};
+const findChatsbyUserId = async (idUser) => {
+  const pool = await getPool();
+  const sql = `
+  SELECT pc.*, vendor.username usernameVendor, vendor.email emailVendor, vendor.avatar avatarVendor, buyer.username usernameBuyer, buyer.email emailBuyer, buyer.avatar avatarBuyer, p.name nameProduct FROM productChats pc
+  INNER JOIN users vendor on pc.idVendor = vendor.id
+  INNER JOIN users buyer on pc.idBuyer = buyer.id
+  INNER JOIN products p on p.id = pc.idProduct
+  WHERE  ? in (pc.idBuyer, pc.idVendor) 
+  
+  `;
+  const [messages] = await pool.query(sql, [idUser]);
   return messages;
 };
 const findLatestMessageContentByChatId = async (id) => {
   const pool = await getPool();
   const sql = `
   SELECT * FROM productMessages
-  WHERE idProductChat = ?
+   WHERE idProductChat = ?
   ORDER BY id DESC
   
   `;
   const [messages] = await pool.query(sql, id);
   return messages;
 };
+const createNewChat = async (idProduct, idUser, idVendor) => {
+  const pool = await getPool();
+  const sql = `
+  INSERT INTO productchats (idProduct, idBuyer, idVendor) VALUES(?, ?, ?)
+  `;
+  const [chat] = await pool.query(sql, [idProduct, idUser, idVendor]);
+
+  return chat.insertId;
+};
+const createNewChatMessage = async (idChat, idUser, message) => {
+  const pool = await getPool();
+  const sql = `
+  INSERT INTO productmessages (idProductChat, idSender, message) VALUES(?, ?, ?)
+  `;
+  const [newMessage] = await pool.query(sql, [idChat, idUser, message]);
+
+  return newMessage.insertId;
+};
+
 module.exports = {
+  createNewChatMessage,
   findProductByCity,
   findProductById,
   createProduct,
@@ -305,4 +340,7 @@ module.exports = {
   sortProductsByLocation,
   findProductsByAllQuerys,
   findLatestMessageContentByChatId,
+  findChatIdbyUserAndProductId,
+  createNewChat,
+  findChatsbyUserId,
 };

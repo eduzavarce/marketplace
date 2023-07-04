@@ -27,8 +27,15 @@ const {
 const {
   getDealDetailsByIdController,
 } = require('./deals/getDealDetailsByIdController');
+const {
+  productsCommunicationController,
+} = require('./products/productsCommunicationController');
+const {
+  getProductChatDetailsByIdController,
+} = require('./products/getProductChatDetailsByIdController');
 
 module.exports = {
+  getProductChatDetailsByIdController,
   loginUserController,
   registerUserController,
   updateUserController,
@@ -47,4 +54,6 @@ module.exports = {
   getWishlistController,
   changeWishlistController,
   getDealDetailsByIdController,
+  productsCommunicationController,
+  getProductChatDetailsByIdController,
 };
