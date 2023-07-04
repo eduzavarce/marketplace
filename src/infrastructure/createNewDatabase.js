@@ -34,6 +34,8 @@ const createNewDatabase = async () => {
     await pool.query(`DROP TABLE IF EXISTS follows`);
     await pool.query(`DROP TABLE IF EXISTS dealsMessages`);
     await pool.query(`DROP TABLE IF EXISTS deals`);
+    await pool.query(`DROP TABLE IF EXISTS productMessages`);
+    await pool.query(`DROP TABLE IF EXISTS productChats`);
     await pool.query('DROP TABLE IF EXISTS productImages');
     await pool.query('DROP TABLE IF EXISTS products');
     await pool.query('DROP TABLE IF EXISTS users');
@@ -101,6 +103,25 @@ const createNewDatabase = async () => {
         REFERENCES products (id)
         ON DELETE CASCADE
         )`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS productChats (
+      id   INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+      idProduct INT UNSIGNED NOT NULL,
+      idBuyer INT UNSIGNED NOT NULL,
+      idVendor INT UNSIGNED NOT NULL,
+      createdAt DATETIME  DEFAULT now(),
+      FOREIGN KEY (idProduct)
+      REFERENCES products (id)
+  );`);
+    await pool.query(`CREATE TABLE IF NOT EXISTS productMessages (
+    id   INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    idProductChat INT UNSIGNED NOT NULL,
+    idSender INT UNSIGNED NOT NULL,
+    message VARCHAR(500),
+    createdAt DATETIME  DEFAULT now(),
+    FOREIGN KEY (idProductChat)
+    REFERENCES productChats (id)
+);`);
+
     await pool.query(`CREATE TABLE IF NOT EXISTS deals (
         id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
         idBuyer INT UNSIGNED NOT NULL,
