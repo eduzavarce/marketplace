@@ -11,7 +11,7 @@ const { throwError } = require('../../middlewares');
 const schema = Joi.object().keys({
   name: Joi.string().min(4).max(100).required(),
   description: Joi.string().min(4).max(255).required(),
-  price: Joi.number().required(),
+  price: Joi.number().min(0).required(),
   category: Joi.string()
     .valid(
       'music',
