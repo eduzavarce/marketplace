@@ -37,6 +37,7 @@ const updateProductController = async (req, res, next) => {
   try {
     const { body, params, auth } = req;
     const { idProduct } = params;
+
     const { id, role } = auth;
     const {
       name,
@@ -51,11 +52,13 @@ const updateProductController = async (req, res, next) => {
       status,
     } = body;
 
-    await schema.validateAsync(body);
-    const product = await findProductById(idProduct);
-    if (id !== product.idUser && role !== 'admin') {
-      throwError(403, 'Usuario no autorizado');
-    }
+    // await schema.validateAsync(body);
+    const [product] = await findProductById(idProduct.slice(1));
+    console.log(product);
+    if (product.idUser)
+      if (id !== product.idUser && role !== 'admin') {
+        throwError(403, 'Usuario no autorizado');
+      }
 
     let locationLat, locationLong;
     if (bodyAddress) {
@@ -65,19 +68,19 @@ const updateProductController = async (req, res, next) => {
       locationLong = coordinates.longitude;
     }
     await updateProduct(
-      name ? name : product.name,
-      description ? description : product.description,
-      price ? price : product.price,
-      category ? category : product.category,
-      keywords ? keywords : product.keywords,
-      bodyRegion ? bodyRegion : product.region,
-      bodyCountry ? bodyCountry : product.country,
-      bodyAddress ? bodyAddress : product.address,
-      bodyCity ? bodyCity : product.city,
-      locationLat ? locationLat : product.locationLat,
-      locationLong ? locationLong : product.locationLong,
-      status ? status : product.status,
-      idProduct
+      name === '' ? product.name : name,
+      description === '' ? product.description : product.description,
+      price === '' ? product.price : product.price,
+      category === '' ? product.category : category,
+      keywords === '' ? product.keywords : keywords,
+      bodyRegion === '' ? product.region : bodyRegion,
+      bodyCountry === '' ? product.country : bodyCountry,
+      bodyAddress === '' ? product.address : bodyAddress,
+      bodyCity === '' ? product.city : bodyCity,
+      locationLat === '' ? product.locationLat : locationLat,
+      locationLong === '' ? product.locationLong : locationLong,
+      status === '' ? status : product.status,
+      idProduct.slice(1)
     );
     const productAfterUpdate = await findProductById(idProduct);
     if (id !== product.idUser && role !== 'admin') {
