@@ -116,11 +116,10 @@ const insertLocation = async (locationLat, locationLong, id) => {
 const findProductById = async (id) => {
   const pool = await getPool();
   const sql = `
-    SELECT products.*, users.username usernameVendor FROM products
-    INNER JOIN users On products.idUser = users.id
-    WHERE products.id = ? `;
-  const [products] = await pool.query(sql, id);
-  return products[0];
+  SELECT * FROM products
+  WHERE id = ? `;
+  const [products] = await pool.query(sql, [id]);
+  return products;
 };
 
 const findProductByUserId = async (idUser) => {

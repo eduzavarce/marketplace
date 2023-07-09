@@ -9,42 +9,38 @@ const { FULL_DOMAIN } = process.env;
 const findProductByIdController = async (req, res, next) => {
   try {
     const { idProduct } = req.params;
-    const product = await findProductById(idProduct);
-
-    const {
-      id,
-      name,
-      description,
-      city,
-      price,
-      category,
-      usernameVendor,
-      idUser: idVendor,
-    } = product;
+    console.log(idProduct);
+    const [product] = await findProductById(idProduct);
+    const user = await findUserById(product.idUser);
+    console.log(user);
     const picturesFileNames = await findImagesByIdProduct(idProduct);
 
     const pictures = picturesFileNames.map((picture) => {
       return createImageUrl(picture.fileName, idProduct, 'products');
     });
 
-    const avgReviews = await findAvgReviewsByUserId(idVendor);
+    const avgReviews = await findAvgReviewsByUserId(product.idUser);
 
     const { avgScore } = avgReviews || {};
 
     const data = {
-      id,
-      name,
-      description,
-      city,
-      price,
-      category,
-      usernameVendor,
-      profileUrlVendor: `${FULL_DOMAIN}/api/v1/users/${usernameVendor}`,
+      id: product.id,
+      name: product.name,
+      description: product.description,
+      city: product.city,
+      address: product.address,
+      country: product.country,
+      region: product.region,
+      price: product.price,
+      category: product.category,
+      usernameVendor: user.username,
+      profileUrlVendor: `${FULL_DOMAIN}/api/v1/users/${product.usernameVendor}`,
       avgReviewsVendor: avgScore || null,
 
-      url: `${FULL_DOMAIN}/api/vi/products/${id}`,
+      url: `${FULL_DOMAIN}/api/vi/products/${product.id}`,
     };
     data.images = pictures;
+    console.log(data);
     res.status(200);
     res.send({
       status: 'ok',
