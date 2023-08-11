@@ -53,7 +53,7 @@ const updateProductController = async (req, res, next) => {
     } = body;
 
     // await schema.validateAsync(body);
-    const [product] = await findProductById(idProduct.slice(1));
+    const product = await findProductById(idProduct.slice(1));
     console.log(product);
     if (product.idUser)
       if (id !== product.idUser && role !== 'admin') {
@@ -82,11 +82,12 @@ const updateProductController = async (req, res, next) => {
       status === '' ? status : product.status,
       idProduct.slice(1)
     );
-    const productAfterUpdate = await findProductById(idProduct);
+    console.log(idProduct);
+    const productAfterUpdate = await findProductById(idProduct.slice(1));
     if (id !== product.idUser && role !== 'admin') {
       throwError(403, 'Usuario no autorizado');
     }
-
+    console.log(productAfterUpdate);
     const data = {
       id: productAfterUpdate.id,
       name: productAfterUpdate.id,
