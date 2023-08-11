@@ -119,7 +119,7 @@ const findProductById = async (id) => {
   SELECT * FROM products
   WHERE id = ? `;
   const [products] = await pool.query(sql, [id]);
-  return products;
+  return products[0];
 };
 
 const findProductByUserId = async (idUser) => {
@@ -134,7 +134,7 @@ const findProductForResponsesByUserId = async (idUser) => {
   const pool = await getPool();
   const sql = `
     SELECT id, name, description, price, category, keywords, status, isActive, city  FROM products
-    WHERE idUser = ? `;
+    WHERE idUser = ? AND isActive = 1`;
   const [products] = await pool.query(sql, idUser);
   return products;
 };

@@ -10,7 +10,7 @@ const findProductByIdController = async (req, res, next) => {
   try {
     const { idProduct } = req.params;
     console.log(idProduct);
-    const [product] = await findProductById(idProduct);
+    const product = await findProductById(idProduct);
     const user = await findUserById(product.idUser);
     console.log(user);
     const picturesFileNames = await findImagesByIdProduct(idProduct);
