@@ -8,7 +8,7 @@ const {
 
 const schema = Joi.object({
   comment: Joi.string().max(255).allow(''),
-  score: Joi.number().integer().positive().min(1).max(5).required(),
+  score: Joi.number().positive().min(1).max(5).required(),
 });
 const reviewDealParticipantsController = async (req, res, next) => {
   try {
