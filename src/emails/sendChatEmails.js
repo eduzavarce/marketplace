@@ -1,9 +1,9 @@
 const { throwError } = require('../middlewares');
 const transporter = require('./transporter');
 
-const { SMTP_FROM, FULL_DOMAIN } = process.env;
+const { SMTP_FROM } = process.env;
 
-const sendChatEmails = async (info, sender, body) => {
+const sendChatEmails = async (info, sender) => {
   console.log(info);
   const mailList = [info.emailBuyer, info.emailVendor];
   const linkUrl = `http://localhost:5173/deals/${info.idDeal}`;

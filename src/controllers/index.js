@@ -55,5 +55,4 @@ module.exports = {
   changeWishlistController,
   getDealDetailsByIdController,
   productsCommunicationController,
-  getProductChatDetailsByIdController,
 };

@@ -104,8 +104,8 @@ const createProductController = async (req, res, next) => {
         country,
         address,
         city,
-        locationLat ? locationLat : null,
-        locationLong ? locationLong : null,
+        locationLat || null,
+        locationLong || null,
         id,
         status
       );

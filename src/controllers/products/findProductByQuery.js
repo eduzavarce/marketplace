@@ -1,14 +1,7 @@
 const { createImageUrl } = require('../../helpers');
 const { throwError } = require('../../middlewares');
 const {
-  findProductByName,
-  findProductByCategory,
-  sortProductByPriceAsc,
-  sortProductByPriceDesc,
-  findProductByCity,
-  sortProductsByLocation,
   findImagesByIdProduct,
-  findAllProducts,
   findProductsByAllQuerys,
   findAvgReviewsByUserId,
 } = require('../../repositories');
@@ -17,9 +10,9 @@ const Joi = require('joi');
 
 const findProductByQuery = async (req, res, next) => {
   try {
-    const { query, params } = req;
+    const { query } = req;
+
     const { name, category, order, lat, long } = query;
-    const schemaPrice = Joi.string().valid('ASC', 'DESC');
     const schemaCategory = Joi.string().valid(
       'music',
       'video',
@@ -31,7 +24,7 @@ const findProductByQuery = async (req, res, next) => {
       'cloth',
       'others'
     );
-    // if (category) await schemaCategory.validateAsync(category);
+    if (category) await schemaCategory.validateAsync(category);
     const sorted = await findProductsByAllQuerys(
       name,
       category,
@@ -67,88 +60,6 @@ const findProductByQuery = async (req, res, next) => {
       });
       return;
     }
-
-    // if (location) {
-    //   const sorted = await findProductByCity(location);
-    //   await sortProductsByLocation(40.42303945117233, -3.6804417870805737); /// por implementar, estas coordenadas son del centro de Madrid y ordena por distancia.
-
-    //   await Promise.all(
-    //     sorted.map(async (product) => {
-    //       const picturesFileNames = await findImagesByIdProduct(product.id);
-    //       if (picturesFileNames) {
-    //         const pictures = picturesFileNames.map((picture) => {
-    //           const url = createImageUrl(
-    //             picture.fileName,
-    //             product.id,
-    //             'products'
-    //           );
-    //           return url;
-    //         });
-    //         product.images = pictures;
-    //       }
-    //     })
-    //   );
-    //   res.status(200).send({
-    //     status: 'ok',
-    //     data: { products: sorted },
-    //   });
-    //   return;
-    // }
-    // if (category) {
-    //   await schemaCategory.validateAsync(category);
-    //   const sorted = await findProductByCategory(category);
-    //   await Promise.all(
-    //     sorted.map(async (product) => {
-    //       const picturesFileNames = await findImagesByIdProduct(product.id);
-    //       if (picturesFileNames) {
-    //         const pictures = picturesFileNames.map((picture) => {
-    //           const url = createImageUrl(
-    //             picture.fileName,
-    //             product.id,
-    //             'products'
-    //           );
-    //           return url;
-    //         });
-    //         product.images = pictures;
-    //       }
-    //     })
-    //   );
-    //   res.status(200).send({
-    //     status: 'ok',
-    //     data: { products: sorted },
-    //   });
-    //   return;
-    // }
-    // if (price) {
-    //   await schemaPrice.validateAsync(price);
-    //   let sorted;
-    //   price === 'ASC'
-    //     ? (sorted = await sortProductByPriceAsc())
-    //     : (sorted = await sortProductByPriceDesc());
-
-    //   await Promise.all(
-    //     sorted.map(async (product) => {
-    //       const picturesFileNames = await findImagesByIdProduct(product.id);
-    //       if (picturesFileNames) {
-    //         const pictures = picturesFileNames.map((picture) => {
-    //           const url = createImageUrl(
-    //             picture.fileName,
-    //             product.id,
-    //             'products'
-    //           );
-    //           return url;
-    //         });
-    //         product.images = pictures;
-    //       }
-    //     })
-    //   );
-
-    //   res.status(200).send({
-    //     status: 'ok',
-    //     data: { products: sorted },
-    //   });
-    //   return;
-    // }
 
     if (query) {
       throwError(404, 'Parámetro no encontrado');

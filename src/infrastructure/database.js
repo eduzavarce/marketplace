@@ -12,7 +12,7 @@ let pool;
 
 const getPool = async () => {
   if (!pool) {
-    pool = await mysql.createPool({
+    pool = mysql.createPool({
       host: DATABASE_HOST,
       port: DATABASE_PORT,
       database: DATABASE_NAME,

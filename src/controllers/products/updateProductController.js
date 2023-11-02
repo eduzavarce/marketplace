@@ -52,7 +52,7 @@ const updateProductController = async (req, res, next) => {
       status,
     } = body;
 
-    // await schema.validateAsync(body);
+    await schema.validateAsync(body);
     const product = await findProductById(idProduct.slice(1));
     console.log(product);
     if (product.idUser)

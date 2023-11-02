@@ -1,7 +1,7 @@
 const { throwError } = require('../middlewares');
 const transporter = require('./transporter');
 
-const { SMTP_FROM, FULL_DOMAIN } = process.env;
+const { SMTP_FROM } = process.env;
 //<p>Ponte en contacto con  <a href = "mailto:${info.emailBuyer}">${info.usernameBuyer}</a> para acordar lugar y hora de entrega.</p>
 const sendDealAcceptanceRequest = async (info) => {
   console.log(info);
@@ -23,7 +23,6 @@ const sendDealAcceptanceRequest = async (info) => {
       throwError(500, 'Error en el envío del email');
     }
   });
-  return;
 };
 
 module.exports = { sendDealAcceptanceRequest };

@@ -1,7 +1,7 @@
 const { throwError } = require('../middlewares');
 const transporter = require('./transporter');
 
-const { SMTP_FROM, FULL_DOMAIN } = process.env;
+const { SMTP_FROM } = process.env;
 
 const sendCreatedDealToBuyer = async (info) => {
   const linkUrl = `http://localhost:5173/deals/${info.idDeal}`;
@@ -22,7 +22,6 @@ const sendCreatedDealToBuyer = async (info) => {
       throwError(500, 'Error en el envío del email');
     }
   });
-  return;
 };
 
 module.exports = { sendCreatedDealToBuyer };

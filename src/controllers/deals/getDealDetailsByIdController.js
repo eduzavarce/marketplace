@@ -72,7 +72,7 @@ const getDealDetailsByIdController = async (req, res, next) => {
             : `${FULL_DOMAIN}/users/default-avatar.png`,
           avgReviewsBuyer: avgReviewsBuyerData?.avgScore || null,
           status: statusDeal,
-          dealReviewedByCurrentUser: verifyIfPreviouslyReviewed ? true : false,
+          dealReviewedByCurrentUser: !!verifyIfPreviouslyReviewed,
         },
         productData: {
           id,

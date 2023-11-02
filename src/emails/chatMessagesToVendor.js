@@ -42,7 +42,6 @@ const sendChatMessageToVendor = async (info) => {
       throwError(500, 'Error en el envío del email');
     }
   });
-  return;
 };
 
 module.exports = { sendChatMessageToVendor };
